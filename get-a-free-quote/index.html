@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Get a Free Quote | Interactive Project Builder | Zavron Solutions</title>
+  <meta name="description" content="Request a free custom proposal and project scope estimate from Zavron Solutions. Fast 5-step digital project builder.">
+  <link rel="canonical" href="https://zavronsolutions.com/get-a-free-quote/">
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/variables.css"><link rel="stylesheet" href="/css/global.css"><link rel="stylesheet" href="/css/components.css"><link rel="stylesheet" href="/css/animations.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header" id="siteHeader">
+    <div class="header-container">
+      <a href="/" class="brand-logo" aria-label="Zavron Solutions Home">
+        <div class="brand-logo-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="4 7 12 17 20 7"></polyline><polyline points="4 17 12 7 20 17"></polyline></svg></div>
+        <div class="brand-logo-text"><span class="brand-logo-title">ZAVRON</span><span class="brand-logo-subtitle">SOLUTIONS</span></div>
+      </a>
+      <nav class="desktop-nav">
+        <div class="nav-item"><a href="/" class="nav-link">Home</a></div>
+        <div class="nav-item"><a href="/about-us/" class="nav-link">About Us</a></div>
+        <div class="nav-item"><a href="/services/" class="nav-link">Services</a></div>
+        <div class="nav-item"><a href="/work/" class="nav-link">Work</a></div>
+        <div class="nav-item"><a href="/industries/" class="nav-link">Industries</a></div>
+        <div class="nav-item"><a href="/resources/" class="nav-link">Resources</a></div>
+        <div class="nav-item"><a href="/contact/" class="nav-link">Contact</a></div>
+      </nav>
+      <div class="header-actions"><a href="/contact/" class="btn btn-outline-white btn-sm">Direct Contact</a></div>
+    </div>
+  </header>
+
+  <main id="mainContent">
+    <section class="hero" style="padding-bottom:3.5rem;">
+      <div class="hero-grid-bg"></div>
+      <div class="container text-center">
+        <div class="breadcrumbs justify-center"><a href="/">Home</a><span class="separator">/</span><span class="current">Get a Free Quote</span></div>
+        <div class="hero-content reveal" style="margin:0 auto;">
+          <div class="eyebrow eyebrow-pill dark">TRANSPARENT PROJECT SCOPING</div>
+          <h1 class="hero-headline">Let's Build Something That <span class="text-orange">Grows Your Business.</span></h1>
+          <p class="hero-subhead" style="margin-left:auto; margin-right:auto;">
+            Complete our 5-step interactive builder to receive a tailored project scope, timeline estimate, and strategic proposal from our senior US team.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Wizard Form Container -->
+    <section class="section section-white">
+      <div class="container" style="max-width:880px;">
+        
+        <div class="wizard-card reveal" id="quoteWizard">
+          
+          <!-- Wizard Form Container -->
+          <div id="wizardFormWrapper">
+            
+            <!-- Progress Bar & Step Indicators -->
+            <div class="wizard-progress">
+              <div class="wizard-progress-bar">
+                <div class="wizard-progress-fill" id="wizardProgressFill"></div>
+              </div>
+              <div class="wizard-steps-indicator">
+                <div class="wizard-step-badge active" data-step="1">
+                  <span class="wizard-step-dot">1</span>
+                  <span>Business</span>
+                </div>
+                <div class="wizard-step-badge" data-step="2">
+                  <span class="wizard-step-dot">2</span>
+                  <span>Services</span>
+                </div>
+                <div class="wizard-step-badge" data-step="3">
+                  <span class="wizard-step-dot">3</span>
+                  <span>Budget</span>
+                </div>
+                <div class="wizard-step-badge" data-step="4">
+                  <span class="wizard-step-dot">4</span>
+                  <span>Scope</span>
+                </div>
+                <div class="wizard-step-badge" data-step="5">
+                  <span class="wizard-step-dot">5</span>
+                  <span>Contact</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- ==================== STEP 1: ABOUT YOUR BUSINESS ==================== -->
+            <div class="wizard-step-pane active" data-step="1">
+              <h2 style="font-size:1.5rem; margin-bottom:0.5rem; color:var(--color-navy-900);">Step 1: Tell Us About Your Business</h2>
+              <p style="color:var(--color-text-secondary); margin-bottom:1.75rem;">Help us understand your company and commercial objectives.</p>
+
+              <div class="form-group">
+                <label class="form-label" for="quoteBusinessName">Company / Business Name *</label>
+                <input type="text" id="quoteBusinessName" class="form-control" placeholder="e.g. Apex Health Systems" required>
+                <div class="form-error-msg">Please enter your business name.</div>
+              </div>
+
+              <div class="grid grid-2" style="gap:1rem;">
+                <div class="form-group">
+                  <label class="form-label" for="quoteIndustry">Industry Sector *</label>
+                  <select id="quoteIndustry" class="form-control" required>
+                    <option value="">Select your industry...</option>
+                    <option value="Real Estate">Real Estate</option>
+                    <option value="Healthcare">Healthcare & Medical</option>
+                    <option value="E-Commerce">E-Commerce & Retail</option>
+                    <option value="Restaurants">Restaurants & Hospitality</option>
+                    <option value="Law Firms">Law Firms & Legal</option>
+                    <option value="Construction">Construction & Contracting</option>
+                    <option value="SaaS & Tech">SaaS & Technology</option>
+                    <option value="Professional Services">Professional Services</option>
+                    <option value="Small Business">Small Business</option>
+                    <option value="Other">Other</option>
+                  </select>
+                  <div class="form-error-msg">Please select your industry.</div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="quoteWebsite">Current Website URL (if applicable)</label>
+                  <input type="url" id="quoteWebsite" class="form-control" placeholder="https://example.com">
+                </div>
+              </div>
+            </div>
+
+            <!-- ==================== STEP 2: WHAT DO YOU NEED ==================== -->
+            <div class="wizard-step-pane" data-step="2">
+              <h2 style="font-size:1.5rem; margin-bottom:0.5rem; color:var(--color-navy-900);">Step 2: What Services Do You Need?</h2>
+              <p style="color:var(--color-text-secondary); margin-bottom:1.25rem;">Select all that apply to your current goals:</p>
+
+              <div class="option-grid" id="step2Options">
+                <div class="option-card" data-multi="true">
+                  <strong class="option-card-title">Custom Web Development</strong>
+                  <span class="option-card-desc">Bespoke high-performance web platform</span>
+                </div>
+                <div class="option-card" data-multi="true">
+                  <strong class="option-card-title">WordPress CMS</strong>
+                  <span class="option-card-desc">Custom block theme or redesign</span>
+                </div>
+                <div class="option-card" data-multi="true">
+                  <strong class="option-card-title">E-Commerce Storefront</strong>
+                  <span class="option-card-desc">Shopify Plus or WooCommerce</span>
+                </div>
+                <div class="option-card" data-multi="true">
+                  <strong class="option-card-title">Organic SEO Strategy</strong>
+                  <span class="option-card-desc">Rankings, topic clusters & audits</span>
+                </div>
+                <div class="option-card" data-multi="true">
+                  <strong class="option-card-title">Local SEO & Google Maps</strong>
+                  <span class="option-card-desc">Multi-location local visibility</span>
+                </div>
+                <div class="option-card" data-multi="true">
+                  <strong class="option-card-title">Paid Ads & PPC</strong>
+                  <span class="option-card-desc">Google Ads & paid social lead gen</span>
+                </div>
+                <div class="option-card" data-multi="true">
+                  <strong class="option-card-title">UI/UX Design Systems</strong>
+                  <span class="option-card-desc">Figma prototypes & wireframing</span>
+                </div>
+                <div class="option-card" data-multi="true">
+                  <strong class="option-card-title">Website Redesign</strong>
+                  <span class="option-card-desc">Modernizing existing web equity</span>
+                </div>
+              </div>
+              <div id="step2ServiceError" class="form-error-msg" style="margin-top:-1rem; margin-bottom:1rem;">Please select at least one service.</div>
+            </div>
+
+            <!-- ==================== STEP 3: PROJECT BUDGET ==================== -->
+            <div class="wizard-step-pane" data-step="3">
+              <h2 style="font-size:1.5rem; margin-bottom:0.5rem; color:var(--color-navy-900);">Step 3: What is Your Target Budget Range?</h2>
+              <p style="color:var(--color-text-secondary); margin-bottom:1.25rem;">This helps us recommend the most appropriate architecture and scope:</p>
+
+              <div class="option-grid" id="step3Options">
+                <div class="option-card" data-multi="false">
+                  <strong class="option-card-title">$5,000 – $10,000</strong>
+                  <span class="option-card-desc">Standard business site or localized SEO</span>
+                </div>
+                <div class="option-card" data-multi="false">
+                  <strong class="option-card-title">$10,000 – $25,000</strong>
+                  <span class="option-card-desc">Custom web application, e-commerce, or full SEO</span>
+                </div>
+                <div class="option-card" data-multi="false">
+                  <strong class="option-card-title">$25,000 – $50,000</strong>
+                  <span class="option-card-desc">Enterprise platform, complex integrations, multi-channel</span>
+                </div>
+                <div class="option-card" data-multi="false">
+                  <strong class="option-card-title">$50,000+</strong>
+                  <span class="option-card-desc">Large-scale portal or multi-market rollout</span>
+                </div>
+                <div class="option-card" data-multi="false">
+                  <strong class="option-card-title">Flexible / Undecided</strong>
+                  <span class="option-card-desc">Looking for recommendations based on scope</span>
+                </div>
+              </div>
+              <div id="step3BudgetError" class="form-error-msg" style="margin-top:-1rem; margin-bottom:1rem;">Please select a budget range.</div>
+            </div>
+
+            <!-- ==================== STEP 4: SCOPE & TIMELINE ==================== -->
+            <div class="wizard-step-pane" data-step="4">
+              <h2 style="font-size:1.5rem; margin-bottom:0.5rem; color:var(--color-navy-900);">Step 4: Project Scope & Timeline</h2>
+              <p style="color:var(--color-text-secondary); margin-bottom:1.75rem;">Give us a brief overview of your key requirements.</p>
+
+              <div class="form-group">
+                <label class="form-label" for="quoteTimeline">Target Launch Timeline *</label>
+                <select id="quoteTimeline" class="form-control" required>
+                  <option value="">Select a timeline...</option>
+                  <option value="Immediately (Within 30 Days)">Immediately (Within 30 Days)</option>
+                  <option value="1 to 2 Months">1 to 2 Months</option>
+                  <option value="3 to 6 Months">3 to 6 Months</option>
+                  <option value="Flexible / Exploration Phase">Flexible / Exploration Phase</option>
+                </select>
+                <div class="form-error-msg">Please select a target timeline.</div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="quoteDetails">Key Requirements or Problems to Solve</label>
+                <textarea id="quoteDetails" class="form-control" placeholder="Describe any specific features, integrations (CRM, payment), or business bottlenecks you want resolved..."></textarea>
+              </div>
+            </div>
+
+            <!-- ==================== STEP 5: CONTACT INFORMATION & REVIEW ==================== -->
+            <div class="wizard-step-pane" data-step="5">
+              <h2 style="font-size:1.5rem; margin-bottom:0.5rem; color:var(--color-navy-900);">Step 5: Review & Contact Details</h2>
+              <p style="color:var(--color-text-secondary); margin-bottom:1.5rem;">Where should we send your custom proposal?</p>
+
+              <!-- Dynamic Summary -->
+              <div id="wizardReviewSummary" style="margin-bottom:1.75rem;"></div>
+
+              <div class="grid grid-2" style="gap:1rem;">
+                <div class="form-group">
+                  <label class="form-label" for="quoteFullName">Your Full Name *</label>
+                  <input type="text" id="quoteFullName" class="form-control" placeholder="John Smith" required>
+                  <div class="form-error-msg">Please enter your name.</div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="quoteEmail">Work Email *</label>
+                  <input type="email" id="quoteEmail" class="form-control" placeholder="john@company.com" required>
+                  <div class="form-error-msg">Please enter a valid work email.</div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="quotePhone">Phone Number *</label>
+                <input type="tel" id="quotePhone" class="form-control" placeholder="(555) 000-0000" required>
+                <div class="form-error-msg">Please enter a valid contact phone number.</div>
+              </div>
+            </div>
+
+            <!-- Wizard Navigation Actions -->
+            <div class="wizard-actions">
+              <button type="button" class="btn btn-outline" id="wizardPrevBtn">← Back</button>
+              <div>
+                <button type="button" class="btn btn-primary" id="wizardNextBtn">Next Step →</button>
+                <button type="button" class="btn btn-primary" id="wizardSubmitBtn" style="display:none;">Request My Free Consultation →</button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Success Pane -->
+          <div id="wizardSuccessPane" style="display:none; text-align:center; padding:3rem 1.5rem;">
+            <div style="width:72px; height:72px; background:rgba(16,185,129,0.15); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 1.5rem; color:#10B981;">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            <h2 style="color:var(--color-navy-900); margin-bottom:1rem;">Thank You! Your Request Has Been Received.</h2>
+            <p style="color:var(--color-text-secondary); max-width:540px; margin:0 auto 2rem; font-size:1.05rem;">
+              A senior digital strategist from Zavron Solutions will review your requirements and follow up within one business day with a customized scope and proposal.
+            </p>
+            <a href="/" class="btn btn-primary">Return to Homepage →</a>
+          </div>
+
+        </div>
+
+        <!-- Trust Features near Form -->
+        <div class="grid grid-3 reveal" style="margin-top:3rem; text-align:center;">
+          <div>
+            <strong style="color:var(--color-navy-900); display:block;">100% Confidential</strong>
+            <span style="font-size:0.85rem; color:var(--color-text-muted);">Your information is never shared or spammed.</span>
+          </div>
+          <div>
+            <strong style="color:var(--color-navy-900); display:block;">24-Hour Response</strong>
+            <span style="font-size:0.85rem; color:var(--color-text-muted);">Senior US strategist assignment.</span>
+          </div>
+          <div>
+            <strong style="color:var(--color-navy-900); display:block;">Fixed-Price Guarantee</strong>
+            <span style="font-size:0.85rem; color:var(--color-text-muted);">Transparent, zero-surprise contracts.</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <div>© 2026 Zavron Solutions. All Rights Reserved. Serving US Businesses Nationwide.</div>
+        <div class="footer-legal-links"><a href="/privacy-policy/">Privacy Policy</a><a href="/terms-and-conditions/">Terms & Conditions</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/main.js"></script>
+  <script type="module" src="/js/quote-wizard.js"></script>
+  <script type="module" src="/js/animations.js"></script>
+</body>
+</html>

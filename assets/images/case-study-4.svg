@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="100%" height="100%">
+  <defs>
+    <linearGradient id="cs4Grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0A1F35"/>
+      <stop offset="100%" stop-color="#040D18"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#cs4Grad)"/>
+  <rect x="30" y="30" width="540" height="340" rx="12" fill="#061426" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+  <rect x="30" y="30" width="540" height="40" rx="12" fill="#081B30"/>
+  <circle cx="55" cy="50" r="5" fill="#EF4444"/>
+  <circle cx="70" cy="50" r="5" fill="#F59E0B"/>
+  <circle cx="85" cy="50" r="5" fill="#10B981"/>
+  
+  <!-- SaaS Dashboard Layout -->
+  <!-- Sidebar -->
+  <rect x="30" y="70" width="70" height="300" fill="#081B30"/>
+  <circle cx="65" cy="100" r="10" fill="#FF7A00"/>
+  <rect x="50" y="130" width="30" height="6" rx="2" fill="#94A3B8" opacity="0.5"/>
+  <rect x="50" y="150" width="30" height="6" rx="2" fill="#94A3B8" opacity="0.5"/>
+  <rect x="50" y="170" width="30" height="6" rx="2" fill="#94A3B8" opacity="0.5"/>
+  <rect x="50" y="190" width="30" height="6" rx="2" fill="#94A3B8" opacity="0.5"/>
+
+  <!-- Main Content Area -->
+  <rect x="120" y="90" width="200" height="18" rx="4" fill="#FFFFFF"/>
+  <rect x="120" y="120" width="425" height="110" rx="8" fill="#0E2742" stroke="rgba(255,255,255,0.06)"/>
+  
+  <!-- Mini Bar Chart -->
+  <rect x="145" y="180" width="22" height="35" rx="3" fill="#1E3A5F"/>
+  <rect x="175" y="160" width="22" height="55" rx="3" fill="#1E3A5F"/>
+  <rect x="205" y="145" width="22" height="70" rx="3" fill="#00D2FF"/>
+  <rect x="235" y="135" width="22" height="80" rx="3" fill="#FF7A00"/>
+  <rect x="265" y="150" width="22" height="65" rx="3" fill="#00D2FF"/>
+  <rect x="295" y="130" width="22" height="85" rx="3" fill="#FF7A00"/>
+
+  <text x="345" y="155" fill="#FFFFFF" font-family="-apple-system, sans-serif" font-size="14" font-weight="700">MRR Velocity</text>
+  <text x="345" y="185" fill="#10B981" font-family="-apple-system, sans-serif" font-size="22" font-weight="800">$148,200/mo</text>
+  <text x="345" y="208" fill="#94A3B8" font-family="-apple-system, sans-serif" font-size="11">Self-Serve B2B Funnel Lift</text>
+
+  <!-- Bottom Grid -->
+  <rect x="120" y="245" width="205" height="75" rx="8" fill="#0E2742"/>
+  <text x="135" y="275" fill="#94A3B8" font-family="-apple-system, sans-serif" font-size="11">Demo Bookings</text>
+  <text x="135" y="302" fill="#FFFFFF" font-family="-apple-system, sans-serif" font-size="18" font-weight="700">+310%</text>
+
+  <rect x="340" y="245" width="205" height="75" rx="8" fill="#0E2742"/>
+  <text x="355" y="275" fill="#94A3B8" font-family="-apple-system, sans-serif" font-size="11">Organic Lead Cost</text>
+  <text x="355" y="302" fill="#00D2FF" font-family="-apple-system, sans-serif" font-size="18" font-weight="700">-58% CAC</text>
+</svg>
