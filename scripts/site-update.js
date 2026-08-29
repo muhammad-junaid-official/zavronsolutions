@@ -1,88 +1,10 @@
-<!DOCTYPE html>
-<html lang="en-US">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Paid Social & Social Media Marketing USA | Zavron Solutions</title>
-  <meta name="description" content="Strategic paid social campaigns on LinkedIn, Meta (Facebook & Instagram), and YouTube. Targeted B2B and B2C audience acquisition for US brands.">
-  <link rel="canonical" href="https://zavronsolutions.com/services/social-media-marketing/">
-  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/variables.css"><link rel="stylesheet" href="/css/global.css"><link rel="stylesheet" href="/css/components.css"><link rel="stylesheet" href="/css/animations.css">
-</head>
-<body>
-  <header class="site-header" id="siteHeader">
-    <div class="header-container">
-      <a href="/" class="brand-logo" aria-label="Zavron Solutions Home">
-        <div class="brand-logo-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="4 7 12 17 20 7"></polyline><polyline points="4 17 12 7 20 17"></polyline></svg></div>
-        <div class="brand-logo-text"><span class="brand-logo-title">ZAVRON</span><span class="brand-logo-subtitle">SOLUTIONS</span></div>
-      </a>
-      <nav class="desktop-nav">
-        <div class="nav-item"><a href="/" class="nav-link">Home</a></div>
-        <div class="nav-item"><a href="/about-us/" class="nav-link">About Us</a></div>
-        <div class="nav-item"><a href="/services/" class="nav-link active">Services</a></div>
-        <div class="nav-item"><a href="/work/" class="nav-link">Work</a></div>
-        <div class="nav-item"><a href="/industries/" class="nav-link">Industries</a></div>
-        <div class="nav-item"><a href="/resources/" class="nav-link">Resources</a></div>
-        <div class="nav-item"><a href="/contact/" class="nav-link">Contact</a></div>
-      </nav>
-      <div class="header-actions"><a href="/get-a-free-quote/" class="btn btn-primary btn-sm">Get a Free Quote →</a></div>
-    </div>
-  </header>
+const fs = require('fs');
+const path = require('path');
 
-  <main id="mainContent">
-    <section class="hero">
-      <div class="hero-grid-bg"></div>
-      <div class="container">
-        <div class="breadcrumbs">
-          <a href="/">Home</a><span class="separator">/</span><a href="/services/">Services</a><span class="separator">/</span><span class="current">Social Media Marketing</span>
-        </div>
-        <div class="hero-content reveal">
-          <div class="eyebrow eyebrow-pill dark">PAID SOCIAL ACQUISITION</div>
-          <h1 class="hero-headline">Engage Decision-Makers with <span class="text-orange">Strategic Paid Social Ads.</span></h1>
-          <p class="hero-subhead">
-            We architect targeted social ad campaigns across LinkedIn, Meta, and YouTube that educate your ideal clients, nurture intent, and drive profitable customer conversions.
-          </p>
-          <div class="hero-actions">
-            <a href="/get-a-free-quote/" class="btn btn-primary btn-lg">Explore Social Strategy →</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section section-white">
-      <div class="container">
-        <div class="grid grid-3 reveal">
-          <div class="service-card">
-            <h4>B2B LinkedIn Campaigns</h4>
-            <p class="service-card-desc">Reaching US C-suite executives and procurement leaders with tailored thought-leadership and demo funnels.</p>
-          </div>
-          <div class="service-card">
-            <h4>Meta & Instagram Funnels</h4>
-            <p class="service-card-desc">High-engagement visual creative, dynamic catalog retargeting, and lookalike audience scaling.</p>
-          </div>
-          <div class="service-card">
-            <h4>Video Ad Creative</h4>
-            <p class="service-card-desc">Short-form video assets engineered to capture attention, communicate value propositions in 5 seconds, and drive action.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section section-alt">
-      <div class="container">
-        <div class="cta-banner reveal">
-          <div class="cta-banner-content">
-            <h2>Ready to Scale Your Paid Social Presence?</h2>
-            <p>Speak with our creative and performance strategists today.</p>
-            <a href="/get-a-free-quote/" class="btn btn-primary btn-lg">Get a Free Quote →</a>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-    <!-- ==================== GLOBAL FOOTER ==================== -->
+// ============================================================
+// The unified full footer HTML to inject into every page
+// ============================================================
+const FOOTER_HTML = `  <!-- ==================== GLOBAL FOOTER ==================== -->
   <footer class="site-footer">
     <div class="container">
       <div class="footer-top">
@@ -183,7 +105,90 @@
         </div>
       </div>
     </div>
-  </footer>
-  <script type="module" src="/js/main.js"></script><script type="module" src="/js/animations.js"></script>
-</body>
-</html>
+  </footer>`;
+
+// ============================================================
+// Utility: Process all HTML files recursively
+// ============================================================
+function getAllHtmlFiles(dir) {
+  const results = [];
+  const skip = new Set(['node_modules', 'dist', '.git', 'scripts']);
+  for (const file of fs.readdirSync(dir)) {
+    if (skip.has(file)) continue;
+    const full = path.join(dir, file);
+    if (fs.statSync(full).isDirectory()) {
+      results.push(...getAllHtmlFiles(full));
+    } else if (file.endsWith('.html')) {
+      results.push(full);
+    }
+  }
+  return results;
+}
+
+const root = '.';
+const htmlFiles = getAllHtmlFiles(root);
+let updatedCount = 0;
+
+for (const filePath of htmlFiles) {
+  let content = fs.readFileSync(filePath, 'utf8');
+  let modified = false;
+
+  // -----------------------------------------------
+  // 1. Replace email address everywhere
+  // -----------------------------------------------
+  const emailPatterns = [
+    /contact@zavronsolutions\.com/g,
+    /zavronsolutions@gmail\.com(?!.*zavronsolutions@gmail\.com)/g, // keep existing correct ones
+  ];
+  const newContent1 = content.replace(/contact@zavronsolutions\.com/g, 'zavronsolutions@gmail.com');
+  if (newContent1 !== content) { content = newContent1; modified = true; }
+
+  // -----------------------------------------------
+  // 2. Remove phone number contact items from contact page body
+  // -----------------------------------------------
+  // Remove "+1 (800) 555-ZAVRON" standalone phone references outside footer
+  const phoneRemoved = content
+    // Remove phone divs in body/contact sections
+    .replace(/<div[^>]*class="[^"]*flex[^"]*gap[^"]*items-center[^"]*"[^>]*>[\s\S]*?\+1 \(800\) 555-ZAVRON[\s\S]*?<\/div>/g, '')
+    // Remove generic contact-item phone rows
+    .replace(/<div[^>]*>[\s\S]{0,200}\+1 \(800\) 555-ZAVRON[\s\S]{0,200}<\/div>/g, '')
+    // Also clean up remaining phone references inline
+    .replace(/\+1 \(800\) 555-ZAVRON/g, '');
+  if (phoneRemoved !== content) { content = phoneRemoved; modified = true; }
+
+  // -----------------------------------------------
+  // 3. Replace entire <footer ...>...</footer> with the unified footer
+  //    UNLESS it's the home page (which already has the full footer)
+  // -----------------------------------------------
+  const normalizedPath = filePath.replace(/\\/g, '/');
+  const isHomePage = normalizedPath.endsWith('/index.html') && !normalizedPath.includes('/about-us/') 
+    && !normalizedPath.includes('/services/') && !normalizedPath.includes('/work/')
+    && !normalizedPath.includes('/case-studies/') && !normalizedPath.includes('/industries/')
+    && !normalizedPath.includes('/resources/') && !normalizedPath.includes('/blog/')
+    && !normalizedPath.includes('/contact/') && !normalizedPath.includes('/get-a-free-quote/')
+    && !normalizedPath.includes('/privacy-policy/') && !normalizedPath.includes('/terms-and-conditions/')
+    && !normalizedPath.includes('/cookie-policy/') && !normalizedPath.includes('/disclaimer/');
+
+  // Replace footer on ALL pages (including home — we'll re-inject consistent one)
+  const footerRegex = /<footer[\s\S]*?<\/footer>/;
+  if (footerRegex.test(content)) {
+    const replaced = content.replace(footerRegex, FOOTER_HTML);
+    if (replaced !== content) { content = replaced; modified = true; }
+  }
+
+  // -----------------------------------------------
+  // 4. Fix hero headline color — ensure no inline dark color overrides
+  // -----------------------------------------------
+  // Remove any inline color styles on hero h1/h2 that set navy/dark colors
+  content = content.replace(/(class="hero-headline"[^>]*style="[^"]*?)color\s*:\s*var\(--color-navy-\d+\)[^"]*"/g, '$1"');
+
+  if (modified) {
+    fs.writeFileSync(filePath, content, 'utf8');
+    console.log('✅ Updated:', filePath.replace(root + path.sep, ''));
+    updatedCount++;
+  } else {
+    console.log('⏭  No change:', filePath.replace(root + path.sep, ''));
+  }
+}
+
+console.log('\n✅ Done! Updated', updatedCount, '/', htmlFiles.length, 'files.');
