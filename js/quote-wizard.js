@@ -150,21 +150,56 @@ function initQuoteWizard() {
   }
 
   if (submitBtn) {
-    submitBtn.addEventListener('click', (e) => {
+    submitBtn.addEventListener('click', async (e) => {
       e.preventDefault();
       if (validateCurrentStep()) {
         submitBtn.disabled = true;
-        submitBtn.innerHTML = 'Submitting Request...';
+        submitBtn.innerHTML = `
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="spin" style="display:inline-block; vertical-align:middle; margin-right:6px;"><circle cx="12" cy="12" r="10" stroke-opacity="0.25"/><path d="M12 2a10 10 0 0 1 10 10"/></svg>
+          Submitting to Zavron...
+        `;
 
-        setTimeout(() => {
-          const successPane = document.getElementById('wizardSuccessPane');
-          const formWrapper = document.getElementById('wizardFormWrapper');
-          if (formWrapper && successPane) {
-            formWrapper.style.display = 'none';
-            successPane.style.display = 'block';
-            successPane.scrollIntoView({ behavior: 'smooth' });
-          }
-        }, 1200);
+        // Gather all wizard data
+        const businessName = document.getElementById('quoteBusinessName')?.value || 'Not specified';
+        const contactName = document.getElementById('quoteContactName')?.value || 'Client';
+        const contactEmail = document.getElementById('quoteContactEmail')?.value || 'Not provided';
+        const contactPhone = document.getElementById('quoteContactPhone')?.value || 'Not provided';
+        const projectNotes = document.getElementById('quoteProjectNotes')?.value || 'None';
+        const selectedServices = Array.from(document.querySelectorAll('.wizard-step-pane[data-step="2"] .option-card.selected'))
+          .map(c => c.querySelector('.option-card-title')?.textContent.trim())
+          .filter(Boolean);
+        const selectedBudget = document.querySelector('.wizard-step-pane[data-step="3"] .option-card.selected .option-card-title')?.textContent.trim() || 'Flexible';
+        const timeline = document.getElementById('quoteTimeline')?.value || 'Standard';
+
+        const formData = new FormData();
+        formData.append('Business_Name', businessName);
+        formData.append('Contact_Name', contactName);
+        formData.append('Contact_Email', contactEmail);
+        formData.append('Contact_Phone', contactPhone);
+        formData.append('Selected_Services', selectedServices.join(', ') || 'Full Strategy');
+        formData.append('Budget_Tier', selectedBudget);
+        formData.append('Target_Timeline', timeline);
+        formData.append('Project_Notes', projectNotes);
+        formData.append('_destination', 'zavronsolutions@gmail.com');
+        formData.append('_subject', `🎯 New Project Quote Request: ${businessName} (${selectedBudget})`);
+
+        try {
+          await fetch('https://formsubmit.co/ajax/zavronsolutions@gmail.com', {
+            method: 'POST',
+            body: formData,
+            headers: { 'Accept': 'application/json' }
+          });
+        } catch (err) {
+          console.warn('Direct quote submission fallback:', err);
+        }
+
+        const successPane = document.getElementById('wizardSuccessPane');
+        const formWrapper = document.getElementById('wizardFormWrapper');
+        if (formWrapper && successPane) {
+          formWrapper.style.display = 'none';
+          successPane.style.display = 'block';
+          successPane.scrollIntoView({ behavior: 'smooth' });
+        }
       }
     });
   }

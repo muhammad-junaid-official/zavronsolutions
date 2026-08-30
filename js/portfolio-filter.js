@@ -8,9 +8,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function initPortfolioFilter() {
   const filterBtns = document.querySelectorAll('.filter-btn');
-  const workCards = document.querySelectorAll('.work-grid .work-card');
+  const projectCards = document.querySelectorAll('.work-grid .project-card, .work-grid .work-card');
 
-  if (!filterBtns.length || !workCards.length) return;
+  if (!filterBtns.length || !projectCards.length) return;
+
+  // Calculate counts for each filter
+  filterBtns.forEach(btn => {
+    const filter = btn.getAttribute('data-filter');
+    let count = 0;
+    if (filter === 'all') {
+      count = projectCards.length;
+    } else {
+      projectCards.forEach(card => {
+        const categories = (card.getAttribute('data-category') || '').split(' ');
+        if (categories.includes(filter)) count++;
+      });
+    }
+
+    // Append count badge if not already present
+    let countBadge = btn.querySelector('.filter-count');
+    if (!countBadge) {
+      countBadge = document.createElement('span');
+      countBadge.className = 'filter-count';
+      btn.appendChild(countBadge);
+    }
+    countBadge.textContent = count;
+  });
 
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -19,11 +42,11 @@ function initPortfolioFilter() {
       filterBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
 
-      workCards.forEach(card => {
-        const categories = card.getAttribute('data-category') || '';
-        if (filter === 'all' || categories.split(' ').includes(filter)) {
+      projectCards.forEach(card => {
+        const categories = (card.getAttribute('data-category') || '').split(' ');
+        if (filter === 'all' || categories.includes(filter)) {
           card.style.display = 'flex';
-          card.style.animation = 'fadeIn 0.3s ease-out';
+          card.style.animation = 'fadeInUp 0.35s ease-out forwards';
         } else {
           card.style.display = 'none';
         }
@@ -31,3 +54,4 @@ function initPortfolioFilter() {
     });
   });
 }
+
