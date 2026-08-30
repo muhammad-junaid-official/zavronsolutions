@@ -251,12 +251,39 @@ function initQuoteWizard() {
           `https://zavronsolutions.com`
         );
 
+        // Structured JSON Payload for native SMTP dispatch
+        const smtpPayload = {
+          name: contactName,
+          email: contactEmail,
+          phone: contactPhone,
+          company: businessName,
+          service: selectedServices.join(', ') || 'Custom Web Engineering & Architecture',
+          budget: selectedBudget,
+          timeline: timeline,
+          message: `Current Website: ${currentWebsite}\nIndustry: ${industry}\n\nProject Requirements:\n${projectDetails}`,
+          source: 'Interactive Quote Wizard'
+        };
+
         try {
-          await fetch('https://formsubmit.co/ajax/zavronsolutions@gmail.com', {
-            method: 'POST',
-            body: formData,
-            headers: { 'Accept': 'application/json' }
-          });
+          let sent = false;
+          try {
+            const apiRes = await fetch('/api/send-email', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(smtpPayload)
+            });
+            if (apiRes.ok) sent = true;
+          } catch (apiErr) {
+            console.log('Direct SMTP API not reached, using fallback dispatcher');
+          }
+
+          if (!sent) {
+            await fetch('https://formsubmit.co/ajax/zavronsolutions@gmail.com', {
+              method: 'POST',
+              body: formData,
+              headers: { 'Accept': 'application/json' }
+            });
+          }
         } catch (err) {
           console.warn('Quote submission network fallback:', err);
         }

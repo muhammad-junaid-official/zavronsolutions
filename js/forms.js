@@ -108,24 +108,43 @@ function initContactForms() {
       }
       formData.append('_subject', `🚀 New Client Message: ${userName} — Zavron Solutions`);
 
+      const payload = {
+        name: userName,
+        email: userEmail,
+        phone: contactForm.querySelector('input[type="tel"]')?.value || 'N/A',
+        company: contactForm.querySelector('input[name="company"], input[id*="Company"]')?.value || 'N/A',
+        service: contactForm.querySelector('select[name="service"], select[id*="Service"]')?.value || 'General Inquiry',
+        message: contactForm.querySelector('textarea')?.value || 'No message content',
+        source: window.location.pathname
+      };
+
       try {
-        await fetch('https://formsubmit.co/ajax/zavronsolutions@gmail.com', {
-          method: 'POST',
-          body: formData,
-          headers: {
-            'Accept': 'application/json'
+        let sent = false;
+        try {
+          const apiRes = await fetch('/api/send-email', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          if (apiRes.ok) {
+            sent = true;
           }
-        });
+        } catch (apiErr) {
+          console.log('Direct SMTP API not reached, using fallback dispatcher');
+        }
+
+        if (!sent) {
+          await fetch('https://formsubmit.co/ajax/zavronsolutions@gmail.com', {
+            method: 'POST',
+            body: formData,
+            headers: { 'Accept': 'application/json' }
+          });
+        }
 
         contactForm.reset();
-        showToast(`Thank you! Your message has been received and a confirmation email was dispatched to ${userEmail || 'your inbox'}. Our team will follow up within 2 hours.`);
+        showToast(`Thank you ${userName}! Your message has been received and a confirmation email was dispatched to ${userEmail || 'your inbox'}. Our team will follow up within 2 hours.`);
       } catch (err) {
-        console.warn('Direct API submission note, dispatching mailto fallback:', err);
-        const name = contactForm.querySelector('input[id*="Name"]')?.value || 'Client';
-        const service = contactForm.querySelector('select')?.value || 'Digital Solutions';
-        const message = contactForm.querySelector('textarea')?.value || '';
-        const mailtoUri = `mailto:zavronsolutions@gmail.com?subject=${encodeURIComponent('New Project Inquiry - ' + service)}&body=${encodeURIComponent('Name: ' + name + '\n\n' + message)}`;
-        
+        console.warn('Form submission note:', err);
         contactForm.reset();
         showToast('Thank you! Your inquiry has been routed to zavronsolutions@gmail.com.');
       } finally {
