@@ -1,6 +1,7 @@
 /**
  * Zavron Solutions - Enterprise Email Service
  * Handles SMTP Email Dispatching via Nodemailer using Gmail SMTP
+ * Fully Optimized for CAN-SPAM Compliance & Inbox Deliverability
  */
 import nodemailer from 'nodemailer';
 
@@ -18,7 +19,46 @@ export const smtpConfig = {
 export const transporter = nodemailer.createTransport(smtpConfig);
 
 /**
- * Generate Admin Notification Email Template
+ * Generate Admin Notification Plain Text
+ */
+export function getAdminEmailText(data) {
+  const {
+    name = 'N/A',
+    email = 'N/A',
+    phone = 'N/A',
+    company = 'N/A',
+    service = 'General Inquiry',
+    budget = 'Not specified',
+    timeline = 'Not specified',
+    message = 'No additional message provided',
+    source = 'Website Form'
+  } = data;
+
+  return `NEW INQUIRY RECEIVED - ZAVRON SOLUTIONS
+
+Source: ${source}
+Received: ${new Date().toUTCString()}
+
+CLIENT INFORMATION:
+- Name: ${name}
+- Email: ${email}
+- Phone: ${phone}
+- Company: ${company}
+- Requested Service: ${service}
+- Budget Tier: ${budget}
+- Target Timeline: ${timeline}
+
+PROJECT REQUIREMENTS & MESSAGE:
+${message}
+
+---
+Zavron Solutions Automated Inquiry Routing
+https://zavronsolutions.com
+`;
+}
+
+/**
+ * Generate Admin Notification HTML Template
  */
 export function getAdminEmailTemplate(data) {
   const {
@@ -70,7 +110,7 @@ export function getAdminEmailTemplate(data) {
           <!-- Content Body -->
           <tr>
             <td style="padding: 32px;">
-              <h2 style="margin-top: 0; margin-bottom: 8px; color: #ffffff; font-size: 22px; font-weight: 700;">🚀 New Project Inquiry Received</h2>
+              <h2 style="margin-top: 0; margin-bottom: 8px; color: #ffffff; font-size: 22px; font-weight: 700;">New Project Inquiry Received</h2>
               <p style="margin-top: 0; margin-bottom: 24px; color: #94a3b8; font-size: 14px;">Source: <strong style="color: #00D2FF;">${source}</strong> | Received: ${new Date().toUTCString()}</p>
 
               <!-- Client Info Table -->
@@ -126,7 +166,7 @@ ${message}
           <!-- Footer -->
           <tr>
             <td style="padding: 20px 32px; background-color: #061426; border-top: 1px solid #1a365d; text-align: center; color: #64748b; font-size: 12px;">
-              Zavron Solutions Automated Lead Management System &bull; <a href="https://zavronsolutions.com" style="color: #FF7A00; text-decoration: none;">zavronsolutions.com</a>
+              Zavron Solutions Lead Router &bull; <a href="https://zavronsolutions.com" style="color: #FF7A00; text-decoration: none;">zavronsolutions.com</a>
             </td>
           </tr>
         </table>
@@ -139,7 +179,50 @@ ${message}
 }
 
 /**
- * Generate Client Confirmation / Auto-Responder Email Template
+ * Generate Client Confirmation Plain Text (Crucial for spam avoidance)
+ */
+export function getClientConfirmationText(data) {
+  const {
+    name = 'Valued Client',
+    service = 'Digital Solutions & Web Engineering',
+    budget = '',
+    timeline = ''
+  } = data;
+
+  const firstName = name.split(' ')[0] || 'there';
+
+  return `Hello ${firstName},
+
+Thank you for reaching out to Zavron Solutions. We have received your inquiry.
+
+Our Senior Technical Strategists are currently reviewing your project requirements:
+- Service Requested: ${service}
+${budget ? `- Budget Tier: ${budget}\n` : ''}${timeline ? `- Target Timeline: ${timeline}\n` : ''}
+
+WHAT HAPPENS NEXT:
+1. Technical Assessment (Within 2 Business Hours): A dedicated strategist analyzes your project scope.
+2. Strategic Discovery Consultation: We align on high-impact architecture, milestones, and ROI targets.
+3. Detailed Proposal & Architecture Plan: You receive a transparent milestone roadmap.
+
+Explore our recent live deployments:
+https://zavronsolutions.com/work/
+
+Warm regards,
+
+Muhammad Junaid
+CEO & Principal Strategist
+Zavron Solutions
+Email: zavronsolutions@gmail.com
+Website: https://zavronsolutions.com
+
+---
+© ${new Date().getFullYear()} Zavron Solutions. All rights reserved.
+Strategic US Digital Solutions Agency | High-Performance Web Engineering, Custom WordPress & Technical SEO.
+`;
+}
+
+/**
+ * Generate Client Confirmation HTML Template
  */
 export function getClientConfirmationTemplate(data) {
   const {
@@ -193,7 +276,7 @@ export function getClientConfirmationTemplate(data) {
               </h1>
               
               <p style="color: #cbd5e1; font-size: 15px; line-height: 1.7; margin-bottom: 24px;">
-                Thank you for reaching out to <strong>Zavron Solutions</strong>. Our Senior Technical Strategists and Software Architects are already reviewing your inquiry to prepare a tailored action plan for your business.
+                Thank you for reaching out to <strong>Zavron Solutions</strong>. Our Senior Technical Strategists and Software Architects are reviewing your inquiry to prepare a tailored action plan for your business.
               </p>
 
               <!-- Inquiry Summary Box -->
@@ -217,7 +300,7 @@ export function getClientConfirmationTemplate(data) {
                     <div style="width: 24px; height: 24px; background-color: rgba(255,122,0,0.15); border: 1px solid #FF7A00; border-radius: 50%; text-align: center; line-height: 22px; color: #FF7A00; font-size: 12px; font-weight: bold;">1</div>
                   </td>
                   <td style="padding-bottom: 14px; padding-left: 10px; color: #cbd5e1; font-size: 14px; line-height: 1.5;">
-                    <strong style="color: #ffffff;">Initial Assessment (Within 2 Business Hours):</strong> A dedicated senior strategist analyzes your website architecture, SEO visibility, and technical needs.
+                    <strong style="color: #ffffff;">Technical Assessment (Within 2 Business Hours):</strong> A senior strategist analyzes your website architecture, SEO visibility, and technical needs.
                   </td>
                 </tr>
                 <tr>
@@ -225,7 +308,7 @@ export function getClientConfirmationTemplate(data) {
                     <div style="width: 24px; height: 24px; background-color: rgba(255,122,0,0.15); border: 1px solid #FF7A00; border-radius: 50%; text-align: center; line-height: 22px; color: #FF7A00; font-size: 12px; font-weight: bold;">2</div>
                   </td>
                   <td style="padding-bottom: 14px; padding-left: 10px; color: #cbd5e1; font-size: 14px; line-height: 1.5;">
-                    <strong style="color: #ffffff;">Strategic Discovery Call:</strong> We discuss high-impact architecture, conversion milestones, and direct ROI targets for your project.
+                    <strong style="color: #ffffff;">Strategic Discovery Call:</strong> We discuss high-impact architecture, conversion milestones, and direct ROI targets.
                   </td>
                 </tr>
                 <tr>
@@ -290,6 +373,7 @@ export function getClientConfirmationTemplate(data) {
 /**
  * Main Dispatcher Function
  * Sends both Admin Notification & Client Confirmation via Gmail SMTP
+ * Includes full multipart/alternative (HTML + Plaintext) and CAN-SPAM headers
  */
 export async function sendInquiryEmails(data) {
   const {
@@ -298,12 +382,19 @@ export async function sendInquiryEmails(data) {
     service = 'Digital Solutions Inquiry'
   } = data;
 
+  const timestamp = Date.now();
+
   const adminMailOptions = {
     from: `"Zavron Solutions Inquiries" <${smtpConfig.auth.user}>`,
     to: smtpConfig.auth.user, // sends to zavronsolutions@gmail.com
     replyTo: email || smtpConfig.auth.user,
-    subject: `🚀 New Lead: ${service} - ${name || 'Website Visitor'}`,
-    html: getAdminEmailTemplate(data)
+    subject: `New Project Inquiry: ${service} - ${name || 'Website Visitor'}`,
+    text: getAdminEmailText(data),
+    html: getAdminEmailTemplate(data),
+    headers: {
+      'X-Entity-Ref-ID': `admin-inquiry-${timestamp}`,
+      'X-Auto-Response-Suppress': 'OOF, AutoReply'
+    }
   };
 
   // 1. Send Admin Email
@@ -316,8 +407,14 @@ export async function sendInquiryEmails(data) {
       from: `"Muhammad Junaid | Zavron Solutions" <${smtpConfig.auth.user}>`,
       to: email,
       replyTo: smtpConfig.auth.user,
-      subject: `Thank you for contacting Zavron Solutions | Your Strategy Brief is Received`,
-      html: getClientConfirmationTemplate(data)
+      subject: `Inquiry Confirmation: Your Strategy Brief with Zavron Solutions`,
+      text: getClientConfirmationText(data),
+      html: getClientConfirmationTemplate(data),
+      headers: {
+        'X-Entity-Ref-ID': `client-confirm-${timestamp}`,
+        'List-Unsubscribe': `<mailto:${smtpConfig.auth.user}?subject=unsubscribe>`,
+        'X-Auto-Response-Suppress': 'OOF, AutoReply'
+      }
     };
 
     clientResult = await transporter.sendMail(clientMailOptions);
