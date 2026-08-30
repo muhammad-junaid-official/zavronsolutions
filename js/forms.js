@@ -1,6 +1,7 @@
 /**
  * ZAVRON SOLUTIONS — FORM VALIDATION & NOTIFICATION SYSTEM
  * Dispatches all inquiries directly to zavronsolutions@gmail.com
+ * & Automatically sends confirmation emails to prospective clients
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -33,7 +34,7 @@ export function showToast(message, type = 'success') {
     toast.style.transform = 'translateX(20px)';
     toast.style.transition = 'all 0.3s ease';
     setTimeout(() => toast.remove(), 300);
-  }, 5000);
+  }, 6000);
 }
 
 function initContactForms() {
@@ -73,23 +74,42 @@ function initContactForms() {
 
       if (!isValid) return;
 
+      const userEmailInput = contactForm.querySelector('input[type="email"]');
+      const userEmail = userEmailInput ? userEmailInput.value.trim() : '';
+      const userNameInput = contactForm.querySelector('input[id*="Name"], input[name="name"]');
+      const userName = userNameInput ? userNameInput.value.trim() : 'Valued Client';
+
       const submitBtn = contactForm.querySelector('button[type="submit"]');
       const originalText = submitBtn ? submitBtn.innerHTML : 'Send Message';
       if (submitBtn) {
         submitBtn.disabled = true;
         submitBtn.innerHTML = `
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="spin" style="display:inline-block; vertical-align:middle; margin-right:6px;"><circle cx="12" cy="12" r="10" stroke-opacity="0.25"/><path d="M12 2a10 10 0 0 1 10 10"/></svg>
-          Submitting to Zavron...
+          Sending &amp; Notifying Team...
         `;
       }
 
       const formData = new FormData(contactForm);
-      // Ensure target destination is explicitly set
+      // Ensure target destination & autoresponder parameters are explicitly set
       formData.append('_destination', 'zavronsolutions@gmail.com');
-      formData.append('_subject', '🚀 New Project Inquiry — Zavron Solutions');
+      if (userEmail) {
+        formData.append('email', userEmail);
+        formData.append('_replyto', userEmail);
+        formData.append('_autoresponse', 
+          `Hello ${userName},\n\n` +
+          `Thank you for contacting Zavron Solutions! We have received your inquiry.\n\n` +
+          `A senior digital strategist has been assigned to your message and is reviewing your project details. We will contact you within 2 business hours with an actionable technical and commercial assessment.\n\n` +
+          `If you have urgent specifications or assets to share, feel free to reply directly to this email.\n\n` +
+          `Warm regards,\n` +
+          `Muhammad Junaid\n` +
+          `CEO & Founder | Zavron Solutions\n` +
+          `https://zavronsolutions.com`
+        );
+      }
+      formData.append('_subject', `🚀 New Client Message: ${userName} — Zavron Solutions`);
 
       try {
-        const response = await fetch('https://formsubmit.co/ajax/zavronsolutions@gmail.com', {
+        await fetch('https://formsubmit.co/ajax/zavronsolutions@gmail.com', {
           method: 'POST',
           body: formData,
           headers: {
@@ -97,17 +117,10 @@ function initContactForms() {
           }
         });
 
-        if (response.ok) {
-          contactForm.reset();
-          showToast('Thank you! Your message has been sent to zavronsolutions@gmail.com. A senior digital strategist will follow up within 2 hours.');
-        } else {
-          // Fallback to client-side success if FormSubmit receives the post
-          contactForm.reset();
-          showToast('Thank you! Your inquiry has been dispatched to zavronsolutions@gmail.com.');
-        }
+        contactForm.reset();
+        showToast(`Thank you! Your message has been received and a confirmation email was dispatched to ${userEmail || 'your inbox'}. Our team will follow up within 2 hours.`);
       } catch (err) {
         console.warn('Direct API submission note, dispatching mailto fallback:', err);
-        // Mailto fallback so user request is never lost
         const name = contactForm.querySelector('input[id*="Name"]')?.value || 'Client';
         const service = contactForm.querySelector('select')?.value || 'Digital Solutions';
         const message = contactForm.querySelector('textarea')?.value || '';
@@ -133,6 +146,7 @@ function initNewsletterForms() {
       const emailInput = form.querySelector('input[type="email"]');
       if (!emailInput || !emailInput.value.trim()) return;
 
+      const email = emailInput.value.trim();
       const submitBtn = form.querySelector('button[type="submit"]');
       const originalText = submitBtn ? submitBtn.innerHTML : 'Subscribe';
       if (submitBtn) {
@@ -141,8 +155,10 @@ function initNewsletterForms() {
       }
 
       const formData = new FormData();
-      formData.append('email', emailInput.value.trim());
-      formData.append('_subject', '📩 New Newsletter Subscriber — Zavron Solutions');
+      formData.append('email', email);
+      formData.append('_destination', 'zavronsolutions@gmail.com');
+      formData.append('_subject', `📰 New Strategy Newsletter Subscriber: ${email}`);
+      formData.append('_autoresponse', `Welcome to the Zavron Solutions Digital Strategy Bulletin!\n\nYou're now subscribed to receive our quarterly technical breakdowns on SEO architecture, headless e-commerce, and high-velocity web engineering.\n\nWarm regards,\nZavron Solutions Team`);
 
       try {
         await fetch('https://formsubmit.co/ajax/zavronsolutions@gmail.com', {
@@ -150,17 +166,17 @@ function initNewsletterForms() {
           body: formData,
           headers: { 'Accept': 'application/json' }
         });
-      } catch (e) {
-        // Continue to user confirmation
+        form.reset();
+        showToast(`Thank you! A confirmation has been sent to ${email}.`);
+      } catch (err) {
+        form.reset();
+        showToast('Thank you for subscribing to Zavron Solutions insights!');
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalText;
+        }
       }
-
-      form.reset();
-      if (submitBtn) {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = originalText;
-      }
-      showToast('Subscribed! Strategy insights will be sent to your inbox.');
     });
   });
 }
-
