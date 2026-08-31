@@ -1,39 +1,43 @@
 <svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
   <rect width="1200" height="630" fill="#0c2847"/>
   <defs>
-    <radialGradient id="grad1" cx="0.8" cy="0.2" r="0.8">
-      <stop offset="0%" stop-color="#ef4444" stop-opacity="0.35"/>
+    <radialGradient id="grad1" cx="0.85" cy="0.2" r="0.75">
+      <stop offset="0%" stop-color="#ef4444" stop-opacity="0.32"/>
       <stop offset="100%" stop-color="#0c2847" stop-opacity="0"/>
     </radialGradient>
-    <radialGradient id="grad2" cx="0.1" cy="0.9" r="0.6">
-      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.25"/>
+    <radialGradient id="grad2" cx="0.15" cy="0.85" r="0.6">
+      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.22"/>
       <stop offset="100%" stop-color="#0c2847" stop-opacity="0"/>
     </radialGradient>
     <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
     </pattern>
   </defs>
   <rect width="1200" height="630" fill="url(#grad1)"/>
   <rect width="1200" height="630" fill="url(#grad2)"/>
   <rect width="1200" height="630" fill="url(#grid)"/>
   
-  <!-- Decorative Abstract Geometric Shapes -->
-  <circle cx="1020" cy="180" r="140" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="6 6" fill="none" opacity="0.6"/>
-  <circle cx="1020" cy="180" r="90" stroke="#f59e0b" stroke-width="2" fill="none" opacity="0.8"/>
-  <rect x="940" y="380" width="160" height="160" rx="20" stroke="rgba(255,255,255,0.12)" stroke-width="2" fill="rgba(255,255,255,0.02)"/>
+  <!-- Abstract Decorative Visual Elements -->
+  <circle cx="1020" cy="200" r="130" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="6 6" fill="none" opacity="0.5"/>
+  <circle cx="1020" cy="200" r="85" stroke="#f59e0b" stroke-width="2" fill="none" opacity="0.7"/>
+  <rect x="940" y="370" width="160" height="130" rx="16" stroke="rgba(255,255,255,0.12)" stroke-width="1.5" fill="rgba(255,255,255,0.03)"/>
+  <circle cx="980" cy="410" r="14" fill="#ef4444" fill-opacity="0.3"/>
+  <line x1="1010" y1="410" x2="1070" y2="410" stroke="rgba(255,255,255,0.3)" stroke-width="3" stroke-linecap="round"/>
+  <line x1="970" y1="445" x2="1070" y2="445" stroke="rgba(255,255,255,0.15)" stroke-width="2" stroke-linecap="round"/>
+  <line x1="970" y1="465" x2="1040" y2="465" stroke="rgba(255,255,255,0.15)" stroke-width="2" stroke-linecap="round"/>
   
-  <!-- Category Pill -->
-  <rect x="100" y="100" width="335" height="38" rx="19" fill="#ef4444" fill-opacity="0.2" stroke="#ef4444" stroke-width="1.5"/>
-  <text x="130" y="125" fill="#ef4444" font-family="Plus Jakarta Sans, sans-serif" font-size="14" font-weight="700" letter-spacing="1.5">RESTAURANTS & HOSPITALITY</text>
+  <!-- Category Pill Badge -->
+  <rect x="90" y="85" width="335" height="36" rx="18" fill="#ef4444" fill-opacity="0.18" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="120" y="108" fill="#ef4444" font-family="Plus Jakarta Sans, sans-serif" font-size="13" font-weight="700" letter-spacing="1.5">RESTAURANTS & HOSPITALITY</text>
   
-  <!-- Title Text -->
-  <text x="100" y="210" fill="#FFFFFF" font-family="Plus Jakarta Sans, sans-serif" font-size="40" font-weight="800" line-height="1.2">Visual Social Media Marketing for</text>
-  <text x="100" y="270" fill="#FFFFFF" font-family="Plus Jakarta Sans, sans-serif" font-size="40" font-weight="800">Restaurants and Beverage Brands</text>
-  <text x="100" y="330" fill="#FFFFFF" font-family="Plus Jakarta Sans, sans-serif" font-size="40" font-weight="800"></text>
+  <!-- Dynamic Title Lines -->
+  <text x="90" y="190" fill="#FFFFFF" font-family="Plus Jakarta Sans, sans-serif" font-size="34" font-weight="800">Visual Social Media Marketing</text>
+  <text x="90" y="238" fill="#FFFFFF" font-family="Plus Jakarta Sans, sans-serif" font-size="34" font-weight="800">for Restaurants and Beverage</text>
+  <text x="90" y="286" fill="#FFFFFF" font-family="Plus Jakarta Sans, sans-serif" font-size="34" font-weight="800">Brands</text>
   
-  <!-- Brand Footer -->
-  <line x1="100" y1="490" x2="1100" y2="490" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-  <text x="100" y="540" fill="#FFFFFF" font-family="Plus Jakarta Sans, sans-serif" font-size="20" font-weight="800" letter-spacing="2">ZAVRON SOLUTIONS</text>
-  <text x="340" y="540" fill="rgba(255,255,255,0.6)" font-family="Inter, sans-serif" font-size="16">| Strategic Engineering &amp; Organic Search Dominance USA</text>
-  <text x="1020" y="540" fill="#ef4444" font-family="Inter, sans-serif" font-size="16" font-weight="600">zavronsolutions.com</text>
+  <!-- Brand Footer Bar -->
+  <line x1="90" y1="520" x2="1110" y2="520" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <text x="90" y="565" fill="#FFFFFF" font-family="Plus Jakarta Sans, sans-serif" font-size="20" font-weight="800" letter-spacing="2">ZAVRON SOLUTIONS</text>
+  <text x="340" y="565" fill="rgba(255,255,255,0.65)" font-family="Inter, sans-serif" font-size="15">| Strategic Engineering &amp; Organic Search</text>
+  <text x="1000" y="565" fill="#ef4444" font-family="Inter, sans-serif" font-size="15" font-weight="700">zavronsolutions.com</text>
 </svg>
