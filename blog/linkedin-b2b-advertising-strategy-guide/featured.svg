@@ -1,0 +1,39 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#061426"/>
+  <defs>
+    <radialGradient id="grad1" cx="0.8" cy="0.2" r="0.8">
+      <stop offset="0%" stop-color="#e1306c" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#061426" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="grad2" cx="0.1" cy="0.9" r="0.6">
+      <stop offset="0%" stop-color="#ff7a00" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#061426" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="url(#grad1)"/>
+  <rect width="1200" height="630" fill="url(#grad2)"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  
+  <!-- Decorative Abstract Geometric Shapes -->
+  <circle cx="1020" cy="180" r="140" stroke="#e1306c" stroke-width="1.5" stroke-dasharray="6 6" fill="none" opacity="0.6"/>
+  <circle cx="1020" cy="180" r="90" stroke="#ff7a00" stroke-width="2" fill="none" opacity="0.8"/>
+  <rect x="940" y="380" width="160" height="160" rx="20" stroke="rgba(255,255,255,0.12)" stroke-width="2" fill="rgba(255,255,255,0.02)"/>
+  
+  <!-- Category Pill -->
+  <rect x="100" y="100" width="302" height="38" rx="19" fill="#e1306c" fill-opacity="0.2" stroke="#e1306c" stroke-width="1.5"/>
+  <text x="130" y="125" fill="#e1306c" font-family="Plus Jakarta Sans, sans-serif" font-size="14" font-weight="700" letter-spacing="1.5">SOCIAL MEDIA MARKETING</text>
+  
+  <!-- Title Text -->
+  <text x="100" y="210" fill="#FFFFFF" font-family="Plus Jakarta Sans, sans-serif" font-size="40" font-weight="800" line-height="1.2">LinkedIn B2B Advertising: Targeting High-Value</text>
+  <text x="100" y="270" fill="#FFFFFF" font-family="Plus Jakarta Sans, sans-serif" font-size="40" font-weight="800">Enterprise Decision Makers</text>
+  <text x="100" y="330" fill="#FFFFFF" font-family="Plus Jakarta Sans, sans-serif" font-size="40" font-weight="800"></text>
+  
+  <!-- Brand Footer -->
+  <line x1="100" y1="490" x2="1100" y2="490" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+  <text x="100" y="540" fill="#FFFFFF" font-family="Plus Jakarta Sans, sans-serif" font-size="20" font-weight="800" letter-spacing="2">ZAVRON SOLUTIONS</text>
+  <text x="340" y="540" fill="rgba(255,255,255,0.6)" font-family="Inter, sans-serif" font-size="16">| Strategic Engineering &amp; Organic Search Dominance USA</text>
+  <text x="1020" y="540" fill="#e1306c" font-family="Inter, sans-serif" font-size="16" font-weight="600">zavronsolutions.com</text>
+</svg>
