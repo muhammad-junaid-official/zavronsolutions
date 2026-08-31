@@ -98,24 +98,27 @@
   <main id="mainContent">
     <article>
       <header class="article-hero-header">
-        <div class="container article-container">
-          <div class="breadcrumbs">
-            <a href="/">Home</a><span class="separator">/</span>
-            <a href="/blog/">Blog</a><span class="separator">/</span>
-            <span class="current">E-Commerce SEO</span>
+        <div class="container">
+          <div class="article-hero-inner">
+            <div class="breadcrumbs">
+              <a href="/">Home</a><span class="separator">/</span>
+              <a href="/blog/">Blog</a><span class="separator">/</span>
+              <span class="current">E-Commerce SEO</span>
+            </div>
+            <div class="article-meta">
+              <span class="eyebrow-pill dark" style="font-size: 0.8rem; padding: 0.25rem 0.75rem;">E-COMMERCE SEO</span>
+              <span style="color: rgba(255,255,255,0.75);">&bull; 7 min read</span>
+              <span style="color: rgba(255,255,255,0.75);">&bull; Published February 2026</span>
+            </div>
+            <h1 class="article-headline">Faceted Navigation SEO: Preventing Duplicate Content and Crawl Bloat</h1>
+            <p class="article-subtitle">Managing complex attribute filters (size, color, price) using robots meta tags, canonicalization rules, and AJAX state handling to preserve crawl budget.</p>
           </div>
-          <div class="article-meta">
-            <span class="eyebrow-pill dark" style="font-size: 0.8rem; padding: 0.25rem 0.75rem;">E-COMMERCE SEO</span>
-            <span style="color: rgba(255,255,255,0.75);">&bull; 7 min read</span>
-            <span style="color: rgba(255,255,255,0.75);">&bull; Published February 2026</span>
-          </div>
-          <h1 class="article-headline">Faceted Navigation SEO: Preventing Duplicate Content and Crawl Bloat</h1>
-          <p class="article-subtitle">Managing complex attribute filters (size, color, price) using robots meta tags, canonicalization rules, and AJAX state handling to preserve crawl budget.</p>
         </div>
       </header>
 
       <div class="section section-white" style="padding-top: 3.5rem;">
-        <div class="container article-container">
+        <div class="container">
+          <div class="article-content-wrap">
           
           <!-- Featured Image Graphic -->
           <div class="article-featured-img">
@@ -208,55 +211,50 @@
           </div>
 
           <!-- Related Posts -->
-          <div style="margin-top: 4.5rem; padding-top: 3rem; border-top: 1px solid var(--color-border-light);">
-            <h3 style="font-size: 1.5rem; font-weight: 800; color: var(--color-navy-900); margin-bottom: 1.75rem; font-family: var(--font-heading);">Recommended Strategic Insights</h3>
-            <div class="grid grid-3" style="gap: 1.5rem;">
+          <div class="related-posts-section">
+            <div class="related-posts-header">
+              <span class="related-posts-label">RECOMMENDED READING</span>
+              <h3 class="related-posts-title">Strategic Insights You May Like</h3>
+            </div>
+            <div class="related-posts-grid">
               
-              <article class="blog-card">
-                <div class="blog-card-media">
+              <a href="/blog/enterprise-web-development-trends-usa/" class="related-post-card">
+                <div class="related-post-img">
                   <img src="/blog/enterprise-web-development-trends-usa/featured.svg" alt="Enterprise Web Development Trends for US Businesses in 2026" width="400" height="225" loading="lazy">
                 </div>
-                <div class="blog-card-body" style="padding: 1.25rem 1.5rem 1.5rem;">
-                  <div class="blog-meta">
-                    <span class="eyebrow-pill" style="font-size: 0.75rem; padding: 0.2rem 0.55rem;">WEB DEVELOPMENT</span>
-                    <span>&bull; 7 min read</span>
-                  </div>
-                  <h4 class="blog-card-title" style="font-size: 1.05rem; margin-bottom: 0.5rem;"><a href="/blog/enterprise-web-development-trends-usa/">Enterprise Web Development Trends for US Businesses in 2026</a></h4>
-                  <a href="/blog/enterprise-web-development-trends-usa/" class="blog-card-link">Read Analysis &rarr;</a>
+                <div class="related-post-body">
+                  <span class="related-post-cat">Web Development</span>
+                  <h4 class="related-post-title">Enterprise Web Development Trends for US Businesses in 2026</h4>
+                  <span class="related-post-link">Read Analysis &rarr;</span>
                 </div>
-              </article>
+              </a>
               
-              <article class="blog-card">
-                <div class="blog-card-media">
+              <a href="/blog/custom-web-development-vs-templates-roi/" class="related-post-card">
+                <div class="related-post-img">
                   <img src="/blog/custom-web-development-vs-templates-roi/featured.svg" alt="Custom Web Development vs Website Templates: The True ROI for US Companies" width="400" height="225" loading="lazy">
                 </div>
-                <div class="blog-card-body" style="padding: 1.25rem 1.5rem 1.5rem;">
-                  <div class="blog-meta">
-                    <span class="eyebrow-pill" style="font-size: 0.75rem; padding: 0.2rem 0.55rem;">WEB DEVELOPMENT</span>
-                    <span>&bull; 7 min read</span>
-                  </div>
-                  <h4 class="blog-card-title" style="font-size: 1.05rem; margin-bottom: 0.5rem;"><a href="/blog/custom-web-development-vs-templates-roi/">Custom Web Development vs Website Templates: The True ROI for US Companies</a></h4>
-                  <a href="/blog/custom-web-development-vs-templates-roi/" class="blog-card-link">Read Analysis &rarr;</a>
+                <div class="related-post-body">
+                  <span class="related-post-cat">Web Development</span>
+                  <h4 class="related-post-title">Custom Web Development vs Website Templates: The True ROI for US Companies</h4>
+                  <span class="related-post-link">Read Analysis &rarr;</span>
                 </div>
-              </article>
+              </a>
               
-              <article class="blog-card">
-                <div class="blog-card-media">
+              <a href="/blog/nextjs-react-for-modern-business-websites/" class="related-post-card">
+                <div class="related-post-img">
                   <img src="/blog/nextjs-react-for-modern-business-websites/featured.svg" alt="Why US Businesses Are Migrating to Next.js and Modern React Stacks" width="400" height="225" loading="lazy">
                 </div>
-                <div class="blog-card-body" style="padding: 1.25rem 1.5rem 1.5rem;">
-                  <div class="blog-meta">
-                    <span class="eyebrow-pill" style="font-size: 0.75rem; padding: 0.2rem 0.55rem;">WEB DEVELOPMENT</span>
-                    <span>&bull; 7 min read</span>
-                  </div>
-                  <h4 class="blog-card-title" style="font-size: 1.05rem; margin-bottom: 0.5rem;"><a href="/blog/nextjs-react-for-modern-business-websites/">Why US Businesses Are Migrating to Next.js and Modern React Stacks</a></h4>
-                  <a href="/blog/nextjs-react-for-modern-business-websites/" class="blog-card-link">Read Analysis &rarr;</a>
+                <div class="related-post-body">
+                  <span class="related-post-cat">Web Development</span>
+                  <h4 class="related-post-title">Why US Businesses Are Migrating to Next.js and Modern React Stacks</h4>
+                  <span class="related-post-link">Read Analysis &rarr;</span>
                 </div>
-              </article>
+              </a>
               
             </div>
           </div>
 
+          </div><!-- /.article-content-wrap -->
         </div>
       </div>
     </article>

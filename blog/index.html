@@ -2141,54 +2141,78 @@
   <script type="module" src="/js/main.js"></script>
   <script type="module" src="/js/animations.js"></script>
   <script>
-    // Blog Filter and Search Client Script
-    document.addEventListener('DOMContentLoaded', () => {
-      const filterBtns = document.querySelectorAll('.blog-filter-btn');
-      const cards = document.querySelectorAll('#blogGrid .blog-card');
-      const searchInput = document.getElementById('blogSearchInput');
+    // Blog Filter and Search — robust version
+    (function() {
+      function initBlogFilter() {
+        const filterBtns = document.querySelectorAll('.blog-filter-btn');
+        const grid = document.getElementById('blogGrid');
+        const searchInput = document.getElementById('blogSearchInput');
+        if (!grid || !filterBtns.length) return;
 
-      function filterPosts() {
-        const activeBtn = document.querySelector('.blog-filter-btn.active');
-        const filterVal = activeBtn ? activeBtn.getAttribute('data-filter') : 'all';
-        const query = (searchInput ? searchInput.value : '').toLowerCase().trim();
+        function getCards() {
+          return Array.from(grid.querySelectorAll('.blog-card'));
+        }
 
-        cards.forEach(card => {
-          const cat = card.getAttribute('data-category');
-          const type = card.getAttribute('data-type');
-          const title = (card.querySelector('.blog-card-title')?.innerText || '').toLowerCase();
-          const desc = (card.querySelector('.blog-card-desc')?.innerText || '').toLowerCase();
+        function filterPosts() {
+          const activeBtn = document.querySelector('.blog-filter-btn.active');
+          const filterVal = activeBtn ? activeBtn.getAttribute('data-filter') : 'all';
+          const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
+          const cards = getCards();
+          let visible = 0;
 
-          let matchesFilter = false;
-          if (filterVal === 'all') matchesFilter = true;
-          else if (filterVal === 'service') matchesFilter = (type === 'service');
-          else if (filterVal === 'industry') matchesFilter = (type === 'industry');
-          else matchesFilter = (cat === filterVal);
+          cards.forEach(card => {
+            const cat  = (card.getAttribute('data-category') || '').trim();
+            const type = (card.getAttribute('data-type') || '').trim();
+            const titleEl = card.querySelector('h2, h3, h4');
+            const descEl  = card.querySelector('.blog-card-desc');
+            const text = ((titleEl ? titleEl.textContent : '') + ' ' + (descEl ? descEl.textContent : '') + ' ' + cat).toLowerCase();
 
-          let matchesQuery = true;
-          if (query.length > 0) {
-            matchesQuery = title.includes(query) || desc.includes(query) || cat.includes(query);
+            let show = false;
+            if (filterVal === 'all') show = true;
+            else if (filterVal === 'service')  show = (type === 'service');
+            else if (filterVal === 'industry') show = (type === 'industry');
+            else show = (cat === filterVal);
+
+            if (show && query.length > 0) show = text.includes(query);
+
+            card.style.display = show ? 'flex' : 'none';
+            card.style.flexDirection = 'column';
+            if (show) visible++;
+          });
+
+          // Empty state
+          let emptyMsg = grid.nextElementSibling;
+          if (!emptyMsg || !emptyMsg.classList.contains('blog-empty-msg')) {
+            emptyMsg = document.createElement('p');
+            emptyMsg.className = 'blog-empty-msg';
+            emptyMsg.style.cssText = 'text-align:center;color:#64748b;font-size:1rem;padding:3rem 1rem;display:none;';
+            emptyMsg.textContent = 'No articles found. Try a different filter or search term.';
+            grid.parentNode.insertBefore(emptyMsg, grid.nextSibling);
           }
+          emptyMsg.style.display = visible === 0 ? 'block' : 'none';
+        }
 
-          if (matchesFilter && matchesQuery) {
-            card.style.display = 'flex';
-          } else {
-            card.style.display = 'none';
-          }
+        filterBtns.forEach(btn => {
+          btn.addEventListener('click', function() {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            filterPosts();
+          });
         });
+
+        if (searchInput) {
+          searchInput.addEventListener('input', filterPosts);
+        }
+
+        filterPosts();
       }
 
-      filterBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-          filterBtns.forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          filterPosts();
-        });
-      });
-
-      if (searchInput) {
-        searchInput.addEventListener('input', filterPosts);
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initBlogFilter);
+      } else {
+        initBlogFilter();
       }
-    });
+    })();
   </script>
 </body>
 </html>
