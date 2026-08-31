@@ -2,13 +2,17 @@
   <rect width="1200" height="630" fill="#061426"/>
   <defs>
     <radialGradient id="grad1" cx="0.85" cy="0.2" r="0.75">
-      <stop offset="0%" stop-color="#4285f4" stop-opacity="0.32"/>
+      <stop offset="0%" stop-color="#4285f4" stop-opacity="0.35"/>
       <stop offset="100%" stop-color="#061426" stop-opacity="0"/>
     </radialGradient>
     <radialGradient id="grad2" cx="0.15" cy="0.85" r="0.6">
       <stop offset="0%" stop-color="#34a853" stop-opacity="0.22"/>
       <stop offset="100%" stop-color="#061426" stop-opacity="0"/>
     </radialGradient>
+    <linearGradient id="logoGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FF7A00"/>
+      <stop offset="100%" stop-color="#E05500"/>
+    </linearGradient>
     <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
       <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
     </pattern>
@@ -17,27 +21,36 @@
   <rect width="1200" height="630" fill="url(#grad2)"/>
   <rect width="1200" height="630" fill="url(#grid)"/>
   
-  <!-- Abstract Decorative Visual Elements -->
-  <circle cx="1020" cy="200" r="130" stroke="#4285f4" stroke-width="1.5" stroke-dasharray="6 6" fill="none" opacity="0.5"/>
-  <circle cx="1020" cy="200" r="85" stroke="#34a853" stroke-width="2" fill="none" opacity="0.7"/>
-  <rect x="940" y="370" width="160" height="130" rx="16" stroke="rgba(255,255,255,0.12)" stroke-width="1.5" fill="rgba(255,255,255,0.03)"/>
-  <circle cx="980" cy="410" r="14" fill="#4285f4" fill-opacity="0.3"/>
-  <line x1="1010" y1="410" x2="1070" y2="410" stroke="rgba(255,255,255,0.3)" stroke-width="3" stroke-linecap="round"/>
-  <line x1="970" y1="445" x2="1070" y2="445" stroke="rgba(255,255,255,0.15)" stroke-width="2" stroke-linecap="round"/>
-  <line x1="970" y1="465" x2="1040" y2="465" stroke="rgba(255,255,255,0.15)" stroke-width="2" stroke-linecap="round"/>
-  
   <!-- Category Pill Badge -->
-  <rect x="90" y="85" width="291" height="36" rx="18" fill="#4285f4" fill-opacity="0.18" stroke="#4285f4" stroke-width="1.5"/>
-  <text x="120" y="108" fill="#4285f4" font-family="Plus Jakarta Sans, sans-serif" font-size="13" font-weight="700" letter-spacing="1.5">GOOGLE ADS MANAGEMENT</text>
+  <rect x="85" y="85" width="291" height="38" rx="19" fill="#4285f4" fill-opacity="0.18" stroke="#4285f4" stroke-width="1.5"/>
+  <text x="115" y="109" fill="#4285f4" font-family="Plus Jakarta Sans, sans-serif" font-size="13" font-weight="700" letter-spacing="1.5">GOOGLE ADS MANAGEMENT</text>
   
   <!-- Dynamic Title Lines -->
-  <text x="90" y="190" fill="#FFFFFF" font-family="Plus Jakarta Sans, sans-serif" font-size="34" font-weight="800">Setting Up Enhanced Conversions</text>
-  <text x="90" y="238" fill="#FFFFFF" font-family="Plus Jakarta Sans, sans-serif" font-size="34" font-weight="800">and Server-Side Tracking in</text>
-  <text x="90" y="286" fill="#FFFFFF" font-family="Plus Jakarta Sans, sans-serif" font-size="34" font-weight="800">Google Tag Manager</text>
+  <text x="85" y="190" fill="#FFFFFF" font-family="Plus Jakarta Sans, sans-serif" font-size="34" font-weight="800">Setting Up Enhanced</text>
+  <text x="85" y="238" fill="#FFFFFF" font-family="Plus Jakarta Sans, sans-serif" font-size="34" font-weight="800">Conversions and Server-Side</text>
+  <text x="85" y="286" fill="#FFFFFF" font-family="Plus Jakarta Sans, sans-serif" font-size="34" font-weight="800">Tracking in Google Tag Manager</text>
+
+  <!-- TOP RIGHT LOGO EMBLEM -->
+  <circle cx="1020" cy="180" r="85" stroke="#4285f4" stroke-width="2" fill="rgba(6, 20, 38, 0.7)"/>
+  <circle cx="1020" cy="180" r="120" stroke="#34a853" stroke-width="1.5" stroke-dasharray="6 6" fill="none" opacity="0.5"/>
+  <g transform="translate(988, 148)">
+    <rect width="64" height="64" rx="16" fill="url(#logoGrad)"/>
+    <path d="M16 18 H48 L24 46 H48" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="48" cy="18" r="4.5" fill="#00D2FF"/>
+  </g>
+  <text x="1020" y="248" fill="#FFFFFF" font-family="Plus Jakarta Sans, sans-serif" font-size="13" font-weight="800" letter-spacing="2" text-anchor="middle">ZAVRON</text>
+
+  <!-- BOTTOM RIGHT AUTHOR CARD -->
+  <rect x="830" y="340" width="280" height="120" rx="16" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.14)" stroke-width="1.5"/>
+  <circle cx="875" cy="400" r="26" fill="#061426" stroke="#FF7A00" stroke-width="2.5"/>
+  <text x="875" y="406" fill="#FFFFFF" font-family="Plus Jakarta Sans, sans-serif" font-size="16" font-weight="800" text-anchor="middle">MJ</text>
+  <text x="918" y="388" fill="#FFFFFF" font-family="Plus Jakarta Sans, sans-serif" font-size="16" font-weight="700">Muhammad Junaid</text>
+  <text x="918" y="408" fill="#FF7A00" font-family="Plus Jakarta Sans, sans-serif" font-size="12" font-weight="700" letter-spacing="0.5">CEO &amp; FOUNDER</text>
+  <text x="918" y="426" fill="rgba(255,255,255,0.65)" font-family="Inter, sans-serif" font-size="12">Zavron Solutions</text>
   
-  <!-- Brand Footer Bar -->
-  <line x1="90" y1="520" x2="1110" y2="520" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
-  <text x="90" y="565" fill="#FFFFFF" font-family="Plus Jakarta Sans, sans-serif" font-size="20" font-weight="800" letter-spacing="2">ZAVRON SOLUTIONS</text>
-  <text x="340" y="565" fill="rgba(255,255,255,0.65)" font-family="Inter, sans-serif" font-size="15">| Strategic Engineering &amp; Organic Search</text>
-  <text x="1000" y="565" fill="#4285f4" font-family="Inter, sans-serif" font-size="15" font-weight="700">zavronsolutions.com</text>
+  <!-- BOTTOM BRAND BAR (ALIGNED) -->
+  <line x1="85" y1="520" x2="1115" y2="520" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <text x="85" y="565" fill="#FFFFFF" font-family="Plus Jakarta Sans, sans-serif" font-size="18" font-weight="800" letter-spacing="2">ZAVRON SOLUTIONS</text>
+  <text x="325" y="565" fill="rgba(255,255,255,0.65)" font-family="Inter, sans-serif" font-size="14">|   Strategic Engineering &amp; Organic Search</text>
+  <text x="970" y="565" fill="#4285f4" font-family="Inter, sans-serif" font-size="15" font-weight="700">zavronsolutions.com</text>
 </svg>

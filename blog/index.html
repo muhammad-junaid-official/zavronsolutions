@@ -42,8 +42,8 @@
   }
   </script>
   <style>
-    .blog-filters { display: flex; gap: 0.6rem; flex-wrap: wrap; justify-content: center; margin: 2rem 0 3.5rem; }
-    .blog-filter-btn { background: var(--color-white); border: 1px solid var(--color-border-light); color: var(--color-navy-900); padding: 0.6rem 1.25rem; border-radius: var(--radius-full); font-size: 0.875rem; font-weight: 600; cursor: pointer; transition: all 0.25s ease; box-shadow: var(--shadow-sm); }
+    .blog-filters { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center; margin: 2rem 0 3.5rem; }
+    .blog-filter-btn { background: var(--color-white); border: 1px solid var(--color-border-light); color: var(--color-navy-900); padding: 0.55rem 1.15rem; border-radius: var(--radius-full); font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.25s ease; box-shadow: var(--shadow-sm); }
     .blog-filter-btn:hover, .blog-filter-btn.active { background: var(--color-orange-500); color: var(--color-white); border-color: var(--color-orange-500); transform: translateY(-2px); box-shadow: 0 6px 18px rgba(255,122,0,0.35); }
     .blog-search-bar { max-width: 540px; margin: 0 auto 1.5rem; position: relative; }
     .blog-search-input { width: 100%; padding: 0.95rem 1.25rem 0.95rem 3rem; border-radius: var(--radius-full); border: 1px solid var(--color-border-light); font-size: 0.95rem; outline: none; transition: all 0.3s ease; box-shadow: var(--shadow-sm); background: var(--color-white); }
@@ -105,19 +105,28 @@
 
         <div class="blog-filters">
           <button class="blog-filter-btn active" data-filter="all">All Articles (100)</button>
-          <button class="blog-filter-btn" data-filter="service">Core Services</button>
-          <button class="blog-filter-btn" data-filter="industry">Industry Verticals</button>
+          <button class="blog-filter-btn" data-filter="service">Core Services (55)</button>
+          <button class="blog-filter-btn" data-filter="industry">Industry Verticals (45)</button>
           <button class="blog-filter-btn" data-filter="web-development">Web Dev</button>
           <button class="blog-filter-btn" data-filter="wordpress-development">WordPress</button>
-          <button class="blog-filter-btn" data-filter="ecommerce-development">E-Commerce</button>
-          <button class="blog-filter-btn" data-filter="seo">SEO</button>
+          <button class="blog-filter-btn" data-filter="ecommerce-development">E-Commerce Dev</button>
+          <button class="blog-filter-btn" data-filter="seo">SEO Services</button>
           <button class="blog-filter-btn" data-filter="local-seo">Local SEO</button>
           <button class="blog-filter-btn" data-filter="technical-seo">Technical SEO</button>
+          <button class="blog-filter-btn" data-filter="ecommerce-seo">E-Commerce SEO</button>
           <button class="blog-filter-btn" data-filter="digital-marketing">Digital Marketing</button>
+          <button class="blog-filter-btn" data-filter="google-ads">Google Ads</button>
+          <button class="blog-filter-btn" data-filter="social-media-marketing">Social Media</button>
+          <button class="blog-filter-btn" data-filter="ui-ux-design">UI/UX Design</button>
           <button class="blog-filter-btn" data-filter="real-estate">Real Estate</button>
-          <button class="blog-filter-btn" data-filter="healthcare">Healthcare</button>
-          <button class="blog-filter-btn" data-filter="law-firms">Law Firms</button>
-          <button class="blog-filter-btn" data-filter="saas-technology">SaaS</button>
+          <button class="blog-filter-btn" data-filter="healthcare">Healthcare &amp; Med</button>
+          <button class="blog-filter-btn" data-filter="ecommerce">E-Commerce &amp; Retail</button>
+          <button class="blog-filter-btn" data-filter="restaurants">Restaurants &amp; Hosp</button>
+          <button class="blog-filter-btn" data-filter="law-firms">Law Firms &amp; Legal</button>
+          <button class="blog-filter-btn" data-filter="construction">Construction &amp; Cont</button>
+          <button class="blog-filter-btn" data-filter="saas-technology">SaaS &amp; Tech</button>
+          <button class="blog-filter-btn" data-filter="professional-services">Prof Services</button>
+          <button class="blog-filter-btn" data-filter="small-business">Small Business</button>
         </div>
 
         <!-- Blog Cards Grid -->
@@ -2141,13 +2150,13 @@
       function filterPosts() {
         const activeBtn = document.querySelector('.blog-filter-btn.active');
         const filterVal = activeBtn ? activeBtn.getAttribute('data-filter') : 'all';
-        const query = (searchInput.value || '').toLowerCase().trim();
+        const query = (searchInput ? searchInput.value : '').toLowerCase().trim();
 
         cards.forEach(card => {
           const cat = card.getAttribute('data-category');
           const type = card.getAttribute('data-type');
-          const title = card.querySelector('.blog-card-title').innerText.toLowerCase();
-          const desc = card.querySelector('.blog-card-desc').innerText.toLowerCase();
+          const title = (card.querySelector('.blog-card-title')?.innerText || '').toLowerCase();
+          const desc = (card.querySelector('.blog-card-desc')?.innerText || '').toLowerCase();
 
           let matchesFilter = false;
           if (filterVal === 'all') matchesFilter = true;
@@ -2157,11 +2166,11 @@
 
           let matchesQuery = true;
           if (query.length > 0) {
-            matchesQuery = title.includes(query) || desc.includes(query);
+            matchesQuery = title.includes(query) || desc.includes(query) || cat.includes(query);
           }
 
           if (matchesFilter && matchesQuery) {
-            card.style.display = '';
+            card.style.display = 'flex';
           } else {
             card.style.display = 'none';
           }
