@@ -162,7 +162,10 @@
 .dropdown-mega-3col {
   width: 820px;
   left: -280px;
+  display: grid;
   grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  padding: 1.75rem;
 }
 
 .nav-item:hover > .dropdown-menu {
@@ -2077,11 +2080,16 @@ textarea.form-control {
   border: 1px solid var(--color-border-light);
   border-radius: var(--radius-xl);
   overflow: hidden;
-  display: flex !important;
-  flex-direction: column !important;
+  display: flex;
+  flex-direction: column;
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
   box-shadow: 0 4px 20px rgba(6, 20, 38, 0.05);
   height: 100%;
+}
+
+/* Used by JS filter to hide cards — must use !important to beat grid display */
+.blog-card--hidden {
+  display: none !important;
 }
 
 .blog-card:hover {

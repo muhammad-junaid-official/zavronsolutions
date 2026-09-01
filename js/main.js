@@ -84,3 +84,108 @@ function initActiveLinks() {
     }
   });
 }
+
+// Lazy Loading and Filtering for Work and Blog Grids
+document.addEventListener('DOMContentLoaded', () => {
+  initGridFilterAndLazyLoad();
+});
+
+function initGridFilterAndLazyLoad() {
+  const blogGrid = document.getElementById('blogGrid');
+  const workGrid = document.querySelector('.work-grid');
+  
+  if (blogGrid) {
+    setupGrid(blogGrid, '.blog-card', '.blog-filter-btn');
+    setupBlogSearch(blogGrid, '.blog-card');
+  }
+  
+  if (workGrid) {
+    setupGrid(workGrid, '.project-card', '.filter-btn');
+  }
+}
+
+function setupGrid(grid, itemSelector, filterBtnSelector) {
+  const allItems = Array.from(grid.querySelectorAll(itemSelector));
+  const filterBtns = document.querySelectorAll(filterBtnSelector);
+  let currentFilter = 'all';
+  let visibleCount = 12;
+  const increment = 12;
+
+  const render = () => {
+    let filteredItems = allItems;
+    if (currentFilter !== 'all') {
+      filteredItems = allItems.filter(item => {
+        return item.dataset.category === currentFilter || item.dataset.type === currentFilter || item.dataset.filter === currentFilter;
+      });
+    }
+
+    // Hide all first
+    allItems.forEach(item => item.style.display = 'none');
+
+    // Show up to visibleCount
+    const itemsToShow = filteredItems.slice(0, visibleCount);
+    itemsToShow.forEach(item => item.style.display = '');
+  };
+
+  // Filter Buttons Click
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentFilter = btn.dataset.filter;
+      visibleCount = 12; // Reset visible count on filter change
+      render();
+    });
+  });
+
+  // Scroll to load more
+  window.addEventListener('scroll', () => {
+    const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+    // Load more when user is near bottom (e.g. 500px from bottom)
+    if (scrollTop + clientHeight >= scrollHeight - 500) {
+      // Find how many match the current filter
+      let filteredItemsCount = allItems.length;
+      if (currentFilter !== 'all') {
+        filteredItemsCount = allItems.filter(item => {
+          return item.dataset.category === currentFilter || item.dataset.type === currentFilter || item.dataset.filter === currentFilter;
+        }).length;
+      }
+      
+      if (visibleCount < filteredItemsCount) {
+        visibleCount += increment;
+        render();
+      }
+    }
+  }, { passive: true });
+
+  // Initial render
+  render();
+}
+
+function setupBlogSearch(grid, itemSelector) {
+  const searchInput = document.getElementById('blogSearchInput');
+  if (!searchInput) return;
+
+  const allItems = Array.from(grid.querySelectorAll(itemSelector));
+  
+  searchInput.addEventListener('input', (e) => {
+    const term = e.target.value.toLowerCase();
+    
+    if (term.trim() === '') {
+      const activeBtn = document.querySelector('.blog-filter-btn.active');
+      if (activeBtn) activeBtn.click();
+      return;
+    }
+
+    document.querySelectorAll('.blog-filter-btn').forEach(b => b.classList.remove('active'));
+
+    allItems.forEach(item => {
+      const text = item.textContent.toLowerCase();
+      if (text.includes(term)) {
+        item.style.display = '';
+      } else {
+        item.style.display = 'none';
+      }
+    });
+  });
+}

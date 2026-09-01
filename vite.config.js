@@ -42,6 +42,8 @@ export default defineConfig({
       "cookie-policy": "cookie-policy/index.html",
       "disclaimer": "disclaimer/index.html",
       "case-studies": "case-studies/index.html",
+      "case-study-apex": "case-studies/apex-health-tech/index.html",
+      "resources": "resources/index.html",
       "resource-guides": "resources/guides/index.html",
       "resource-faqs": "resources/faqs/index.html",
       "blog-enterprise-web-development-trends-usa": "blog/enterprise-web-development-trends-usa/index.html",
