@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="heroGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0A1F35"/>
+      <stop offset="100%" stop-color="#061426"/>
+    </linearGradient>
+    <linearGradient id="orangeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF8500"/>
+      <stop offset="100%" stop-color="#FF7A00"/>
+    </linearGradient>
+    <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00D2FF"/>
+      <stop offset="100%" stop-color="#0088FF"/>
+    </linearGradient>
+    <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="#000" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <!-- Main Dashboard Canvas -->
+  <rect x="40" y="40" width="720" height="520" rx="20" fill="url(#heroGrad1)" stroke="rgba(255,255,255,0.12)" stroke-width="1.5" filter="url(#cardShadow)"/>
+  
+  <!-- Browser Header Bar -->
+  <rect x="40" y="40" width="720" height="50" rx="20" fill="#0E2742"/>
+  <rect x="40" y="70" width="720" height="20" fill="#0E2742"/>
+  <circle cx="70" cy="65" r="6" fill="#EF4444"/>
+  <circle cx="90" cy="65" r="6" fill="#F59E0B"/>
+  <circle cx="110" cy="65" r="6" fill="#10B981"/>
+  <rect x="150" y="52" width="340" height="26" rx="6" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+  <text x="170" y="70" fill="#94A3B8" font-family="-apple-system, sans-serif" font-size="12" font-weight="500">https://analytics.zavronsolutions.com/growth-engine</text>
+
+  <!-- Metric Widget 1: Revenue / Growth Performance -->
+  <rect x="70" y="115" width="200" height="110" rx="12" fill="#0E2742" stroke="rgba(255,255,255,0.08)"/>
+  <text x="90" y="145" fill="#94A3B8" font-family="-apple-system, sans-serif" font-size="13" font-weight="600">Organic Growth Velocity</text>
+  <text x="90" y="185" fill="#FFFFFF" font-family="-apple-system, sans-serif" font-size="28" font-weight="800">+284.5%</text>
+  <rect x="90" y="198" width="65" height="18" rx="4" fill="rgba(16,185,129,0.15)"/>
+  <text x="98" y="211" fill="#10B981" font-family="-apple-system, sans-serif" font-size="11" font-weight="700">▲ Top 1% US</text>
+
+  <!-- Metric Widget 2: Conversion Efficiency -->
+  <rect x="290" y="115" width="200" height="110" rx="12" fill="#0E2742" stroke="rgba(255,255,255,0.08)"/>
+  <text x="310" y="145" fill="#94A3B8" font-family="-apple-system, sans-serif" font-size="13" font-weight="600">Conversion Rate (CRO)</text>
+  <text x="310" y="185" fill="#FF7A00" font-family="-apple-system, sans-serif" font-size="28" font-weight="800">4.82%</text>
+  <rect x="310" y="198" width="75" height="18" rx="4" fill="rgba(255,122,0,0.15)"/>
+  <text x="318" y="211" fill="#FF7A00" font-family="-apple-system, sans-serif" font-size="11" font-weight="700">▲ +160% Lift</text>
+
+  <!-- Metric Widget 3: Core Web Vitals Performance Score -->
+  <rect x="510" y="115" width="220" height="110" rx="12" fill="#0E2742" stroke="rgba(255,255,255,0.08)"/>
+  <text x="530" y="145" fill="#94A3B8" font-family="-apple-system, sans-serif" font-size="13" font-weight="600">Lighthouse Performance</text>
+  <text x="530" y="185" fill="#00D2FF" font-family="-apple-system, sans-serif" font-size="28" font-weight="800">99 / 100</text>
+  <rect x="530" y="198" width="80" height="18" rx="4" fill="rgba(0,210,255,0.15)"/>
+  <text x="538" y="211" fill="#00D2FF" font-family="-apple-system, sans-serif" font-size="11" font-weight="700">✓ Ultra Fast</text>
+
+  <!-- Main Growth Chart -->
+  <rect x="70" y="245" width="660" height="280" rx="14" fill="#081B30" stroke="rgba(255,255,255,0.08)"/>
+  
+  <!-- Grid Lines -->
+  <line x1="100" y1="300" x2="700" y2="300" stroke="rgba(255,255,255,0.04)" stroke-dasharray="4"/>
+  <line x1="100" y1="360" x2="700" y2="360" stroke="rgba(255,255,255,0.04)" stroke-dasharray="4"/>
+  <line x1="100" y1="420" x2="700" y2="420" stroke="rgba(255,255,255,0.04)" stroke-dasharray="4"/>
+  <line x1="100" y1="480" x2="700" y2="480" stroke="rgba(255,255,255,0.08)"/>
+
+  <!-- Chart Area Gradient Fill -->
+  <path d="M 100 460 Q 180 430, 260 380 T 420 320 T 560 220 T 680 160 L 680 480 L 100 480 Z" fill="url(#orangeGrad)" opacity="0.12"/>
+  
+  <!-- Chart Line -->
+  <path d="M 100 460 Q 180 430, 260 380 T 420 320 T 560 220 T 680 160" fill="none" stroke="#FF7A00" stroke-width="4" stroke-linecap="round"/>
+  
+  <!-- Chart Data Points -->
+  <circle cx="260" cy="380" r="6" fill="#081B30" stroke="#FF7A00" stroke-width="3"/>
+  <circle cx="420" cy="320" r="6" fill="#081B30" stroke="#FF7A00" stroke-width="3"/>
+  <circle cx="560" cy="220" r="6" fill="#081B30" stroke="#FF7A00" stroke-width="3"/>
+  <circle cx="680" cy="160" r="8" fill="#FF7A00" stroke="#FFFFFF" stroke-width="3"/>
+
+  <!-- Floating Strategy Insight Badge -->
+  <g transform="translate(480, 260)" filter="url(#cardShadow)">
+    <rect width="210" height="70" rx="10" fill="#061426" stroke="#FF7A00" stroke-width="1.5"/>
+    <circle cx="25" cy="35" r="12" fill="rgba(255,122,0,0.2)"/>
+    <path d="M20 35 L24 39 L31 31" fill="none" stroke="#FF7A00" stroke-width="2" stroke-linecap="round"/>
+    <text x="48" y="32" fill="#FFFFFF" font-family="-apple-system, sans-serif" font-size="12" font-weight="700">Zavron Strategy Engine</text>
+    <text x="48" y="48" fill="#94A3B8" font-family="-apple-system, sans-serif" font-size="11">Scalable Multi-Channel Funnel</text>
+  </g>
+</svg>
