@@ -244,8 +244,9 @@
 /* Hamburger Button */
 .mobile-toggle {
   display: none;
-  background: transparent;
-  border: none;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1.5px solid rgba(255, 255, 255, 0.18);
+  border-radius: var(--radius-md);
   color: var(--color-white);
   width: 44px;
   height: 44px;
@@ -253,28 +254,44 @@
   padding: 0;
   position: relative;
   z-index: 1100;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  transition: background var(--transition-fast), border-color var(--transition-fast);
+}
+
+.mobile-toggle:hover {
+  background: rgba(255, 122, 0, 0.15);
+  border-color: rgba(255, 122, 0, 0.4);
 }
 
 .mobile-toggle span {
   display: block;
-  width: 24px;
-  height: 2px;
+  width: 22px;
+  height: 2.5px;
   background: var(--color-white);
-  margin: 5px auto;
-  transition: all var(--transition-fast);
   border-radius: 2px;
+  transition: all var(--transition-fast);
+  transform-origin: center;
+}
+
+.mobile-toggle.is-open {
+  background: rgba(255, 122, 0, 0.18);
+  border-color: rgba(255, 122, 0, 0.45);
 }
 
 .mobile-toggle.is-open span:nth-child(1) {
-  transform: translateY(7px) rotate(45deg);
+  transform: translateY(7.5px) rotate(45deg);
 }
 
 .mobile-toggle.is-open span:nth-child(2) {
   opacity: 0;
+  transform: scaleX(0);
 }
 
 .mobile-toggle.is-open span:nth-child(3) {
-  transform: translateY(-7px) rotate(-45deg);
+  transform: translateY(-7.5px) rotate(-45deg);
 }
 
 /* Mobile Nav Drawer */
@@ -365,7 +382,7 @@
     display: none;
   }
   .mobile-toggle {
-    display: block;
+    display: flex;
   }
 }
 
@@ -1933,7 +1950,7 @@ textarea.form-control {
 }
 
 .testimonial-card {
-  width: 380px;
+  width: min(380px, 88vw);
   flex-shrink: 0;
   background: var(--color-white);
   border: 1px solid var(--color-border-light);
@@ -2813,5 +2830,242 @@ textarea.form-control {
   .blog-filter-btn {
     font-size: 0.8rem !important;
     padding: 0.4rem 0.8rem !important;
+  }
+}
+/* ============================================================
+   15. ADDITIONAL MOBILE OVERRIDES & RESPONSIVENESS
+   ============================================================ */
+
+/* Prevent horizontal overflow globally */
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+/* Skip navigation link for accessibility & SEO */
+.skip-nav {
+  position: absolute;
+  top: -100px;
+  left: 1rem;
+  z-index: 9999;
+  background: var(--color-orange-500);
+  color: var(--color-white);
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: top 0.2s ease;
+}
+
+.skip-nav:focus {
+  top: 1rem;
+  color: var(--color-white);
+}
+
+/* CEO spotlight card inner layout - responsive */
+.ceo-spotlight-inner {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 0;
+}
+
+.ceo-metrics-inner {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  border-top: 1px solid rgba(255,255,255,.08);
+  padding-top: 1.5rem;
+}
+
+/* Blog TOC sidebar layout */
+.blog-article-with-toc {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 3.5rem;
+  align-items: start;
+}
+
+/* Services bullet list two-column layout */
+.two-col-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.35rem;
+}
+
+/* Inline two-col grid override for ecommerce-development */
+.grid-two-col-responsive {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 900px) {
+  .ceo-spotlight-inner {
+    grid-template-columns: 1fr !important;
+  }
+
+  .ceo-metrics-inner {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .blog-article-with-toc {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Ensure no section causes horizontal overflow */
+  section, article, main, .container, .container-narrow {
+    max-width: 100vw !important;
+    overflow-x: hidden;
+  }
+
+  /* CEO section fixes */
+  .ceo-spotlight-inner {
+    grid-template-columns: 1fr !important;
+  }
+
+  .ceo-metrics-inner {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.75rem !important;
+  }
+
+  /* Blog TOC sidebar */
+  .blog-article-with-toc {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+
+  /* Services bullet list */
+  .two-col-list {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Two-col grid for ecommerce page */
+  .grid-two-col-responsive {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Testimonial carousel cards */
+  .testimonial-card {
+    width: calc(100vw - 3rem) !important;
+    min-width: 0 !important;
+  }
+
+  /* Dropdown megas must not cause overflow on mobile 
+     (hidden anyway but safety) */
+  .dropdown-menu,
+  .dropdown-mega,
+  .dropdown-mega-3col {
+    max-width: 100vw !important;
+  }
+
+  /* Process steps / Timeline */
+  .milestone-track {
+    padding-left: 1.5rem !important;
+  }
+
+  /* Pill filters wrap properly */
+  .filter-row,
+  .blog-filter-row {
+    flex-wrap: wrap !important;
+  }
+
+  /* Stats row */
+  .stats-row {
+    flex-direction: column !important;
+    gap: 1.5rem !important;
+  }
+
+  /* Hero visual on mobile */
+  .hero-layout {
+    flex-direction: column !important;
+  }
+
+  /* Work card media smaller on mobile */
+  .work-card-media {
+    height: 200px !important;
+  }
+
+  /* Table overflow scroll */
+  table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Matrix card header prevent overflow */
+  .matrix-card > div:first-child {
+    flex-wrap: wrap !important;
+    gap: 0.75rem !important;
+  }
+
+  /* Ensure buttons don't cause overflow */
+  .btn {
+    white-space: normal !important;
+    word-break: break-word;
+  }
+
+  /* Fix hero image on mobile */
+  .hero-image,
+  .hero-visual-wrap {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Site-footer fixes */
+  .site-footer {
+    overflow: hidden;
+  }
+
+  /* About page: inline 4-col metrics grid */
+  .about-ceo-metrics {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* Mobile header height */
+  .site-header {
+    height: 68px !important;
+  }
+
+  /* Ensure header container paddings are safe */
+  .header-container {
+    padding: 0 1rem !important;
+    min-height: 68px;
+  }
+
+  /* Logo text scaling */
+  .brand-logo-title {
+    font-size: 1.1rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  /* CEO metrics go single column */
+  .ceo-metrics-inner {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* Services feature list single col */
+  .two-col-list {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Testimonial cards on very small screens */
+  .testimonial-card {
+    width: calc(100vw - 2rem) !important;
+  }
+
+  /* Make sure hero actions stack */
+  .hero-actions {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  .hero-actions .btn {
+    width: 100% !important;
+    justify-content: center !important;
   }
 }

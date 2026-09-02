@@ -1,12 +1,14 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en-US">
 
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Top Web Development &amp; SEO Agency USA | Zavron Solutions</title>
   <meta name="description"
-    content="Zavron Solutions is a top-rated US digital solutions agency. We engineer custom web applications, enterprise WordPress, high-converting e-commerce, and ROI-focused technical SEO for ambitious businesses nationwide.">
+    content="Zavron Solutions is a top US digital agency offering custom web development, e-commerce, and technical SEO to grow your business.">
   <meta name="keywords"
     content="web development agency USA, top SEO agency United States, custom WordPress development, Shopify Plus e-commerce agency, B2B digital agency, web design company USA">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
@@ -136,14 +138,16 @@
         "@id": "https://zavronsolutions.com/#website",
         "url": "https://zavronsolutions.com",
         "name": "Zavron Solutions",
-        "publisher": { "@id": "https://zavronsolutions.com/#organization" }
+        "publisher": { "@type": "Organization", "@id": "https://zavronsolutions.com/#organization" }
       }
     ]
   }
   </script>
+  <link rel="preload" href="/assets/images/hero-graphic.svg" as="image" type="image/svg+xml">
 </head>
 
 <body>
+  <a class="skip-nav" href="#main-content">Skip to main content</a>
 
   <!-- ==================== GLOBAL HEADER ==================== -->
   <header class="site-header" id="siteHeader">
@@ -465,7 +469,7 @@
     </div>
   </div>
 
-  <main id="mainContent">
+  <main id="mainContent" id="main-content">
     <!-- ==================== SECTION 1: HERO ==================== -->
     <section class="hero">
       <div class="hero-grid-bg"></div>
@@ -541,7 +545,7 @@
             </div>
 
             <img src="/assets/images/hero-graphic.svg" alt="Zavron Solutions Growth Engine Architecture" width="800"
-              height="600" style="width:100%; height:auto;">
+              height="600" style="width:100%; height:auto;" fetchpriority="high" loading="eager">
 
             <!-- Floating Metric Bottom Left -->
             <div class="hero-metric-card-float pos-bottom-left">
