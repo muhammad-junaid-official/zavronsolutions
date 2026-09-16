@@ -426,3 +426,60 @@ export async function sendInquiryEmails(data) {
     clientMessageId: clientResult ? clientResult.messageId : null
   };
 }
+
+/**
+ * Send Direct In-Dashboard Admin Reply to Client
+ */
+export async function sendDirectReplyEmail({ to, subject, message, recipientName = 'Valued Client' }) {
+  const timestamp = Date.now();
+  const htmlBody = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>${subject || 'Message from Zavron Solutions'}</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #061426; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #ffffff;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #061426; padding: 30px 15px;">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="600" cellspacing="0" cellpadding="0" style="max-width: 600px; width: 100%; background-color: #0b1e36; border: 1px solid #1a365d; border-radius: 12px; overflow: hidden;">
+          <tr>
+            <td style="padding: 24px 30px; background: linear-gradient(135deg, #0d2342 0%, #061426 100%); border-bottom: 2px solid #00D2FF;">
+              <span style="font-size: 20px; font-weight: 800; color: #ffffff;">ZAVRON <span style="color: #00D2FF;">SOLUTIONS</span></span>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 30px; line-height: 1.6; color: #e2e8f0; font-size: 15px;">
+              <p style="margin-top: 0; font-size: 16px; color: #ffffff;">Dear <strong>${recipientName}</strong>,</p>
+              <div style="margin: 20px 0; white-space: pre-wrap; color: #cbd5e1; font-size: 15px;">${message}</div>
+              <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #1e293b; font-size: 13px; color: #94a3b8;">
+                <strong style="color: #ffffff;">Muhammad Junaid</strong><br/>
+                Founder &amp; Principal Strategist | Zavron Solutions<br/>
+                <a href="https://zavronsolutions.com" style="color: #00D2FF; text-decoration: none;">zavronsolutions.com</a> &bull; <a href="mailto:zavronsolutions@gmail.com" style="color: #00D2FF; text-decoration: none;">zavronsolutions@gmail.com</a>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
+
+  const mailOptions = {
+    from: `"Muhammad Junaid | Zavron Solutions" <${smtpConfig.auth.user}>`,
+    to: to,
+    replyTo: smtpConfig.auth.user,
+    subject: subject || 'Response to your Zavron Solutions Inquiry',
+    text: `Dear ${recipientName},\n\n${message}\n\n---\nMuhammad Junaid\nFounder & Principal Strategist\nZavron Solutions\nhttps://zavronsolutions.com`,
+    html: htmlBody,
+    headers: {
+      'X-Entity-Ref-ID': `admin-reply-${timestamp}`
+    }
+  };
+
+  const info = await transporter.sendMail(mailOptions);
+  return { success: true, messageId: info.messageId };
+}
+

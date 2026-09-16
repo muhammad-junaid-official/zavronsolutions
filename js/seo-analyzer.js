@@ -1,20 +1,24 @@
 /**
  * ZAVRON SOLUTIONS — REAL-TIME SEO ANALYZER & AUDIT ENGINE
  * Evaluates Title, Meta Description, Content Structure, Keyword Density,
- * Internal Linking, Media Alt Tags, and generates actionable optimization steps.
+ * Internal Linking, Media Alt Tags, and generates granular, pinpoint suggestions.
  */
 
 export class ZavronSEOAnalyzer {
   constructor() {
     this.score = 0;
-    this.checks = [];
-    this.status = 'poor'; // 'excellent', 'good', 'poor'
+    this.checks = {
+      critical: [],
+      warning: [],
+      passed: []
+    };
+    this.status = 'poor';
   }
 
   /**
-   * Run a comprehensive SEO audit on post/page data
+   * Run a comprehensive SEO audit with exact locations and fix recommendations
    * @param {Object} data - { title, slug, metaDescription, focusKeyword, contentHtml, featuredImage }
-   * @returns {Object} Complete SEO report with scores, checks, and SERP preview data
+   * @returns {Object} Complete SEO report with scores, granular checklists, and auto-fix templates
    */
   analyze(data) {
     const title = (data.title || '').trim();
@@ -29,53 +33,51 @@ export class ZavronSEOAnalyzer {
     const words = textContent.length > 0 ? textContent.split(/\s+/).filter(w => w.length > 0) : [];
     const wordCount = words.length;
 
-    const checks = [];
+    const critical = [];
+    const warning = [];
+    const passed = [];
     let totalScore = 0;
-    const maxScore = 100;
 
     // -------------------------------------------------------------
     // 1. TITLE TAG CHECKS (Weight: 20 points)
     // -------------------------------------------------------------
     const titleLen = title.length;
     if (titleLen === 0) {
-      checks.push({
-        type: 'critical',
+      critical.push({
         category: 'Title',
-        title: 'Title is missing',
-        detail: 'Your post must have a page title for search engines to index it.',
-        points: 0,
-        maxPoints: 10
+        location: 'Title Field',
+        title: 'Title is completely missing',
+        detail: 'Your post must have a descriptive H1/Title for Google to index and rank it.',
+        action: 'Add a 50–65 character title including your focus keyword.',
+        fixSnippet: keyword ? `${this.capitalizeWords(keyword)}: Complete Guide for US Businesses in 2026` : ''
       });
-    } else if (titleLen >= 50 && titleLen <= 65) {
+    } else if (titleLen >= 48 && titleLen <= 65) {
       totalScore += 10;
-      checks.push({
-        type: 'passed',
+      passed.push({
         category: 'Title',
-        title: `Optimal Title Length (${titleLen} characters)`,
-        detail: 'Title is within Google\'s recommended 50-65 character limit.',
-        points: 10,
-        maxPoints: 10
+        location: 'Title Tag',
+        title: `Optimal Title Length (${titleLen} chars)`,
+        detail: 'Title fits within the 600px desktop and mobile Google SERP pixel limit.'
       });
-    } else if (titleLen < 50) {
-      const pts = Math.max(3, Math.round(10 * (titleLen / 50)));
+    } else if (titleLen < 48) {
+      const diff = 48 - titleLen;
+      const pts = Math.max(3, Math.round(10 * (titleLen / 48)));
       totalScore += pts;
-      checks.push({
-        type: 'warning',
+      warning.push({
         category: 'Title',
-        title: `Title is a bit short (${titleLen}/50 chars)`,
-        detail: 'Consider adding descriptive modifiers or target service location to improve CTR.',
-        points: pts,
-        maxPoints: 10
+        location: 'Title Tag',
+        title: `Title is short (${titleLen}/48 chars) — missing ~${diff} characters`,
+        detail: `Google rewards descriptive titles. Missing modifiers like year ("2026"), format ("Complete Guide"), or target market ("US Businesses").`,
+        action: `Expand title: add "${keyword ? keyword + ' - ' : ''}Strategic Guide for 2026"`
       });
     } else {
       totalScore += 6;
-      checks.push({
-        type: 'warning',
+      warning.push({
         category: 'Title',
-        title: `Title may truncate on SERP (${titleLen}/65 chars)`,
-        detail: 'Google may cut off titles longer than 65 characters on desktop and mobile displays.',
-        points: 6,
-        maxPoints: 10
+        location: 'Title Tag',
+        title: `Title is long (${titleLen}/65 chars) and will truncate with '...'`,
+        detail: `Google cuts off titles beyond 65 characters on mobile & desktop SERPs. Shorten by ${titleLen - 65} chars.`,
+        action: 'Trim unnecessary filler words while keeping the focus keyword early.'
       });
     }
 
@@ -85,42 +87,37 @@ export class ZavronSEOAnalyzer {
         totalScore += 10;
         const index = title.toLowerCase().indexOf(keyword);
         if (index <= 15) {
-          checks.push({
-            type: 'passed',
+          passed.push({
             category: 'Title',
-            title: `Focus keyword appears early in Title`,
-            detail: `"${keyword}" is placed prominently within the first words of the title.`,
-            points: 10,
-            maxPoints: 10
+            location: `Title (Position ${index})`,
+            title: `Focus keyword placed at front of Title`,
+            detail: `"${keyword}" is placed prominently in the first 15 characters for maximum ranking power.`
           });
         } else {
-          checks.push({
-            type: 'passed',
+          passed.push({
             category: 'Title',
+            location: `Title (Position ${index})`,
             title: `Focus keyword present in Title`,
-            detail: `"${keyword}" is included in the title tag.`,
-            points: 8,
-            maxPoints: 10
+            detail: `"${keyword}" is included in the title tag.`
           });
         }
       } else {
-        checks.push({
-          type: 'critical',
+        critical.push({
           category: 'Title',
-          title: `Focus keyword not found in Title`,
-          detail: `Add "${keyword}" to your title tag to ensure search relevance.`,
-          points: 0,
-          maxPoints: 10
+          location: 'Title Tag',
+          title: `Focus keyword "${keyword}" is missing from Title`,
+          detail: 'Primary search ranking requires the exact focus keyword in the title.',
+          action: `Add "${keyword}" into your title.`,
+          fixSnippet: `${this.capitalizeWords(keyword)} — Best Strategies for 2026`
         });
       }
     } else {
-      checks.push({
-        type: 'warning',
+      warning.push({
         category: 'General',
+        location: 'Focus Keyword Input',
         title: 'No Focus Keyword specified',
-        detail: 'Define a primary target keyword (e.g., "custom web development") to unlock keyword scoring.',
-        points: 0,
-        maxPoints: 10
+        detail: 'Define a target phrase (e.g. "enterprise web development") to unlock keyword density and heading audits.',
+        action: 'Enter a focus keyword in the field above.'
       });
     }
 
@@ -129,44 +126,41 @@ export class ZavronSEOAnalyzer {
     // -------------------------------------------------------------
     const descLen = metaDesc.length;
     if (descLen === 0) {
-      checks.push({
-        type: 'critical',
+      critical.push({
         category: 'Meta Description',
+        location: 'Meta Description Field',
         title: 'Meta description is missing',
-        detail: 'Without a meta description, Google will extract random body snippets.',
-        points: 0,
-        maxPoints: 10
+        detail: 'Without a meta snippet, Google extracts random content chunks that lower Click-Through Rate (CTR).',
+        action: 'Write a 140–160 character meta description with a clear Call-To-Action (CTA).',
+        fixSnippet: keyword ? `Discover actionable insights on ${keyword}. Learn how US businesses scale performance and conversions in 2026. Get a free quote today.` : ''
       });
-    } else if (descLen >= 140 && descLen <= 165) {
+    } else if (descLen >= 135 && descLen <= 165) {
       totalScore += 10;
-      checks.push({
-        type: 'passed',
+      passed.push({
         category: 'Meta Description',
-        title: `Optimal Meta Description length (${descLen} characters)`,
-        detail: 'Fits comfortably within Google desktop and mobile snippet viewports.',
-        points: 10,
-        maxPoints: 10
+        location: 'Meta Description',
+        title: `Optimal Meta Length (${descLen}/160 characters)`,
+        detail: 'Snippet fits Google snippet viewport without ellipsis truncation.'
       });
-    } else if (descLen < 140) {
-      const pts = Math.max(3, Math.round(10 * (descLen / 140)));
+    } else if (descLen < 135) {
+      const diff = 135 - descLen;
+      const pts = Math.max(3, Math.round(10 * (descLen / 135)));
       totalScore += pts;
-      checks.push({
-        type: 'warning',
+      warning.push({
         category: 'Meta Description',
-        title: `Meta description is short (${descLen}/140 chars)`,
-        detail: 'Aim for 140-160 characters to maximize search snippet real estate.',
-        points: pts,
-        maxPoints: 10
+        location: 'Meta Description',
+        title: `Meta description is short (${descLen}/135 chars) — add ~${diff} chars`,
+        detail: 'Take advantage of search snippet real-estate by including client benefits and a CTA (e.g., "Learn more" or "Get a free quote").',
+        action: 'Add a concluding benefit or CTA phrase.'
       });
     } else {
-      totalScore += 6;
-      checks.push({
-        type: 'warning',
+      totalScore += 5;
+      warning.push({
         category: 'Meta Description',
-        title: `Meta description may truncate (${descLen}/165 chars)`,
-        detail: 'Descriptions over 165 characters risk getting clipped with an ellipsis (...).',
-        points: 6,
-        maxPoints: 10
+        location: 'Meta Description',
+        title: `Meta description is long (${descLen}/165 chars)`,
+        detail: `Google will cut off snippet text after ~160 characters. Remove ${descLen - 160} characters.`,
+        action: 'Trim the end of your meta description to under 160 chars.'
       });
     }
 
@@ -174,22 +168,19 @@ export class ZavronSEOAnalyzer {
     if (keyword) {
       if (metaDesc.toLowerCase().includes(keyword)) {
         totalScore += 10;
-        checks.push({
-          type: 'passed',
+        passed.push({
           category: 'Meta Description',
+          location: 'Meta Description',
           title: `Focus keyword present in Meta Description`,
-          detail: `Google will highlight "${keyword}" in bold when searchers query this term.`,
-          points: 10,
-          maxPoints: 10
+          detail: `"${keyword}" will be bolded in Google search results when matching user search queries.`
         });
       } else {
-        checks.push({
-          type: 'critical',
+        critical.push({
           category: 'Meta Description',
-          title: `Focus keyword missing from Meta Description`,
-          detail: `Integrate "${keyword}" naturally with an engaging call to action.`,
-          points: 0,
-          maxPoints: 10
+          location: 'Meta Description',
+          title: `Focus keyword "${keyword}" missing from Meta Description`,
+          detail: 'Including the target keyword boosts organic CTR by making the snippet bold in search results.',
+          action: `Work "${keyword}" naturally into the first sentence of your meta description.`
         });
       }
     }
@@ -198,291 +189,302 @@ export class ZavronSEOAnalyzer {
     // 3. URL SLUG CHECKS (Weight: 10 points)
     // -------------------------------------------------------------
     if (!slug) {
-      checks.push({
-        type: 'critical',
+      critical.push({
         category: 'URL Slug',
-        title: 'URL slug is empty',
-        detail: 'A clean, hypen-separated URL slug is required for indexing.',
-        points: 0,
-        maxPoints: 10
+        location: 'URL Slug Field',
+        title: 'URL Slug is missing',
+        detail: 'Every article requires a clean, SEO-friendly permalink structure.',
+        action: 'Click "Auto" to generate a slug from your title.'
       });
     } else {
-      let slugPoints = 6;
-      const isClean = /^[a-z0-9-]+$/.test(slug);
-      if (isClean && slug.length <= 60) {
-        slugPoints += 2;
-      }
-      if (keyword && slug.includes(keyword.replace(/\s+/g, '-'))) {
-        slugPoints += 2;
-        checks.push({
-          type: 'passed',
+      if (slug.length <= 60 && /^[a-z0-9-]+$/.test(slug)) {
+        totalScore += 5;
+        passed.push({
           category: 'URL Slug',
-          title: 'Focus keyword included in URL Slug',
-          detail: `URL slug contains target keyword: /blog/${slug}/`,
-          points: 10,
-          maxPoints: 10
+          location: `/blog/${slug}/`,
+          title: 'Clean, SEO-friendly URL Slug structure',
+          detail: 'Contains only lowercase letters, numbers, and hyphens.'
         });
-        totalScore += 10;
       } else {
-        totalScore += slugPoints;
-        checks.push({
-          type: keyword ? 'warning' : 'passed',
+        warning.push({
           category: 'URL Slug',
-          title: keyword ? 'Focus keyword not found in URL slug' : 'URL slug format is clean',
-          detail: keyword ? `Consider including "${keyword.replace(/\s+/g, '-')}" in the slug.` : 'Valid slug structure.',
-          points: slugPoints,
-          maxPoints: 10
+          location: `/blog/${slug}/`,
+          title: 'Slug contains invalid characters or is too long',
+          detail: 'Keep slugs clean, short, and lowercase without special characters.',
+          action: 'Use standard lowercase-hyphen format (e.g. enterprise-web-development-trends).'
+        });
+      }
+
+      if (keyword && slug.includes(keyword.replace(/\s+/g, '-'))) {
+        totalScore += 5;
+        passed.push({
+          category: 'URL Slug',
+          location: `/blog/${slug}/`,
+          title: `Focus keyword present in URL Slug`,
+          detail: `URL path includes "/${keyword.replace(/\s+/g, '-')}/".`
+        });
+      } else if (keyword) {
+        warning.push({
+          category: 'URL Slug',
+          location: `/blog/${slug}/`,
+          title: `Focus keyword not reflected in URL Slug`,
+          detail: `Having "${keyword.replace(/\s+/g, '-')}" in the URL helps Google understand page taxonomy.`,
+          action: `Consider updating slug to include "${keyword.replace(/\s+/g, '-')}".`
         });
       }
     }
 
     // -------------------------------------------------------------
-    // 4. CONTENT LENGTH & READABILITY (Weight: 20 points)
+    // 4. CONTENT & HEADING HIERARCHY (Weight: 30 points)
     // -------------------------------------------------------------
-    if (wordCount === 0) {
-      checks.push({
-        type: 'critical',
-        category: 'Content Length',
-        title: 'Content is completely empty',
-        detail: 'Add body content and insights to analyze content depth.',
-        points: 0,
-        maxPoints: 10
-      });
-    } else if (wordCount >= 1000) {
+    const h2Matches = contentHtml.match(/<h2[^>]*>(.*?)<\/h2>/gis) || [];
+    const h3Matches = contentHtml.match(/<h3[^>]*>(.*?)<\/h3>/gis) || [];
+
+    // Word Count
+    if (wordCount >= 800) {
       totalScore += 10;
-      checks.push({
-        type: 'passed',
+      passed.push({
         category: 'Content Length',
+        location: 'Body Content',
         title: `Comprehensive Word Count (${wordCount} words)`,
-        detail: 'Exceeds the 1,000-word threshold for high-ranking authoritative industry articles.',
-        points: 10,
-        maxPoints: 10
+        detail: 'Deep, authoritative content ranks higher in competitive Google search niches.'
       });
-    } else if (wordCount >= 500) {
-      totalScore += 7;
-      checks.push({
-        type: 'passed',
+    } else if (wordCount >= 300) {
+      totalScore += 6;
+      warning.push({
         category: 'Content Length',
-        title: `Good Word Count (${wordCount} words)`,
-        detail: 'Meets minimum depth for standard blog posts. Consider expanding to 1,000+ for topical authority.',
-        points: 7,
-        maxPoints: 10
+        location: 'Body Content',
+        title: `Moderate Content Length (${wordCount}/800 words)`,
+        detail: 'Article is acceptable, but 800–1,500 words is recommended for dominating US agency keywords.',
+        action: 'Add case study examples, comparison tables, or FAQ sections to expand depth.'
       });
     } else {
-      const pts = Math.max(2, Math.round(10 * (wordCount / 500)));
-      totalScore += pts;
-      checks.push({
-        type: 'critical',
+      critical.push({
         category: 'Content Length',
-        title: `Thin content detected (${wordCount}/500 words)`,
-        detail: 'Search engines rarely rank thin content below 500 words. Expand with actionable sub-topics.',
-        points: pts,
-        maxPoints: 10
+        location: 'Body Content',
+        title: `Thin content detected (${wordCount} words)`,
+        detail: 'Google algorithmically downranks thin articles with fewer than 300 words.',
+        action: 'Write at least 300–600 words of original content.'
       });
     }
 
-    // Heading Structure
-    const h2Count = (contentHtml.match(/<h2[^>]*>/gi) || []).length;
-    const h3Count = (contentHtml.match(/<h3[^>]*>/gi) || []).length;
-    if (h2Count >= 2) {
-      totalScore += 10;
-      checks.push({
-        type: 'passed',
-        category: 'Structure',
-        title: `Strong Heading Hierarchy (${h2Count} H2s, ${h3Count} H3s)`,
-        detail: 'Content is broken down into structured sections for optimal readability.',
-        points: 10,
-        maxPoints: 10
+    // H2 Headings Check
+    if (h2Matches.length >= 2) {
+      totalScore += 5;
+      passed.push({
+        category: 'Headings',
+        location: 'Content H2 Structure',
+        title: `Good Subheading Breakdown (${h2Matches.length} H2 sections found)`,
+        detail: 'Content is cleanly structured for readers and crawler parsers.'
+      });
+    } else if (h2Matches.length === 1) {
+      totalScore += 2;
+      warning.push({
+        category: 'Headings',
+        location: 'Content Body',
+        title: 'Only 1 H2 subheading found',
+        detail: 'Break long blocks of text into at least 2 to 4 major H2 topic sections.',
+        action: 'Add <h2>Key Technical Considerations</h2> or <h2>Why Scalability Matters</h2>.'
       });
     } else {
-      totalScore += 3;
-      checks.push({
-        type: 'warning',
-        category: 'Structure',
-        title: `Insufficient Subheadings (${h2Count}/2 H2s)`,
-        detail: 'Add at least 2-3 H2 subheadings to organize your ideas and capture long-tail keywords.',
-        points: 3,
-        maxPoints: 10
+      critical.push({
+        category: 'Headings',
+        location: 'Content Body',
+        title: 'No <h2> subheadings detected in content',
+        detail: 'Heading tags (H2/H3) are critical for on-page SEO and readability hierarchy.',
+        action: 'Use the H2 button in the toolbar to add structured subheadings.',
+        fixSnippet: `<h2>Key Strategies for ${this.capitalizeWords(keyword || 'Growth')}</h2>`
       });
     }
 
-    // -------------------------------------------------------------
-    // 5. KEYWORD DENSITY & PLACEMENT (Weight: 15 points)
-    // -------------------------------------------------------------
-    let keywordCount = 0;
-    let density = 0;
-    if (keyword && wordCount > 0) {
-      const regex = new RegExp(`\\b${keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'gi');
-      keywordCount = (textContent.match(regex) || []).length;
-      density = ((keywordCount * keyword.split(' ').length) / wordCount) * 100;
-      density = Math.round(density * 10) / 10; // 1 decimal
+    // Keyword in H2 Check
+    if (keyword && h2Matches.length > 0) {
+      const h2WithKeyword = h2Matches.filter(h => h.toLowerCase().includes(keyword));
+      if (h2WithKeyword.length > 0) {
+        totalScore += 5;
+        passed.push({
+          category: 'Headings',
+          location: 'H2 Subheadings',
+          title: `Focus keyword present in H2 Heading (${h2WithKeyword.length} found)`,
+          detail: 'Google heavily weights keywords found in secondary headings.'
+        });
+      } else {
+        warning.push({
+          category: 'Headings',
+          location: 'H2 Subheadings',
+          title: `Focus keyword "${keyword}" is missing in all H2 headings`,
+          detail: 'None of your H2 subheadings mention the focus keyword. Update at least one H2.',
+          action: `Change one H2 heading to include "${keyword}" (e.g. <h2>Implementing ${this.capitalizeWords(keyword)}</h2>).`
+        });
+      }
+    }
 
-      // Keyword in first 100 words
+    // First Paragraph Keyword Check
+    if (keyword) {
       const first100Words = words.slice(0, 100).join(' ').toLowerCase();
       if (first100Words.includes(keyword)) {
-        totalScore += 7;
-        checks.push({
-          type: 'passed',
+        totalScore += 5;
+        passed.push({
           category: 'Keyword Placement',
-          title: 'Focus keyword found in introduction',
-          detail: `"${keyword}" appears in the first 100 words of the article.`,
-          points: 7,
-          maxPoints: 7
+          location: 'Introduction (First 100 Words)',
+          title: 'Keyword appears in Introduction paragraph',
+          detail: `"${keyword}" is introduced right away to signal search intent to crawlers.`
         });
       } else {
-        checks.push({
-          type: 'warning',
+        critical.push({
           category: 'Keyword Placement',
-          title: 'Focus keyword not in first 100 words',
-          detail: 'Place your keyword within the opening paragraph so crawlers confirm topic intent immediately.',
-          points: 0,
-          maxPoints: 7
+          location: 'Introduction (First 100 Words)',
+          title: `Focus keyword "${keyword}" missing from first 100 words`,
+          detail: 'Crawlers expect the primary topic keyword in the opening paragraph.',
+          action: `Add "${keyword}" into the first sentence of your article.`,
+          fixSnippet: `<p>In modern digital commerce, understanding <strong>${keyword}</strong> is critical for sustainable growth...</p>`
         });
       }
+    }
 
-      // Keyword Density
+    // Keyword Density Check
+    if (keyword && wordCount > 50) {
+      const regex = new RegExp(this.escapeRegExp(keyword), 'gi');
+      const matches = (textContent.match(regex) || []).length;
+      const density = ((matches / wordCount) * 100).toFixed(1);
+
       if (density >= 0.8 && density <= 2.5) {
-        totalScore += 8;
-        checks.push({
-          type: 'passed',
+        totalScore += 5;
+        passed.push({
           category: 'Keyword Density',
-          title: `Optimal Keyword Density (${density}%)`,
-          detail: `Mentioned ${keywordCount} times. Natural distribution without stuffing.`,
-          points: 8,
-          maxPoints: 8
+          location: 'Body Content',
+          title: `Healthy Keyword Density (${density}% — ${matches} occurrences)`,
+          detail: 'Optimal frequency without keyword stuffing penalties.'
         });
       } else if (density < 0.8) {
-        const pts = keywordCount > 0 ? 4 : 0;
-        totalScore += pts;
-        checks.push({
-          type: keywordCount === 0 ? 'critical' : 'warning',
+        warning.push({
           category: 'Keyword Density',
-          title: `Low Keyword Frequency (${density}%)`,
-          detail: `"${keyword}" appears ${keywordCount} times. Recommended range is 1.0% – 2.5%.`,
-          points: pts,
-          maxPoints: 8
+          location: 'Body Content',
+          title: `Low Keyword Density (${density}% — only ${matches} mentions in ${wordCount} words)`,
+          detail: `Mention "${keyword}" a few more times throughout sub-sections (target 1–2%).`,
+          action: `Include "${keyword}" in 2–3 more paragraphs.`
         });
       } else {
-        totalScore += 3;
-        checks.push({
-          type: 'warning',
+        warning.push({
           category: 'Keyword Density',
-          title: `High Keyword Density (${density}%)`,
-          detail: `Possible keyword stuffing. Reduce keyword occurrences to sound more natural.`,
-          points: 3,
-          maxPoints: 8
+          location: 'Body Content',
+          title: `High Keyword Density (${density}% — ${matches} mentions)`,
+          detail: 'Density over 2.5% can trigger Google over-optimization / keyword stuffing filters.',
+          action: 'Replace repetitive keyword mentions with synonyms or pronouns.'
         });
       }
     }
 
     // -------------------------------------------------------------
-    // 6. TECHNICAL & MEDIA SEO (Weight: 15 points)
+    // 5. INTERNAL LINKING & MEDIA ALT (Weight: 20 points)
     // -------------------------------------------------------------
-    // Featured Image Check
-    if (featuredImage && featuredImage.trim().length > 0) {
+    // Internal Links
+    const internalLinkMatches = contentHtml.match(/<a[^>]*href=["']\/(services|industries|work|contact|blog|case-studies)[^"']*["']/gi) || [];
+    if (internalLinkMatches.length >= 2) {
+      totalScore += 10;
+      passed.push({
+        category: 'Internal Links',
+        location: 'Body Content',
+        title: `Strong Internal Linking (${internalLinkMatches.length} internal links)`,
+        detail: 'Distributes PageRank authority and keeps visitors engaged across the site.'
+      });
+    } else if (internalLinkMatches.length === 1) {
       totalScore += 5;
-      checks.push({
-        type: 'passed',
-        category: 'Media',
-        title: 'Featured Image provided',
-        detail: 'Visual banner configured for SERP thumbnail and social cards.',
-        points: 5,
-        maxPoints: 5
+      warning.push({
+        category: 'Internal Links',
+        location: 'Body Content',
+        title: 'Only 1 internal link detected',
+        detail: 'Add at least 2–3 contextual links to related Zavron service or industry pages.',
+        action: 'Add a link to <a href="/services/web-development/">Web Development</a> or <a href="/services/seo/">SEO</a>.'
       });
     } else {
-      checks.push({
-        type: 'warning',
-        category: 'Media',
-        title: 'Missing Featured Image',
-        detail: 'Add a featured graphic or SVG thumbnail to maximize social CTR.',
-        points: 0,
-        maxPoints: 5
+      critical.push({
+        category: 'Internal Links',
+        location: 'Body Content',
+        title: 'No internal links to Zavron services/pages found',
+        detail: 'Internal links are critical for crawl discovery and topical authority clustering.',
+        action: 'Add relevant internal links (e.g., <a href="/services/web-development/">our web development services</a>).',
+        fixSnippet: '<p>Explore how our <a href="/services/web-development/">custom web development services</a> deliver enterprise-grade performance.</p>'
       });
     }
 
-    // Internal Link Check
-    const internalLinks = (contentHtml.match(/href=["'](\/[^"']*|https?:\/\/zavronsolutions\.com[^"']*)["']/gi) || []).length;
-    if (internalLinks >= 2) {
-      totalScore += 5;
-      checks.push({
-        type: 'passed',
-        category: 'Links',
-        title: `Internal Links Detected (${internalLinks} links)`,
-        detail: 'Passes PageRank equity to other Zavron services and resources.',
-        points: 5,
-        maxPoints: 5
-      });
-    } else {
-      checks.push({
-        type: 'warning',
-        category: 'Links',
-        title: `Few or No Internal Links (${internalLinks}/2)`,
-        detail: 'Add at least 2 internal links to related services (e.g. /services/web-development/) or /get-a-free-quote/.',
-        points: internalLinks > 0 ? 2 : 0,
-        maxPoints: 5
-      });
-      if (internalLinks > 0) totalScore += 2;
-    }
-
-    // Image Alt tags in content
-    const imgTags = contentHtml.match(/<img[^>]+>/gi) || [];
-    if (imgTags.length > 0) {
-      const missingAlt = imgTags.filter(img => !img.includes('alt=') || /alt=["']\s*["']/.test(img)).length;
-      if (missingAlt === 0) {
-        totalScore += 5;
-        checks.push({
-          type: 'passed',
-          category: 'Accessibility & SEO',
-          title: `All content images have Alt text (${imgTags.length} images)`,
-          detail: 'Enhances Google Image Search ranking and accessibility.',
-          points: 5,
-          maxPoints: 5
-        });
-      } else {
-        checks.push({
-          type: 'warning',
-          category: 'Accessibility & SEO',
-          title: `${missingAlt} image(s) missing Alt text`,
-          detail: 'Every image should describe its visual content with descriptive alt text.',
-          points: 0,
-          maxPoints: 5
-        });
+    // Featured Image & Image Alt tags
+    const imgMatches = contentHtml.match(/<img[^>]*>/gi) || [];
+    let imagesWithoutAlt = 0;
+    imgMatches.forEach(img => {
+      if (!img.includes('alt=') || img.match(/alt=["']\s*["']/)) {
+        imagesWithoutAlt++;
       }
-    } else {
-      // Award partial points if featured image exists
+    });
+
+    if (featuredImage && !featuredImage.includes('undefined')) {
       totalScore += 5;
-      checks.push({
-        type: 'passed',
-        category: 'Accessibility & SEO',
-        title: 'Clean HTML structure',
-        detail: 'No broken image alt tags detected.',
-        points: 5,
-        maxPoints: 5
+      passed.push({
+        category: 'Media & Visuals',
+        location: 'Featured Image',
+        title: 'Featured Image / OpenGraph Visual Set',
+        detail: `Using visual asset: ${featuredImage}`
+      });
+    } else {
+      warning.push({
+        category: 'Media & Visuals',
+        location: 'Featured Image Field',
+        title: 'Featured Image is not defined',
+        detail: 'Articles with visual media achieve 94% more social shares and higher search clicks.',
+        action: 'Provide a valid image path like "/assets/og-image.jpg".'
       });
     }
 
-    // Calculate final clamped score
-    const finalScore = Math.min(100, Math.max(0, Math.round(totalScore)));
+    if (imgMatches.length > 0 && imagesWithoutAlt === 0) {
+      totalScore += 5;
+      passed.push({
+        category: 'Media & Visuals',
+        location: 'Body Images',
+        title: `All in-article images have Alt text (${imgMatches.length} images)`,
+        detail: 'Fully compliant with accessibility and Google Image Search indexing.'
+      });
+    } else if (imagesWithoutAlt > 0) {
+      warning.push({
+        category: 'Media & Visuals',
+        location: 'Body Images',
+        title: `${imagesWithoutAlt} image(s) missing descriptive Alt attributes`,
+        detail: 'Images without alt tags cannot rank in Google Image Search and harm accessibility.',
+        action: 'Add alt="Descriptive keywords" to all <img> tags.'
+      });
+    } else {
+      totalScore += 5;
+    }
+
+    // Final calculations
+    totalScore = Math.min(100, Math.max(0, totalScore));
     let status = 'poor';
-    if (finalScore >= 80) status = 'excellent';
-    else if (finalScore >= 60) status = 'good';
+    if (totalScore >= 80) status = 'excellent';
+    else if (totalScore >= 60) status = 'good';
 
     return {
-      score: finalScore,
+      score: totalScore,
       status,
       wordCount,
-      keywordCount,
-      keywordDensity: density,
+      keywordDensity: keyword && wordCount > 0 ? (((contentHtml.match(new RegExp(this.escapeRegExp(keyword), 'gi')) || []).length / wordCount) * 100).toFixed(1) : 0,
       checks: {
-        critical: checks.filter(c => c.type === 'critical'),
-        warning: checks.filter(c => c.type === 'warning'),
-        passed: checks.filter(c => c.type === 'passed')
+        critical,
+        warning,
+        passed
       },
       serpPreview: {
         title: title ? `${title} | Zavron Solutions` : 'Page Title | Zavron Solutions',
-        url: `https://zavronsolutions.com/blog/${slug || 'article-slug'}/`,
-        description: metaDesc || 'Provide an engaging meta description to see how your snippet will appear on Google search results...'
+        url: `https://zavronsolutions.com › blog › ${slug || 'article-slug'}`,
+        description: metaDesc || 'Provide a meta description to see how your snippet appears in Google search results...'
       }
     };
+  }
+
+  capitalizeWords(str) {
+    if (!str) return '';
+    return str.replace(/\b\w/g, l => l.toUpperCase());
+  }
+
+  escapeRegExp(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   }
 }

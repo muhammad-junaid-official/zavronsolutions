@@ -831,3 +831,176 @@ body.admin-body {
   margin: 0;
   word-break: break-word;
 }
+
+/* -------------------------------------------------------------
+   CHECKLIST FIX BUTTONS
+   ------------------------------------------------------------- */
+.check-item-action {
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-seo-fix {
+  background: rgba(0, 210, 255, 0.15);
+  border: 1px solid var(--adm-cyan);
+  color: var(--adm-cyan);
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-seo-fix:hover {
+  background: var(--adm-cyan);
+  color: #061426;
+}
+
+/* -------------------------------------------------------------
+   IN-DASHBOARD EMAIL REPLY MODAL
+   ------------------------------------------------------------- */
+.adm-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(5, 14, 26, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.adm-modal-card {
+  background: #09192C;
+  border: 1px solid rgba(0, 210, 255, 0.25);
+  border-radius: var(--adm-radius-lg);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 210, 255, 0.15);
+  width: 100%;
+  max-width: 680px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: admModalIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes admModalIn {
+  from { opacity: 0; transform: scale(0.95) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+.adm-modal-header {
+  padding: 18px 24px;
+  background: #0F233D;
+  border-bottom: 1px solid var(--adm-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.adm-modal-header h3 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.adm-modal-close {
+  background: transparent;
+  border: none;
+  color: var(--adm-text-muted);
+  font-size: 1.4rem;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+.adm-modal-close:hover { color: #FFFFFF; }
+.adm-modal-body {
+  padding: 20px 24px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* AI Assistant Composer Bar */
+.ai-composer-box {
+  background: rgba(0, 210, 255, 0.05);
+  border: 1px solid rgba(0, 210, 255, 0.3);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 16px;
+}
+.ai-composer-box h5 {
+  margin: 0 0 8px 0;
+  color: var(--adm-cyan);
+  font-size: 0.85rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.ai-preset-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+.ai-preset-chip {
+  background: rgba(15, 35, 61, 0.8);
+  border: 1px solid var(--adm-border);
+  color: var(--adm-text);
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.ai-preset-chip:hover {
+  background: var(--adm-cyan);
+  color: #061426;
+  border-color: var(--adm-cyan);
+}
+
+/* -------------------------------------------------------------
+   SITE AUDIT TABLE & SEVERITY BADGES
+   ------------------------------------------------------------- */
+.audit-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.audit-card-stat {
+  background: var(--adm-surface-card);
+  border: 1px solid var(--adm-border);
+  border-radius: var(--adm-radius);
+  padding: 18px 20px;
+}
+.audit-card-stat h4 {
+  margin: 0 0 6px 0;
+  font-size: 0.75rem;
+  color: var(--adm-text-muted);
+  text-transform: uppercase;
+}
+.audit-card-stat .stat-num {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #FFFFFF;
+}
+
+.badge-severity {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.badge-severity.critical { background: rgba(239, 68, 68, 0.2); color: #FCA5A5; border: 1px solid rgba(239, 68, 68, 0.4); }
+.badge-severity.warning { background: rgba(245, 158, 11, 0.2); color: #FCD34D; border: 1px solid rgba(245, 158, 11, 0.4); }
+.badge-severity.optimization { background: rgba(0, 210, 255, 0.2); color: #7DD3FC; border: 1px solid rgba(0, 210, 255, 0.4); }
+

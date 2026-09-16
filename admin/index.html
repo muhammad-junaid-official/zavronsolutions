@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard &amp; SEO Studio | Zavron Solutions</title>
+  <title>Admin Dashboard &amp; SEO Command Center | Zavron Solutions</title>
   <meta name="robots" content="noindex, nofollow">
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -71,9 +71,9 @@
 
       <div class="admin-sidebar-footer">
         <div class="admin-user-profile">
-          <div class="admin-avatar">A</div>
+          <div class="admin-avatar">J</div>
           <div class="admin-user-info">
-            <h5 id="adminUserName">Admin</h5>
+            <h5 id="adminUserName">Muhammad Junaid</h5>
             <span>Super Administrator</span>
           </div>
         </div>
@@ -89,10 +89,11 @@
 
     <!-- Main Content Area -->
     <main class="admin-main">
-      <!-- Top Bar -->
-      <div class="admin-topbar">
-        <div class="topbar-title">
-          <h2 id="currentTabTitle">Overview</h2>
+      <!-- Top Navigation Bar -->
+      <header class="admin-topbar">
+        <div class="topbar-title-group">
+          <h2 id="currentTabTitle">Dashboard Overview</h2>
+          <span class="live-dot-badge">● System Online &amp; Indexed</span>
         </div>
         <div class="topbar-actions">
           <a href="/" target="_blank" class="btn-adm btn-adm-secondary">
@@ -101,50 +102,50 @@
               <polyline points="15 3 21 3 21 9"></polyline>
               <line x1="10" y1="14" x2="21" y2="3"></line>
             </svg>
-            View Live Site
+            View Live Website
           </a>
           <button class="btn-adm btn-adm-primary" id="topbarNewPostBtn">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <line x1="12" y1="5" x2="12" y2="19"></line>
               <line x1="5" y1="12" x2="19" y2="12"></line>
             </svg>
             Create New Post
           </button>
         </div>
-      </div>
+      </header>
 
       <!-- Tab 1: Overview -->
       <div class="admin-container tab-content" id="tab-overview">
         <div class="metrics-grid">
           <div class="metric-card">
             <div class="metric-data">
-              <h4>TOTAL BLOG ARTICLES</h4>
-              <p class="number" id="metricTotalPosts">101</p>
+              <h4>TOTAL PUBLISHED ARTICLES</h4>
+              <p class="number" id="metricTotalPosts">0</p>
             </div>
             <div class="metric-icon blue">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
               </svg>
             </div>
           </div>
 
           <div class="metric-card">
             <div class="metric-data">
-              <h4>AVERAGE SEO SCORE</h4>
-              <p class="number" style="color: var(--adm-green);" id="metricAvgSEO">91%</p>
+              <h4>AVG SEO HEALTH SCORE</h4>
+              <p class="number" style="color: var(--adm-green);" id="metricAvgSEO">92%</p>
             </div>
             <div class="metric-icon green">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
               </svg>
             </div>
           </div>
 
           <div class="metric-card">
             <div class="metric-data">
-              <h4>PUBLISHED &amp; INDEXED</h4>
-              <p class="number" id="metricPublished">101</p>
+              <h4>ACTIVE INDEXABLE ROUTES</h4>
+              <p class="number" style="color: var(--adm-orange);" id="metricIndexRoutes">120+</p>
             </div>
             <div class="metric-icon orange">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -157,7 +158,7 @@
           <div class="metric-card">
             <div class="metric-data">
               <h4>CHATBOT INQUIRIES</h4>
-              <p class="number" style="color: var(--adm-cyan);" id="metricChatLeads">14</p>
+              <p class="number" style="color: var(--adm-cyan);" id="metricChatLeads">0</p>
             </div>
             <div class="metric-icon yellow">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -183,9 +184,7 @@
                 <th>Actions</th>
               </tr>
             </thead>
-            <tbody id="recentPostsTableBody">
-              <!-- Rendered dynamically -->
-            </tbody>
+            <tbody id="recentPostsTableBody"></tbody>
           </table>
         </div>
       </div>
@@ -199,16 +198,19 @@
                 <circle cx="11" cy="11" r="8"></circle>
                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
               </svg>
-              <input type="text" id="postSearchInput" placeholder="Search articles by title or keyword..." />
+              <input type="text" id="postSearchInput" placeholder="Search all articles by title, category, or keyword..." />
             </div>
             <div style="display: flex; gap: 12px;">
               <select id="postFilterCategory" class="form-control" style="width: auto; padding: 8px 14px;">
                 <option value="all">All Categories</option>
-                <option value="web-development">Web Development</option>
-                <option value="wordpress-development">WordPress</option>
-                <option value="ecommerce-development">E-Commerce</option>
-                <option value="seo">SEO</option>
+                <option value="web-development">Custom Web Development</option>
+                <option value="wordpress-development">Enterprise WordPress</option>
+                <option value="ecommerce-development">E-Commerce / Shopify</option>
+                <option value="seo">SEO &amp; Organic Growth</option>
+                <option value="local-seo">Local SEO</option>
                 <option value="technical-seo">Technical SEO</option>
+                <option value="digital-marketing">Digital Marketing</option>
+                <option value="ui-ux-design">UI/UX Design</option>
               </select>
               <button class="btn-adm btn-adm-primary" onclick="window.startNewPost()">+ Add New Article</button>
             </div>
@@ -217,7 +219,7 @@
           <table class="data-table">
             <thead>
               <tr>
-                <th>Title</th>
+                <th>Title &amp; URL</th>
                 <th>Category</th>
                 <th>Focus Keyword</th>
                 <th>Word Count</th>
@@ -226,9 +228,7 @@
                 <th>Actions</th>
               </tr>
             </thead>
-            <tbody id="allPostsTableBody">
-              <!-- Populated via admin.js -->
-            </tbody>
+            <tbody id="allPostsTableBody"></tbody>
           </table>
         </div>
       </div>
@@ -286,7 +286,7 @@
                   <label for="postCategory">Category</label>
                   <select id="postCategory" class="form-control">
                     <option value="web-development">Custom Web Development</option>
-                    <option value="wordpress-development">WordPress Development</option>
+                    <option value="wordpress-development">Enterprise WordPress</option>
                     <option value="ecommerce-development">E-Commerce Development</option>
                     <option value="seo">Search Engine Optimization (SEO)</option>
                     <option value="local-seo">Local SEO</option>
@@ -344,7 +344,7 @@
             </form>
           </div>
 
-          <!-- Right: Real-Time Live SEO Score & Improvement Panel -->
+          <!-- Right: Real-Time Live SEO Score & Pinpoint Improvements -->
           <div class="seo-panel">
             <div class="seo-panel-header">
               <h3>
@@ -414,34 +414,59 @@
 
       <!-- Tab 4: Site-Wide SEO Monitor -->
       <div class="admin-container tab-content" id="tab-seo-health" style="display: none;">
-        <div class="table-card" style="padding: 28px; margin-bottom: 24px;">
-          <h3 style="margin: 0 0 12px 0; font-size: 1.2rem; font-weight: 800;">Site-Wide Technical SEO Health</h3>
-          <p style="color: var(--adm-text-muted); font-size: 0.9rem; margin-bottom: 24px;">
-            Comprehensive crawl &amp; meta validation across all published static routes in your repository.
-          </p>
-          <div class="metrics-grid">
-            <div class="metric-card">
-              <div class="metric-data">
-                <h4>INDEXABLE ROUTES</h4>
-                <p class="number">120+</p>
-              </div>
-              <div class="metric-icon blue">✓</div>
+        <div class="table-card" style="padding: 24px; margin-bottom: 24px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <div>
+              <h3 style="margin: 0 0 6px 0; font-size: 1.25rem; font-weight: 800;">Site-Wide Technical &amp; On-Page Audit</h3>
+              <p style="color: var(--adm-text-muted); font-size: 0.88rem; margin: 0;">
+                Live static HTML crawler &amp; schema validator for all website pages.
+              </p>
             </div>
-            <div class="metric-card">
-              <div class="metric-data">
-                <h4>CANONICAL HEALTH</h4>
-                <p class="number" style="color: var(--adm-green);">100%</p>
-              </div>
-              <div class="metric-icon green">✓</div>
+            <button class="btn-adm btn-adm-primary" id="btnRunSiteAudit">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
+              </svg>
+              Run Full Site Deep Crawl
+            </button>
+          </div>
+
+          <div class="audit-stats-grid">
+            <div class="audit-card-stat">
+              <h4>OVERALL HEALTH</h4>
+              <div class="stat-num" style="color: var(--adm-green);" id="auditOverallScore">--</div>
             </div>
-            <div class="metric-card">
-              <div class="metric-data">
-                <h4>OPEN GRAPH SOCIAL CARDS</h4>
-                <p class="number" style="color: var(--adm-green);">100%</p>
-              </div>
-              <div class="metric-icon orange">✓</div>
+            <div class="audit-card-stat">
+              <h4>AUDITED ROUTES</h4>
+              <div class="stat-num" style="color: var(--adm-cyan);" id="auditTotalRoutes">--</div>
+            </div>
+            <div class="audit-card-stat">
+              <h4>CRITICAL ISSUES</h4>
+              <div class="stat-num" style="color: var(--adm-red);" id="auditCriticalCount">--</div>
+            </div>
+            <div class="audit-card-stat">
+              <h4>OPPORTUNITIES</h4>
+              <div class="stat-num" style="color: var(--adm-yellow);" id="auditWarningCount">--</div>
             </div>
           </div>
+
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Page Route</th>
+                <th>Page Title</th>
+                <th>Health Score</th>
+                <th>Detected Issues &amp; Location</th>
+                <th>1-Click Actions</th>
+              </tr>
+            </thead>
+            <tbody id="siteAuditTableBody">
+              <tr>
+                <td colspan="5" style="text-align: center; padding: 30px; color: var(--adm-text-muted);">
+                  Click "Run Full Site Deep Crawl" above to initiate deep repository inspection.
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
 
@@ -449,41 +474,101 @@
       <div class="admin-container tab-content" id="tab-leads" style="display: none;">
         <div class="table-card">
           <div class="table-header-tools">
-            <h3 style="margin: 0; font-size: 1.1rem; font-weight: 700;">Captured Chatbot Leads</h3>
+            <div>
+              <h3 style="margin: 0; font-size: 1.15rem; font-weight: 700;">Captured Chatbot &amp; Contact Leads</h3>
+              <p style="margin: 2px 0 0; font-size: 0.8rem; color: var(--adm-text-muted);">Reply directly to clients with AI-powered draft assistance without leaving your dashboard.</p>
+            </div>
+            <button class="btn-adm btn-adm-secondary" id="btnRefreshLeads">↻ Refresh Leads</button>
           </div>
+
           <table class="data-table">
             <thead>
               <tr>
                 <th>Date / Time</th>
                 <th>Client Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Inquiry Summary</th>
+                <th>Contact Info</th>
+                <th>Service / Context</th>
+                <th>Inquiry Details</th>
                 <th>Status</th>
+                <th>Actions</th>
               </tr>
             </thead>
-            <tbody id="chatbotLeadsTableBody">
-              <tr>
-                <td>Today, 1:15 AM</td>
-                <td><strong>Sarah Jenkins</strong></td>
-                <td>s.jenkins@apexcommerce.com</td>
-                <td>+1 (555) 234-8901</td>
-                <td>Interested in Shopify Plus re-platforming and technical Core Web Vitals audit.</td>
-                <td><span class="badge-status badge-published">New Lead</span></td>
-              </tr>
-              <tr>
-                <td>Yesterday, 4:40 PM</td>
-                <td><strong>Marcus Vance</strong></td>
-                <td>mvance@vancelawllc.com</td>
-                <td>+1 (555) 891-2345</td>
-                <td>Inquiring about personal injury law firm local SEO &amp; Google Map Pack acceleration.</td>
-                <td><span class="badge-status badge-draft">Followed Up</span></td>
-              </tr>
-            </tbody>
+            <tbody id="chatbotLeadsTableBody"></tbody>
           </table>
         </div>
       </div>
     </main>
+  </div>
+
+  <!-- In-Dashboard Direct Email Reply Modal with AI Writer -->
+  <div id="replyModal" class="adm-modal-overlay" style="display: none;">
+    <div class="adm-modal-card">
+      <div class="adm-modal-header">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--adm-cyan)" stroke-width="2">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
+          Direct Reply to <span id="replyRecipientName" style="color: var(--adm-cyan);">Client</span>
+        </h3>
+        <button class="adm-modal-close" id="closeReplyModal">&times;</button>
+      </div>
+
+      <div class="adm-modal-body">
+        <input type="hidden" id="replyLeadId" value="" />
+        <input type="hidden" id="replyLeadService" value="" />
+        <input type="hidden" id="replyLeadDetails" value="" />
+
+        <!-- AI Assistant Composer Box -->
+        <div class="ai-composer-box">
+          <h5>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
+            </svg>
+            AI Email Writer Assistant
+          </h5>
+          <div style="display: flex; gap: 8px;">
+            <input
+              type="text"
+              id="aiCustomPrompt"
+              class="form-control"
+              placeholder="e.g. Offer 10% discount on initial SEO audit and invite for a Zoom call Thursday at 2 PM EST..."
+            />
+            <button type="button" class="btn-adm btn-adm-primary" id="btnGenerateAiDraft" style="white-space: nowrap; padding: 8px 14px;">
+              ✨ Generate AI Draft
+            </button>
+          </div>
+          <div class="ai-preset-chips">
+            <span style="font-size: 0.72rem; color: var(--adm-text-muted); align-self: center;">Quick Presets:</span>
+            <button type="button" class="ai-preset-chip" data-type="call">📅 Schedule Strategy Call</button>
+            <button type="button" class="ai-preset-chip" data-type="quote">💰 Send Custom Proposal</button>
+            <button type="button" class="ai-preset-chip" data-type="info">❓ Request Project Details</button>
+          </div>
+        </div>
+
+        <!-- Composer Form -->
+        <form id="directReplyForm">
+          <div class="form-group">
+            <label>Recipient Email</label>
+            <input type="email" id="replyRecipientEmail" class="form-control" readonly style="background: rgba(15,35,61,0.5);" />
+          </div>
+          <div class="form-group">
+            <label>Subject Line</label>
+            <input type="text" id="replySubject" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label>Email Body (Review and edit before sending)</label>
+            <textarea id="replyMessageBody" class="form-control" rows="8" required style="line-height: 1.6; font-size: 0.9rem;"></textarea>
+          </div>
+          <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+            <button type="button" class="btn-adm btn-adm-secondary" id="cancelReplyBtn">Cancel</button>
+            <button type="submit" class="btn-adm btn-adm-primary" id="btnSendReplyEmail">
+              Send Email to Client ✉️
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 
   <!-- Scripts -->

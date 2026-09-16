@@ -1,0 +1,35 @@
+[
+  {
+    "id": "lead_1773782001",
+    "date": "2026-03-16T18:40:00.000Z",
+    "name": "Sarah Jenkins",
+    "email": "s.jenkins@apexcommerce.com",
+    "phone": "+1 (555) 234-8901",
+    "company": "Apex Commerce US",
+    "service": "Shopify Plus / E-Commerce",
+    "details": "Interested in Shopify Plus re-platforming and technical Core Web Vitals audit for our 15,000 SKU catalog.",
+    "status": "new"
+  },
+  {
+    "id": "lead_1773782002",
+    "date": "2026-03-15T15:20:00.000Z",
+    "name": "Marcus Vance",
+    "email": "mvance@vancelawllc.com",
+    "phone": "+1 (555) 891-2345",
+    "company": "Vance Law LLC",
+    "service": "Local SEO & Map Pack",
+    "details": "Inquiring about personal injury law firm local SEO & Google Map Pack acceleration in Dallas / Fort Worth area.",
+    "status": "followed_up"
+  },
+  {
+    "id": "lead_1773782003",
+    "date": "2026-03-14T11:15:00.000Z",
+    "name": "David Ross",
+    "email": "david.ross@cloudmetrics.io",
+    "phone": "+1 (555) 345-6789",
+    "company": "CloudMetrics Inc",
+    "service": "Custom Web Development",
+    "details": "We need a Next.js / React web app rebuild with sub-second page loads and custom HubSpot CRM webhook integration.",
+    "status": "new"
+  }
+]
