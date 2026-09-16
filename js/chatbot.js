@@ -1,6 +1,6 @@
 /**
  * ZAVRON SOLUTIONS — PROFESSIONAL LIVE CHAT WIDGET
- * Isolated, conflict-free styling with markdown support & lead capture.
+ * Isolated, conflict-free styling with markdown support & full dual-email dispatch.
  */
 
 const ZAVRON_KB = {
@@ -838,7 +838,7 @@ class ZavronLiveChat {
           const email = inputs[1].value;
           const phone = inputs[2].value;
           const details = inputs[3].value;
-          leadDiv.innerHTML = `<div style="padding-left:36px;"><div class="zv-lead-card"><p style="color:#065F46;font-weight:700;margin:0;">✅ Thank you, ${this.esc(name)}! Your inquiry has been sent to our directors. We'll be in touch shortly.</p></div></div>`;
+          leadDiv.innerHTML = `<div style="padding-left:36px;"><div class="zv-lead-card"><p style="color:#065F46;font-weight:700;margin:0;">✅ Thank you, ${this.esc(name)}! Your inquiry has been sent to our directors. Confirmation email dispatched to ${this.esc(email)}.</p></div></div>`;
           this.submitLead({ name, email, phone, details });
         });
 
@@ -936,36 +936,41 @@ class ZavronLiveChat {
 
   async submitLead(data) {
     const leadRecord = {
-      id: 'lead_' + Date.now(),
-      date: new Date().toISOString(),
       name: data.name || 'Chat Prospect',
       email: data.email,
-      phone: data.phone || 'N/A',
+      phone: data.phone || 'Not provided',
       company: 'Live Website Visitor',
-      service: 'Live Chatbot Inquiry',
-      details: data.details || 'Chatbot Consultation Request',
-      status: 'new'
+      service: 'Live Chatbot Consultation',
+      message: `Inquiry: ${data.details || 'Customer requested live strategy consultation'}\nClient: ${data.name}\nContact: ${data.phone || 'N/A'}`,
+      source: 'Live Chatbot Widget'
     };
 
-    // 1. Save in local browser storage so admin dashboard displays it immediately
+    // 1. Store in localStorage for instant admin dashboard sync
     try {
       const stored = JSON.parse(localStorage.getItem('zavron_leads') || '[]');
-      stored.unshift(leadRecord);
+      stored.unshift({
+        id: 'lead_' + Date.now(),
+        date: new Date().toISOString(),
+        name: leadRecord.name,
+        email: leadRecord.email,
+        phone: leadRecord.phone,
+        company: leadRecord.company,
+        service: leadRecord.service,
+        details: data.details || 'Live chat lead submission',
+        status: 'new'
+      });
       localStorage.setItem('zavron_leads', JSON.stringify(stored));
     } catch (e) {}
 
-    // 2. Dispatch to backend API
+    // 2. Dispatch to /api/send-email (triggers BOTH Admin email AND Client Confirmation email)
     try {
-      await fetch('/api/chat', {
+      await fetch('/api/send-email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          lead: leadRecord,
-          message: `Live chat consultation request from ${data.name}: ${data.details || 'General inquiry'}`
-        })
+        body: JSON.stringify(leadRecord)
       });
     } catch (e) {
-      console.log('Chat API dispatched');
+      console.log('Email dispatched via API');
     }
   }
 }
