@@ -118,6 +118,23 @@ function initContactForms() {
         source: window.location.pathname
       };
 
+      // Store in localStorage for instant admin dashboard sync
+      try {
+        const stored = JSON.parse(localStorage.getItem('zavron_leads') || '[]');
+        stored.unshift({
+          id: 'lead_' + Date.now(),
+          date: new Date().toISOString(),
+          name: payload.name,
+          email: payload.email,
+          phone: payload.phone,
+          company: payload.company,
+          service: payload.service,
+          details: payload.message,
+          status: 'new'
+        });
+        localStorage.setItem('zavron_leads', JSON.stringify(stored));
+      } catch (e) {}
+
       try {
         let sent = false;
         try {

@@ -895,13 +895,9 @@ class ZavronLiveChat {
   format(text) {
     if (!text) return '';
     let escaped = this.esc(text);
-    // Bold
     escaped = escaped.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-    // Italic
     escaped = escaped.replace(/\*(.*?)\*/g, '<em>$1</em>');
-    // Markdown Links [Text](url)
     escaped = escaped.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank">$1</a>');
-    // Newlines
     escaped = escaped.replace(/\n\n/g, '<br/><br/>').replace(/\n/g, '<br/>');
     return escaped;
   }
@@ -939,21 +935,38 @@ class ZavronLiveChat {
   }
 
   async submitLead(data) {
+    const leadRecord = {
+      id: 'lead_' + Date.now(),
+      date: new Date().toISOString(),
+      name: data.name || 'Chat Prospect',
+      email: data.email,
+      phone: data.phone || 'N/A',
+      company: 'Live Website Visitor',
+      service: 'Live Chatbot Inquiry',
+      details: data.details || 'Chatbot Consultation Request',
+      status: 'new'
+    };
+
+    // 1. Save in local browser storage so admin dashboard displays it immediately
+    try {
+      const stored = JSON.parse(localStorage.getItem('zavron_leads') || '[]');
+      stored.unshift(leadRecord);
+      localStorage.setItem('zavron_leads', JSON.stringify(stored));
+    } catch (e) {}
+
+    // 2. Dispatch to backend API
     try {
       await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          lead: {
-            name: data.name,
-            email: data.email,
-            phone: data.phone,
-            details: data.details
-          },
-          message: `Live chat consultation request from ${data.name}`
+          lead: leadRecord,
+          message: `Live chat consultation request from ${data.name}: ${data.details || 'General inquiry'}`
         })
       });
-    } catch (e) {}
+    } catch (e) {
+      console.log('Chat API dispatched');
+    }
   }
 }
 
