@@ -2,6 +2,7 @@
  * ZAVRON SOLUTIONS — MAIN INTERACTIVE LOGIC
  * Global Header, Mobile Navigation, Active Link Highlighting, ARIA Management
  */
+import './chatbot.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   initHeaderScroll();

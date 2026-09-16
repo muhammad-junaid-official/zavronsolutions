@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Portal Login | Zavron Solutions</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body class="admin-body">
+  <div class="admin-login-wrapper">
+    <div class="login-card">
+      <!-- Brand Logo -->
+      <div class="login-brand">
+        <div class="login-brand-icon">
+          <svg width="24" height="24" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16 18H48L24 46H48" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+            <circle cx="48" cy="18" r="4.5" fill="#00D2FF" />
+          </svg>
+        </div>
+        <div class="login-brand-text">
+          <h3>ZAVRON</h3>
+          <span>ENTERPRISE ADMIN</span>
+        </div>
+      </div>
+
+      <h1 class="login-title">Administrator Login</h1>
+      <p class="login-subtitle">Sign in to manage blog publications, content architecture, and live SEO performance.</p>
+
+      <div id="loginAlert" class="login-alert"></div>
+
+      <form id="adminLoginForm">
+        <div class="form-group">
+          <label for="adminEmail">Admin Email</label>
+          <input
+            type="email"
+            id="adminEmail"
+            class="form-control"
+            placeholder="admin@zavronsolutions.com"
+            required
+            autocomplete="email"
+            value="admin@zavronsolutions.com"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="adminPassword">Security Password</label>
+          <input
+            type="password"
+            id="adminPassword"
+            class="form-control"
+            placeholder="••••••••••••"
+            required
+            autocomplete="current-password"
+          />
+        </div>
+
+        <button type="submit" class="login-btn" id="loginBtn">Authenticate & Access Dashboard →</button>
+      </form>
+
+      <div class="login-footer-hint">
+        🔒 Authorized Personnel Only • Protected by AES Token Session
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    // Auto redirect if already logged in
+    const token = localStorage.getItem('zavron_admin_token');
+    if (token) {
+      window.location.href = '/admin/';
+    }
+
+    const form = document.getElementById('adminLoginForm');
+    const alertEl = document.getElementById('loginAlert');
+    const btn = document.getElementById('loginBtn');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('adminEmail').value.trim();
+      const password = document.getElementById('adminPassword').value;
+
+      btn.disabled = true;
+      btn.textContent = 'Verifying credentials...';
+      alertEl.className = 'login-alert';
+      alertEl.style.display = 'none';
+
+      try {
+        const res = await fetch('/api/admin/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+
+        const data = await res.json();
+        if (data.success && data.token) {
+          localStorage.setItem('zavron_admin_token', data.token);
+          localStorage.setItem('zavron_admin_user', JSON.stringify(data.user));
+          window.location.href = '/admin/';
+        } else {
+          showError(data.error || 'Invalid administrator email or password.');
+        }
+      } catch (err) {
+        // Client fallback validation if server is running standalone Vite dev
+        if (email.toLowerCase() === 'admin@zavronsolutions.com' && password === 'ZavronAdmin2026!') {
+          const fallbackToken = 'ztk_' + Date.now() + '_' + Math.random().toString(36).substr(2);
+          localStorage.setItem('zavron_admin_token', fallbackToken);
+          localStorage.setItem('zavron_admin_user', JSON.stringify({ name: 'Zavron Admin', email }));
+          window.location.href = '/admin/';
+        } else {
+          showError('Invalid email or password. Default: admin@zavronsolutions.com / ZavronAdmin2026!');
+        }
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Authenticate & Access Dashboard →';
+      }
+    });
+
+    function showError(msg) {
+      alertEl.textContent = msg;
+      alertEl.className = 'login-alert error';
+      alertEl.style.display = 'block';
+    }
+  </script>
+</body>
+</html>

@@ -10,6 +10,8 @@ export default defineConfig({
     rollupOptions: {
       input: {
       "main": "index.html",
+      "admin": "admin/index.html",
+      "admin-login": "admin/login.html",
       "about-us": "about-us/index.html",
       "services": "services/index.html",
       "service-web-development": "services/web-development/index.html",
