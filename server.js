@@ -13,6 +13,10 @@ const DIST_DIR = path.join(__dirname, 'dist');
 const POSTS_FILE = path.join(__dirname, 'data', 'posts.json');
 const LEADS_FILE = path.join(__dirname, 'data', 'leads.json');
 
+// In-memory Live Chat store
+const liveChatSessions = new Map(); // sessionId -> { messages: [], userInfo: {}, adminJoined: false }
+const adminSSEClients = []; // All connected admin SSE clients for real-time push
+
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@zavronsolutions.com';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'ZavronAdmin2026!';
 
@@ -226,7 +230,34 @@ const server = http.createServer(async (req, res) => {
   // 2. Chatbot AI & Lead Capture API
   if (url === '/api/chat' && req.method === 'POST') {
     try {
-      const { message, lead } = await parseJsonBody(req);
+      const { message, lead, sessionId } = await parseJsonBody(req);
+
+      // Track in live chat sessions
+      const sid = sessionId || ('sess_' + Date.now());
+      if (!liveChatSessions.has(sid)) {
+        liveChatSessions.set(sid, {
+          messages: [],
+          userInfo: lead || {},
+          adminJoined: false,
+          startTime: new Date().toISOString()
+        });
+      }
+      const session = liveChatSessions.get(sid);
+      if (lead) session.userInfo = { ...session.userInfo, ...lead };
+      if (message) {
+        session.messages.push({ from: 'user', text: message, time: new Date().toISOString() });
+      }
+
+      // Push to admin SSE clients
+      const ssePayload = JSON.stringify({
+        type: 'new_message',
+        sessionId: sid,
+        session: { ...session, id: sid }
+      });
+      adminSSEClients.forEach(client => {
+        try { client.write(`event: message\ndata: ${ssePayload}\n\n`); } catch(e) {}
+      });
+
       if (lead && lead.email) {
         // Save to leads DB
         const leads = getLeads();
@@ -239,7 +270,8 @@ const server = http.createServer(async (req, res) => {
           company: lead.company || 'N/A',
           service: 'Live Chatbot Inquiry',
           details: lead.details || message || 'Live chat session',
-          status: 'new'
+          status: 'new',
+          sessionId: sid
         });
         saveLeads(leads);
 
@@ -252,9 +284,17 @@ const server = http.createServer(async (req, res) => {
           message: `Inquiry: ${message || ''}\nProject Details: ${lead.details || 'N/A'}`
         }).catch(e => console.error('Chat lead email error:', e));
       }
+
+      // Check if admin has joined this session
+      const botReply = session.adminJoined
+        ? null
+        : "Thank you! A senior strategist from Zavron Solutions has received your request and will follow up promptly.";
+
       return sendJson(res, 200, {
         success: true,
-        reply: "Thank you! A senior strategist from Zavron Solutions has received your request and will follow up promptly."
+        sessionId: sid,
+        adminJoined: session.adminJoined,
+        reply: botReply
       });
     } catch (err) {
       return sendJson(res, 500, { success: false, error: err.message });
@@ -474,6 +514,111 @@ const server = http.createServer(async (req, res) => {
     }
   }
 
+  // 12. Admin Update Page SEO: POST — inline edit title/meta/canonical in HTML file
+  if (url === '/api/admin/update-page-seo' && req.method === 'POST') {
+    try {
+      const { route, title, metaDescription, canonical } = await parseJsonBody(req);
+      let targetFile = path.join(__dirname, route.endsWith('.html') ? route : path.join(route, 'index.html'));
+      if (!fs.existsSync(targetFile)) {
+        targetFile = path.join(__dirname, route === '/' ? 'index.html' : route + '.html');
+      }
+      if (!fs.existsSync(targetFile)) {
+        return sendJson(res, 404, { success: false, error: 'HTML file not found for route: ' + route });
+      }
+
+      let content = fs.readFileSync(targetFile, 'utf8');
+
+      // Update title
+      if (title) {
+        content = content.replace(/<title>[^<]*<\/title>/i, `<title>${title}</title>`);
+      }
+      // Update meta description
+      if (metaDescription) {
+        content = content.replace(/(<meta[^>]*name=["']description["'][^>]*content=["'])[^"']*([^>]*>)/i, `$1${metaDescription}$2`);
+        content = content.replace(/(<meta[^>]*content=["'])[^"']*([^>]*name=["']description["'][^>]*>)/i, `$1${metaDescription}$2`);
+      }
+      // Update canonical
+      if (canonical) {
+        if (content.includes('rel="canonical"')) {
+          content = content.replace(/(<link[^>]*rel=["']canonical["'][^>]*href=["'])[^"']*([^>]*>)/i, `$1${canonical}$2`);
+        } else {
+          content = content.replace(/<\/head>/i, `  <link rel="canonical" href="${canonical}">\n</head>`);
+        }
+      }
+
+      fs.writeFileSync(targetFile, content, 'utf8');
+      return sendJson(res, 200, { success: true, message: `SEO data updated for ${route}` });
+    } catch (err) {
+      return sendJson(res, 500, { success: false, error: err.message });
+    }
+  }
+
+  // 13. Admin Live Chat SSE Stream: GET — real-time push to admin panel
+  if (url === '/api/admin/live-chat-stream' && req.method === 'GET') {
+    res.writeHead(200, {
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache',
+      'Connection': 'keep-alive',
+      'Access-Control-Allow-Origin': '*'
+    });
+    res.write('retry: 3000\n\n');
+
+    // Send existing sessions on connect
+    const sessions = Array.from(liveChatSessions.entries()).map(([id, s]) => ({ id, ...s, messages: s.messages }));
+    res.write(`event: init\ndata: ${JSON.stringify(sessions)}\n\n`);
+
+    adminSSEClients.push(res);
+
+    req.on('close', () => {
+      const idx = adminSSEClients.indexOf(res);
+      if (idx >= 0) adminSSEClients.splice(idx, 1);
+    });
+    return; // Keep connection open
+  }
+
+  // 14. Admin Send Chat Reply: POST — human takeover
+  if (url === '/api/admin/send-chat-reply' && req.method === 'POST') {
+    try {
+      const { sessionId, message } = await parseJsonBody(req);
+      if (!sessionId || !message) {
+        return sendJson(res, 400, { success: false, error: 'sessionId and message required' });
+      }
+
+      let session = liveChatSessions.get(sessionId);
+      if (!session) {
+        session = { messages: [], userInfo: {}, adminJoined: true };
+        liveChatSessions.set(sessionId, session);
+      }
+      session.adminJoined = true;
+
+      const msgObj = { from: 'admin', text: message, time: new Date().toISOString() };
+      session.messages.push(msgObj);
+
+      // Push to all admin SSE clients
+      const payload = JSON.stringify({ type: 'admin_reply', sessionId, message: msgObj });
+      adminSSEClients.forEach(client => {
+        try { client.write(`event: message\ndata: ${payload}\n\n`); } catch(e) {}
+      });
+
+      return sendJson(res, 200, { success: true, message: 'Reply sent to user' });
+    } catch (err) {
+      return sendJson(res, 500, { success: false, error: err.message });
+    }
+  }
+
+  // 15. Get chat session status (for user chatbot to check if human joined)
+  if (url.startsWith('/api/chat-status/') && req.method === 'GET') {
+    const sessionId = url.replace('/api/chat-status/', '');
+    const session = liveChatSessions.get(sessionId);
+    const adminJoined = session ? session.adminJoined : false;
+    const pendingMessages = (session && session.messages) ? session.messages.filter(m => m.from === 'admin' && !m.delivered) : [];
+    // Mark as delivered
+    if (session) {
+      session.messages.forEach(m => { if (m.from === 'admin') m.delivered = true; });
+    }
+    return sendJson(res, 200, { adminJoined, messages: pendingMessages });
+  }
+
   // =========================================================================
   // SERVE STATIC FILES
   // =========================================================================
@@ -506,7 +651,18 @@ const server = http.createServer(async (req, res) => {
   }
 });
 
-server.listen(PORT, () => {
-  console.log(`Zavron Solutions Server listening on http://localhost:${PORT}`);
-  console.log(`Admin Portal: http://localhost:${PORT}/admin/login.html`);
+server.listen(PORT, async () => {
+  console.log(`\n🚀 Zavron Solutions Server listening on http://localhost:${PORT}`);
+  console.log(`🔐 Admin Portal: http://localhost:${PORT}/admin/login.html`);
+  console.log(`🌐 Live Website: http://localhost:${PORT}/\n`);
+
+  // Verify SMTP connection on startup
+  try {
+    const { transporter } = await import('./scripts/emailService.js');
+    await transporter.verify();
+    console.log(`✅ SMTP Connection Verified — Email delivery active (Gmail SMTP ready)\n`);
+  } catch (err) {
+    console.warn(`⚠️  SMTP Connection Warning: ${err.message}`);
+    console.warn(`   Email replies may not deliver. Check Gmail App Password in scripts/emailService.js\n`);
+  }
 });

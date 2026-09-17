@@ -40,7 +40,7 @@ export function generatePostHtml(post) {
   <meta content="${escapeHtml(metaDescription)}" property="og:description"/>
   <meta content="${featuredImage}" property="og:image"/>
   <link href="/assets/favicon.svg" rel="icon" type="image/svg+xml"/>
-  <link href="/favicon.ico" rel="icon" type="image/x-icon"/>
+  <link href="/assets/favicon.svg" rel="apple-touch-icon"/>
   <link href="/site.webmanifest" rel="manifest"/>
   <meta content="#061426" name="theme-color"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">

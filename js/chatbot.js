@@ -677,15 +677,64 @@ class ZavronLiveChat {
     document.getElementById('zv-btn').classList.remove('open');
   }
 
-  handleUser(text) {
+  async handleUser(text) {
     this.addUser(text);
     this.showTyping();
-    const delay = 600 + Math.random() * 300;
-    setTimeout(() => {
+    
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text, sessionId: this.sessionId })
+      });
+      const data = await res.json();
+      
+      if (data.sessionId && !this.sessionId) {
+        this.sessionId = data.sessionId;
+        sessionStorage.setItem('zv_chat_session', this.sessionId);
+        this.startPolling();
+      }
+
+      this.hideTyping();
+      
+      // If admin joined, the server might return no bot reply (admin will reply via polling)
+      if (data.adminJoined) {
+        this.adminJoined = true;
+        return; // Don't show automated reply
+      }
+
+      // If no admin, get automated local reply
+      const delay = 300 + Math.random() * 300;
+      setTimeout(() => {
+        const r = this.getReply(text);
+        this.addBot(r.text, r.chips, r.lead);
+      }, delay);
+      
+    } catch (e) {
       this.hideTyping();
       const r = this.getReply(text);
       this.addBot(r.text, r.chips, r.lead);
-    }, delay);
+    }
+  }
+
+  startPolling() {
+    if (this.pollInterval) return;
+    this.pollInterval = setInterval(async () => {
+      if (!this.sessionId) return;
+      try {
+        const res = await fetch('/api/chat-status/' + this.sessionId);
+        const data = await res.json();
+        if (data.adminJoined && !this.adminJoined) {
+          this.adminJoined = true;
+          this.addBot("**A human support agent has joined the chat.**", [], false);
+        }
+        if (data.messages && data.messages.length > 0) {
+          data.messages.forEach(m => {
+            this.addBot(m.text, [], false, 'admin');
+          });
+        }
+      } catch (e) {}
+    }, 3000);
   }
 
   getReply(raw) {
@@ -784,12 +833,13 @@ class ZavronLiveChat {
     this.save();
   }
 
-  addBot(text, chips = [], lead = false) {
-    const msg = { role: 'bot', text, chips, lead, ts: this.time() };
+  addBot(text, chips = [], lead = false, roleOverride = 'bot') {
+    const msg = { role: roleOverride, text, chips, lead, ts: this.time() };
     this.messages.push(msg);
     this.renderMsg(msg);
     this.save();
   }
+
 
   renderMsg(msg) {
     const container = document.getElementById('zv-messages');
@@ -862,6 +912,19 @@ class ZavronLiveChat {
         this.scrollBottom();
         return;
       }
+    } else if (msg.role === 'admin') {
+      const formattedHtml = this.format(msg.text);
+      wrap.innerHTML = `
+        <div class="zv-msg-bot">
+          <div class="zv-msg-bot-av" style="background: linear-gradient(135deg, #FF7A00, #E66E00); font-size: 10px; font-weight: 800;">
+            J
+          </div>
+          <div>
+            <div class="zv-msg-bot-bubble" style="background: rgba(255,122,0,0.1); border: 1px solid rgba(255,122,0,0.2);">${formattedHtml}</div>
+            <div class="zv-ts">Support Agent • ${msg.ts}</div>
+          </div>
+        </div>
+      `;
     } else {
       wrap.innerHTML = `
         <div class="zv-msg-user">
@@ -872,6 +935,7 @@ class ZavronLiveChat {
         </div>
       `;
     }
+
 
     container.appendChild(wrap);
     this.scrollBottom();
