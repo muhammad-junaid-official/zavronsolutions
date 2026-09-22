@@ -72,7 +72,7 @@ export function generatePostHtml(post) {
     "publisher": {
       "@type": "Organization",
       "name": "Zavron Solutions",
-      "url": "https://www.zavronsolutions.com",
+      "url": "https://www.zavronsolutions.com/",
       "logo": {
         "@type": "ImageObject",
         "url": "https://www.zavronsolutions.com/assets/favicon.svg"

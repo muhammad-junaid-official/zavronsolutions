@@ -166,7 +166,7 @@ ${message}
           <!-- Footer -->
           <tr>
             <td style="padding: 20px 32px; background-color: #061426; border-top: 1px solid #1a365d; text-align: center; color: #64748b; font-size: 12px;">
-              Zavron Solutions Lead Router &bull; <a href="https://www.zavronsolutions.com" style="color: #FF7A00; text-decoration: none;">zavronsolutions.com</a>
+              Zavron Solutions Lead Router &bull; <a href="https://www.zavronsolutions.com/" style="color: #FF7A00; text-decoration: none;">zavronsolutions.com</a>
             </td>
           </tr>
         </table>
@@ -353,7 +353,7 @@ export function getClientConfirmationTemplate(data) {
                 High-Performance Web Engineering, Custom WordPress &amp; Data-Led SEO for American Businesses.
               </p>
               <div>
-                <a href="https://www.zavronsolutions.com" style="color: #FF7A00; text-decoration: none; font-size: 12px; margin: 0 8px;">Website</a> &bull;
+                <a href="https://www.zavronsolutions.com/" style="color: #FF7A00; text-decoration: none; font-size: 12px; margin: 0 8px;">Website</a> &bull;
                 <a href="https://www.zavronsolutions.com/services/" style="color: #94a3b8; text-decoration: none; font-size: 12px; margin: 0 8px;">Services</a> &bull;
                 <a href="https://www.zavronsolutions.com/work/" style="color: #94a3b8; text-decoration: none; font-size: 12px; margin: 0 8px;">Portfolio</a> &bull;
                 <a href="https://www.zavronsolutions.com/privacy-policy/" style="color: #94a3b8; text-decoration: none; font-size: 12px; margin: 0 8px;">Privacy Policy</a>
@@ -456,7 +456,7 @@ export async function sendDirectReplyEmail({ to, subject, message, recipientName
               <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #1e293b; font-size: 13px; color: #94a3b8;">
                 <strong style="color: #ffffff;">Muhammad Junaid</strong><br/>
                 Founder &amp; Principal Strategist | Zavron Solutions<br/>
-                <a href="https://www.zavronsolutions.com" style="color: #00D2FF; text-decoration: none;">zavronsolutions.com</a> &bull; <a href="mailto:zavronsolutions@gmail.com" style="color: #00D2FF; text-decoration: none;">zavronsolutions@gmail.com</a>
+                <a href="https://www.zavronsolutions.com/" style="color: #00D2FF; text-decoration: none;">zavronsolutions.com</a> &bull; <a href="mailto:zavronsolutions@gmail.com" style="color: #00D2FF; text-decoration: none;">zavronsolutions@gmail.com</a>
               </div>
             </td>
           </tr>
