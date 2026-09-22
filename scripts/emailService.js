@@ -53,7 +53,7 @@ ${message}
 
 ---
 Zavron Solutions Automated Inquiry Routing
-https://zavronsolutions.com
+https://www.zavronsolutions.com
 `;
 }
 
@@ -166,7 +166,7 @@ ${message}
           <!-- Footer -->
           <tr>
             <td style="padding: 20px 32px; background-color: #061426; border-top: 1px solid #1a365d; text-align: center; color: #64748b; font-size: 12px;">
-              Zavron Solutions Lead Router &bull; <a href="https://zavronsolutions.com" style="color: #FF7A00; text-decoration: none;">zavronsolutions.com</a>
+              Zavron Solutions Lead Router &bull; <a href="https://www.zavronsolutions.com" style="color: #FF7A00; text-decoration: none;">zavronsolutions.com</a>
             </td>
           </tr>
         </table>
@@ -205,7 +205,7 @@ WHAT HAPPENS NEXT:
 3. Detailed Proposal & Architecture Plan: You receive a transparent milestone roadmap.
 
 Explore our recent live deployments:
-https://zavronsolutions.com/work/
+https://www.zavronsolutions.com/work/
 
 Warm regards,
 
@@ -213,7 +213,7 @@ Muhammad Junaid
 CEO & Principal Strategist
 Zavron Solutions
 Email: zavronsolutions@gmail.com
-Website: https://zavronsolutions.com
+Website: https://www.zavronsolutions.com
 
 ---
 © ${new Date().getFullYear()} Zavron Solutions. All rights reserved.
@@ -325,7 +325,7 @@ export function getClientConfirmationTemplate(data) {
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-bottom: 30px;">
                 <tr>
                   <td align="center">
-                    <a href="https://zavronsolutions.com/work/" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #FF7A00, #FF5500); color: #ffffff; text-decoration: none; border-radius: 8px; font-weight: 700; font-size: 15px; box-shadow: 0 4px 15px rgba(255,122,0,0.4);">
+                    <a href="https://www.zavronsolutions.com/work/" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #FF7A00, #FF5500); color: #ffffff; text-decoration: none; border-radius: 8px; font-weight: 700; font-size: 15px; box-shadow: 0 4px 15px rgba(255,122,0,0.4);">
                       Explore Our 40+ Live Case Studies &rarr;
                     </a>
                   </td>
@@ -353,10 +353,10 @@ export function getClientConfirmationTemplate(data) {
                 High-Performance Web Engineering, Custom WordPress &amp; Data-Led SEO for American Businesses.
               </p>
               <div>
-                <a href="https://zavronsolutions.com" style="color: #FF7A00; text-decoration: none; font-size: 12px; margin: 0 8px;">Website</a> &bull;
-                <a href="https://zavronsolutions.com/services/" style="color: #94a3b8; text-decoration: none; font-size: 12px; margin: 0 8px;">Services</a> &bull;
-                <a href="https://zavronsolutions.com/work/" style="color: #94a3b8; text-decoration: none; font-size: 12px; margin: 0 8px;">Portfolio</a> &bull;
-                <a href="https://zavronsolutions.com/privacy-policy/" style="color: #94a3b8; text-decoration: none; font-size: 12px; margin: 0 8px;">Privacy Policy</a>
+                <a href="https://www.zavronsolutions.com" style="color: #FF7A00; text-decoration: none; font-size: 12px; margin: 0 8px;">Website</a> &bull;
+                <a href="https://www.zavronsolutions.com/services/" style="color: #94a3b8; text-decoration: none; font-size: 12px; margin: 0 8px;">Services</a> &bull;
+                <a href="https://www.zavronsolutions.com/work/" style="color: #94a3b8; text-decoration: none; font-size: 12px; margin: 0 8px;">Portfolio</a> &bull;
+                <a href="https://www.zavronsolutions.com/privacy-policy/" style="color: #94a3b8; text-decoration: none; font-size: 12px; margin: 0 8px;">Privacy Policy</a>
               </div>
             </td>
           </tr>
@@ -456,7 +456,7 @@ export async function sendDirectReplyEmail({ to, subject, message, recipientName
               <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #1e293b; font-size: 13px; color: #94a3b8;">
                 <strong style="color: #ffffff;">Muhammad Junaid</strong><br/>
                 Founder &amp; Principal Strategist | Zavron Solutions<br/>
-                <a href="https://zavronsolutions.com" style="color: #00D2FF; text-decoration: none;">zavronsolutions.com</a> &bull; <a href="mailto:zavronsolutions@gmail.com" style="color: #00D2FF; text-decoration: none;">zavronsolutions@gmail.com</a>
+                <a href="https://www.zavronsolutions.com" style="color: #00D2FF; text-decoration: none;">zavronsolutions.com</a> &bull; <a href="mailto:zavronsolutions@gmail.com" style="color: #00D2FF; text-decoration: none;">zavronsolutions@gmail.com</a>
               </div>
             </td>
           </tr>
@@ -472,7 +472,7 @@ export async function sendDirectReplyEmail({ to, subject, message, recipientName
     to: to,
     replyTo: smtpConfig.auth.user,
     subject: subject || 'Response to your Zavron Solutions Inquiry',
-    text: `Dear ${recipientName},\n\n${message}\n\n---\nMuhammad Junaid\nFounder & Principal Strategist\nZavron Solutions\nhttps://zavronsolutions.com`,
+    text: `Dear ${recipientName},\n\n${message}\n\n---\nMuhammad Junaid\nFounder & Principal Strategist\nZavron Solutions\nhttps://www.zavronsolutions.com`,
     html: htmlBody,
     headers: {
       'X-Entity-Ref-ID': `admin-reply-${timestamp}`

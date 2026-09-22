@@ -18,7 +18,7 @@ export function generatePostHtml(post) {
     contentHtml = ''
   } = post;
 
-  const url = `https://zavronsolutions.com/blog/${slug}/`;
+  const url = `https://www.zavronsolutions.com/blog/${slug}/`;
   const categoryFormatted = (category || 'Web Development').replace(/-/g, ' ').toUpperCase();
 
   return `<!DOCTYPE html>
@@ -67,15 +67,15 @@ export function generatePostHtml(post) {
       "@type": "Person",
       "name": "${author}",
       "jobTitle": "${authorRole}",
-      "url": "https://zavronsolutions.com/about-us/"
+      "url": "https://www.zavronsolutions.com/about-us/"
     },
     "publisher": {
       "@type": "Organization",
       "name": "Zavron Solutions",
-      "url": "https://zavronsolutions.com",
+      "url": "https://www.zavronsolutions.com",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://zavronsolutions.com/assets/favicon.svg"
+        "url": "https://www.zavronsolutions.com/assets/favicon.svg"
       }
     }
   }

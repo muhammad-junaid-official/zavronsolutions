@@ -473,7 +473,7 @@ export class ZavronSEOAnalyzer {
       },
       serpPreview: {
         title: title ? `${title} | Zavron Solutions` : 'Page Title | Zavron Solutions',
-        url: `https://zavronsolutions.com › blog › ${slug || 'article-slug'}`,
+        url: `https://www.zavronsolutions.com › blog › ${slug || 'article-slug'}`,
         description: metaDesc || 'Provide a meta description to see how your snippet appears in Google search results...'
       }
     };

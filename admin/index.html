@@ -379,7 +379,7 @@
             <div style="margin-top: 24px;">
               <h4 style="margin: 0 0 8px 0; font-size: 0.88rem; font-weight: 700; color: #CBD5E1;">🔍 Live Google Search Preview</h4>
               <div class="serp-preview-card">
-                <div class="serp-header"><div class="serp-favicon"></div><span class="serp-url-crumb" id="serpUrlPreview">https://zavronsolutions.com › blog › ...</span></div>
+                <div class="serp-header"><div class="serp-favicon"></div><span class="serp-url-crumb" id="serpUrlPreview">https://www.zavronsolutions.com › blog › ...</span></div>
                 <div class="serp-title" id="serpTitlePreview">Page Title | Zavron Solutions</div>
                 <p class="serp-desc" id="serpDescPreview">Provide a meta description to see how your snippet appears in Google search results...</p>
               </div>
@@ -598,7 +598,7 @@
               </div>
               <div class="form-group">
                 <label>Website</label>
-                <input type="text" class="form-control" id="profileWebsite" value="https://zavronsolutions.com" />
+                <input type="text" class="form-control" id="profileWebsite" value="https://www.zavronsolutions.com" />
               </div>
             </div>
             <h4 style="margin:24px 0 16px;font-size:0.95rem;font-weight:700;color:var(--adm-text-muted);text-transform:uppercase;letter-spacing:0.05em;">Change Password</h4>
@@ -663,9 +663,15 @@
           <div class="form-group"><label>Recipient Email</label><input type="email" id="replyRecipientEmail" class="form-control" readonly style="background: rgba(15,35,61,0.5);" /></div>
           <div class="form-group"><label>Subject Line</label><input type="text" id="replySubject" class="form-control" required /></div>
           <div class="form-group"><label>Email Body (Review and edit before sending)</label><textarea id="replyMessageBody" class="form-control" rows="8" required style="line-height: 1.6; font-size: 0.9rem;"></textarea></div>
-          <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
-            <button type="button" class="btn-adm btn-adm-secondary" id="cancelReplyBtn">Cancel</button>
-            <button type="submit" class="btn-adm btn-adm-primary" id="btnSendReplyEmail">Send Email to Client ✉️</button>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px; flex-wrap: wrap; gap: 10px;">
+            <a id="btnOpenGmailDirect" target="_blank" rel="noopener" class="btn-adm btn-adm-secondary" style="display: inline-flex; align-items: center; gap: 6px; text-decoration: none; font-size: 0.82rem; padding: 8px 12px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#EA4335"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.272H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/></svg>
+              Open Pre-filled in Gmail
+            </a>
+            <div style="display: flex; gap: 10px;">
+              <button type="button" class="btn-adm btn-adm-secondary" id="cancelReplyBtn">Cancel</button>
+              <button type="submit" class="btn-adm btn-adm-primary" id="btnSendReplyEmail">Send Email to Client ✉️</button>
+            </div>
           </div>
         </form>
       </div>

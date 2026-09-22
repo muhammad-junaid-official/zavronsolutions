@@ -393,7 +393,7 @@ const server = http.createServer(async (req, res) => {
   }
 
   // 7. Admin Leads: GET
-  if (url === '/api/admin/leads' && req.method === 'GET') {
+  if ((url === '/api/admin/leads' || url === '/api/leads') && req.method === 'GET') {
     try {
       const leads = getLeads();
       return sendJson(res, 200, leads);
@@ -403,7 +403,7 @@ const server = http.createServer(async (req, res) => {
   }
 
   // 8. Admin Leads: POST Reply (Direct Email to Client)
-  if (url === '/api/admin/reply-lead' && req.method === 'POST') {
+  if ((url === '/api/admin/reply-lead' || url === '/api/reply-lead') && req.method === 'POST') {
     try {
       const { leadId, to, subject, message, recipientName } = await parseJsonBody(req);
       if (!to || !message) {
@@ -498,7 +498,7 @@ const server = http.createServer(async (req, res) => {
 
         // 1. Add canonical if missing
         if (!content.includes('rel="canonical"')) {
-          const canonicalUrl = `https://zavronsolutions.com${route.replace(/index\.html$/, '').replace(/\/$/, '')}/`;
+          const canonicalUrl = `https://www.zavronsolutions.com${route.replace(/index\.html$/, '').replace(/\/$/, '')}/`;
           content = content.replace(/<\/head>/i, `  <link rel="canonical" href="${canonicalUrl}">\n</head>`);
         }
 
