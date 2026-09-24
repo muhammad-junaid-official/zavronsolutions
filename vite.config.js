@@ -160,9 +160,5 @@ export default defineConfig({
       "blog-website-maintenance-and-security-for-small-business": "blog/website-maintenance-and-security-for-small-business/index.html"
 }
     }
-  },
-  server: {
-    port: 3000,
-    open: true
   }
 });

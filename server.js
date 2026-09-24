@@ -1,9 +1,11 @@
 import http from 'http';
+import https from 'https';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { sendInquiryEmails, sendDirectReplyEmail } from './scripts/emailService.js';
 import { generatePostHtml } from './scripts/blogGenerator.js';
+import { auditTargetWebsite } from './api/audit.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -285,19 +287,113 @@ const server = http.createServer(async (req, res) => {
         }).catch(e => console.error('Chat lead email error:', e));
       }
 
+      // AI response: Check OpenAI API Key if available
+      let aiReply = null;
+      if (process.env.OPENAI_API_KEY && message && !session.adminJoined) {
+        try {
+          const openAiRes = await fetch('https://api.openai.com/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
+            },
+            body: JSON.stringify({
+              model: 'gpt-4o-mini',
+              temperature: 0.6,
+              messages: [
+                {
+                  role: 'system',
+                  content: `You are the official AI Solutions Strategist for Zavron Solutions (https://www.zavronsolutions.com), an elite US digital solutions agency founded by Muhammad Junaid.
+We specialize in:
+- Custom Web Engineering (Next.js, React, Node.js, TypeScript)
+- Enterprise WordPress & Headless CMS
+- High-Converting E-Commerce (Shopify Plus & WooCommerce)
+- Technical SEO, Core Web Vitals, Google Maps 3-Pack, Topical Authority
+- Google Ads PPC & Social Media Marketing
+- UI/UX & Conversion Rate Optimization (CRO)
+
+CRITICAL INSTRUCTIONS:
+1. Detect and reply in the EXACT language of the user:
+   - If the user speaks Roman Urdu / Hindi (e.g. "mujhy kuch or poochana hai as a humanbaat karo", "rates kya hain", "website banwani hai"), reply fluently in natural, warm Roman Urdu!
+   - If the user speaks Urdu (Urdu script), reply in respectful, professional Urdu.
+   - If Spanish, reply in Spanish. If Arabic, in Arabic. If French, in French. If German, in German. If English, in English.
+2. Tone: Friendly, highly competent, professional, consultative, and human-like.
+3. If the user asks to speak to a human or Muhammad Junaid (e.g., "human se baat karni hai", "talk to human", "as a human baat karo"):
+   Warmly explain that they can connect directly with Muhammad Junaid or our US senior technical leadership for a free 15-minute discovery consultation, and invite them to leave their contact details.
+4. If the user wants a website audit, tell them to share their website URL (e.g. company.com) so you can run an instant live audit. NEVER suggest auditing zavronsolutions.com.
+5. Keep answers concise, clear, and well-structured.`
+                },
+                { role: 'user', content: message }
+              ]
+            })
+          });
+          if (openAiRes.ok) {
+            const openAiData = await openAiRes.json();
+            aiReply = openAiData.choices?.[0]?.message?.content || null;
+          }
+        } catch (e) {
+          console.error('OpenAI fetch error:', e.message);
+        }
+      }
+
       // Check if admin has joined this session
       const botReply = session.adminJoined
         ? null
-        : "Thank you! A senior strategist from Zavron Solutions has received your request and will follow up promptly.";
+        : (aiReply || "Thank you! A senior strategist from Zavron Solutions has received your request and will follow up promptly.");
 
       return sendJson(res, 200, {
         success: true,
         sessionId: sid,
         adminJoined: session.adminJoined,
-        reply: botReply
+        reply: botReply,
+        aiGenerated: !!aiReply
       });
     } catch (err) {
       return sendJson(res, 500, { success: false, error: err.message });
+    }
+  }
+
+  // 2b. Live Website Audit API (100% Authentic Real HTTP/DOM Inspection)
+  if ((url === '/api/audit-website' || url === '/api/audit') && req.method === 'POST') {
+    try {
+      const { url: targetUrl } = await parseJsonBody(req);
+      if (!targetUrl) {
+        return sendJson(res, 400, { success: false, error: 'Target URL is required' });
+      }
+      const auditResult = await auditTargetWebsite(targetUrl);
+      return sendJson(res, 200, auditResult);
+    } catch (err) {
+      console.error('Website audit error:', err.message);
+      return sendJson(res, 500, { success: false, error: err.message || 'Audit analysis failed' });
+    }
+  }
+
+  // 2c. Check Website URL Live Reachability
+  if (url === '/api/check-url' && req.method === 'POST') {
+    try {
+      const { url: targetUrl } = await parseJsonBody(req);
+      if (!targetUrl) return sendJson(res, 400, { live: false, error: 'URL is required' });
+      let norm = targetUrl.trim();
+      if (!/^https?:\/\//i.test(norm)) norm = 'https://' + norm.replace(/^www\./, '');
+      const parsed = new URL(norm);
+      const isHttps = parsed.protocol === 'https:';
+      const client = isHttps ? https : http;
+      const reqTest = client.request({
+        hostname: parsed.hostname,
+        port: parsed.port || (isHttps ? 443 : 80),
+        path: parsed.pathname || '/',
+        method: 'HEAD',
+        timeout: 6000,
+        headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) ZavronBot/2.0' }
+      }, (resp) => {
+        sendJson(res, 200, { live: resp.statusCode >= 200 && resp.statusCode < 500, status: resp.statusCode });
+      });
+      reqTest.on('error', () => sendJson(res, 200, { live: false }));
+      reqTest.on('timeout', () => { reqTest.destroy(); sendJson(res, 200, { live: false }); });
+      reqTest.end();
+      return;
+    } catch (err) {
+      return sendJson(res, 200, { live: false, error: err.message });
     }
   }
 
