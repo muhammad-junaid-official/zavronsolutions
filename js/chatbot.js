@@ -1022,16 +1022,10 @@ class ZavronLiveChat {
       console.warn('Backend audit API fetch error:', e);
     }
 
-    // 2. Client-side live analysis fallback if server API is unreachable
-    if (!auditData || !auditData.success) {
-      auditData = await this.clientSideLiveAudit(rawUrl, displayDomain);
-    }
-
-    this.hideTyping();
-
+    // 2. Fallback if server API is unreachable
     if (!auditData || !auditData.success) {
       const failMsg = userLang === 'roman_urdu'
-        ? `⚠️ **\`${displayDomain}\` tak rasai haasil nahi ho saki.**\n\nBaraye meherbani check karein ke domain ka naam theek hai aur website live hai. Aap \`https://\` ke sath try kar saktay hain.`
+        ? `⚠️ **\`${displayDomain}\` tak rasai haasil nahi ho saki.**\n\nBaraye meherbani check karein ke domain ka naam theek hai aur website live hai.`
         : `⚠️ **Could not connect to \`${displayDomain}\`.**\n\nPlease ensure the URL is spelled correctly and the server is live and publicly accessible.`;
       this.addBot(failMsg, ["Try Another Website", "Get a Free Quote", "Talk to Muhammad Junaid"]);
       return;
@@ -1040,68 +1034,7 @@ class ZavronLiveChat {
     this.renderAuditReport(auditData, userLang);
   }
 
-  async clientSideLiveAudit(rawUrl, displayDomain) {
-    const t0 = performance.now();
-    let isReachable = true;
-    let isHttps = rawUrl.startsWith('https://') || !rawUrl.startsWith('http://');
 
-    try {
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 6000);
-      await fetch(isHttps ? 'https://' + displayDomain : 'http://' + displayDomain, {
-        mode: 'no-cors',
-        signal: controller.signal
-      });
-      clearTimeout(timeout);
-    } catch(e) {
-      if (e.name === 'AbortError') isReachable = false;
-    }
-
-    const ttfb = Math.round(performance.now() - t0);
-    if (!isReachable) return { success: false };
-
-    // Deterministic metrics calibrated from real measured latency & domain attributes
-    const perfScore = Math.max(35, Math.min(95, 100 - Math.round(ttfb / 25)));
-    const seoScore = 65;
-    const mobileScore = 80;
-    const securityScore = isHttps ? 85 : 45;
-    const overallScore = Math.round((perfScore * 0.35) + (seoScore * 0.35) + (mobileScore * 0.15) + (securityScore * 0.15));
-
-    let grade = overallScore >= 80 ? 'GOOD / ROOM TO SCALE' : overallScore < 60 ? 'CRITICAL FIXES REQUIRED' : 'NEEDS OPTIMIZATION';
-    let gradeClass = overallScore >= 80 ? 'zv-score-good' : overallScore < 60 ? 'zv-score-poor' : 'zv-score-fair';
-
-    const issues = [];
-    const successes = [];
-    if (ttfb > 500) {
-      issues.push(`Server Latency (TTFB): Initial response measured at ${ttfb}ms (Google recommends < 200ms).`);
-    } else {
-      successes.push(`Fast Initial Server Latency: ${ttfb}ms measured.`);
-    }
-    if (!isHttps) {
-      issues.push('Insecure Connection: Site is not utilizing HTTPS encryption.');
-    } else {
-      successes.push('Secure SSL / HTTPS active.');
-    }
-    issues.push('Structured Data: Schema.org JSON-LD entities require verification.');
-    issues.push('Core Web Vitals: Mobile LCP and render-blocking scripts require asset compression.');
-
-    return {
-      success: true,
-      hostname: displayDomain,
-      ttfbMs: ttfb,
-      scores: { overall: overallScore, performance: perfScore, seo: seoScore, mobile: mobileScore, security: securityScore },
-      grade,
-      gradeClass,
-      details: { isHttps, h1Count: 1, imagesMissingAlt: 2, metaDescription: 'Present' },
-      issues,
-      successes,
-      recommendedServices: [
-        'Sub-Second Next.js / Server Speed Engineering',
-        'Technical SEO & Schema Entity Markup',
-        'Core Web Vitals & PageSpeed Retainer'
-      ]
-    };
-  }
 
   renderAuditReport(audit, userLang) {
     const domain = audit.hostname || 'Website';

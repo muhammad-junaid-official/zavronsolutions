@@ -527,6 +527,27 @@ CRITICAL INSTRUCTIONS:
     }
   }
 
+  // 8b. Admin Leads: Update Status (CRM Functionality)
+  if (url === '/api/admin/update-lead-status' && req.method === 'POST') {
+    try {
+      const { id, status } = await parseJsonBody(req);
+      if (!id || !status) {
+        return sendJson(res, 400, { success: false, error: 'Lead ID and status are required' });
+      }
+      
+      const leads = getLeads();
+      const lead = leads.find(l => l.id === id);
+      if (lead) {
+        lead.status = status;
+        saveLeads(leads);
+        return sendJson(res, 200, { success: true, message: 'Status updated' });
+      }
+      return sendJson(res, 404, { success: false, error: 'Lead not found' });
+    } catch (err) {
+      return sendJson(res, 500, { success: false, error: err.message });
+    }
+  }
+
   // 9. Admin AI Email Writer Assistant: POST
   if (url === '/api/admin/ai-draft-reply' && req.method === 'POST') {
     try {

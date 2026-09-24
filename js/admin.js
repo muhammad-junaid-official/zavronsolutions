@@ -234,7 +234,7 @@ class ZavronAdminApp {
     this.updateOverviewMetrics();
   }
 
-  updateOverviewMetrics() {
+  async updateOverviewMetrics() {
     const totalEl = document.getElementById('metricTotalPosts');
     const avgEl = document.getElementById('metricAvgSEO');
     if (totalEl) totalEl.textContent = this.posts.length;
@@ -243,10 +243,25 @@ class ZavronAdminApp {
       avgEl.textContent = Math.round(sum / this.posts.length) + '%';
     }
 
-    const metricIndexRoutes = document.getElementById('metricIndexRoutes');
-    if (metricIndexRoutes) {
-      // Authentic verified public canonical URLs in sitemap
-      metricIndexRoutes.textContent = 138;
+    try {
+      const res = await fetch('/api/admin/site-audit');
+      if (res.ok) {
+        const data = await res.json();
+        const metricIndexRoutes = document.getElementById('metricIndexRoutes');
+        if (metricIndexRoutes && data.totalPages) {
+          metricIndexRoutes.textContent = data.totalPages;
+        }
+        const metricSiteHealth = document.getElementById('metricSiteHealth');
+        if (metricSiteHealth && data.overallScore) {
+          metricSiteHealth.textContent = data.overallScore + '%';
+        }
+      } else {
+        const metricIndexRoutes = document.getElementById('metricIndexRoutes');
+        if (metricIndexRoutes) metricIndexRoutes.textContent = FALLBACK_SITE_ROUTES.length;
+      }
+    } catch (e) {
+      const metricIndexRoutes = document.getElementById('metricIndexRoutes');
+      if (metricIndexRoutes) metricIndexRoutes.textContent = FALLBACK_SITE_ROUTES.length;
     }
   }
 
@@ -446,7 +461,8 @@ class ZavronAdminApp {
       const res = await fetch('/api/admin/site-audit');
       let auditData = [];
       if (res.ok) {
-        auditData = await res.json();
+        const responseData = await res.json();
+        auditData = responseData.pages || [];
       } else {
         auditData = FALLBACK_SITE_ROUTES;
       }
@@ -714,7 +730,13 @@ class ZavronAdminApp {
           <td>${this.escapeHtml(lead.service)}</td>
           <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${this.escapeHtml(lead.details)}">${this.escapeHtml(lead.details)}</td>
           <td>
-            <span class="seo-score-pill ${isReplied ? 'score-good' : 'score-poor'}">${isReplied ? 'Replied' : 'New'}</span>
+            <select class="form-control status-select" data-id="${lead.id}" style="padding: 4px; font-size: 0.8rem; background: rgba(0,0,0,0.2); color: #fff; border: 1px solid #FF7A00; border-radius: 4px; cursor: pointer;">
+              <option value="new" ${lead.status === 'new' ? 'selected' : ''}>New Lead</option>
+              <option value="in_progress" ${lead.status === 'in_progress' ? 'selected' : ''}>In Progress</option>
+              <option value="replied" ${lead.status === 'replied' ? 'selected' : ''}>Replied</option>
+              <option value="converted" ${lead.status === 'converted' ? 'selected' : ''}>Converted</option>
+              <option value="lost" ${lead.status === 'lost' ? 'selected' : ''}>Lost</option>
+            </select>
           </td>
           <td>
             <button class="btn-action" style="${isReplied ? '' : 'background:rgba(255,122,0,0.2);color:#FF7A00;'}" onclick="window.zavronAdmin.openReplyModal('${lead.id}')">
@@ -724,6 +746,33 @@ class ZavronAdminApp {
         </tr>
       `;
     }).join('');
+    
+    // Attach events for CRM status dropdown
+    setTimeout(() => this.attachLeadEvents(), 100);
+  }
+
+  attachLeadEvents() {
+    const selects = document.querySelectorAll('.status-select');
+    selects.forEach(select => {
+      select.addEventListener('change', async (e) => {
+        const id = e.target.getAttribute('data-id');
+        const status = e.target.value;
+        try {
+          const res = await fetch('/api/admin/update-lead-status', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id, status })
+          });
+          if (res.ok) {
+            // Background update, no need to reload entire table
+            const lead = this.leads.find(l => l.id === id);
+            if (lead) lead.status = status;
+          }
+        } catch(err) {
+          console.error('Failed to update lead status:', err);
+        }
+      });
+    });
   }
 
   updateGmailLink() {
