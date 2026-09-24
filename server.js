@@ -783,3 +783,5 @@ server.listen(PORT, async () => {
     console.warn(`   Email replies may not deliver. Check Gmail App Password in scripts/emailService.js\n`);
   }
 });
+
+module.exports = server;
