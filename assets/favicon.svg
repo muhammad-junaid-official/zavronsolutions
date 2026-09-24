@@ -1,13 +1,20 @@
 <svg xmlns="http://www.w3.org/2000/svg"
-     viewBox="0 0 64 64"
      width="64"
      height="64"
-     style="background: transparent;">
+     viewBox="0 0 64 64"
+     fill="none">
 
-  <rect
-    width="64"
-    height="64"
-    rx="10"
+  <path
+    d="M10 0
+       H54
+       C59.523 0 64 4.477 64 10
+       V54
+       C64 59.523 59.523 64 54 64
+       H10
+       C4.477 64 0 59.523 0 54
+       V10
+       C0 4.477 4.477 0 10 0
+       Z"
     fill="#FF7A00"/>
 
   <path
@@ -15,8 +22,7 @@
     stroke="#FFFFFF"
     stroke-width="6"
     stroke-linecap="round"
-    stroke-linejoin="round"
-    fill="none"/>
+    stroke-linejoin="round"/>
 
   <circle
     cx="48"
