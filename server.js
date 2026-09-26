@@ -6,6 +6,7 @@ import { fileURLToPath } from 'url';
 import { sendInquiryEmails, sendDirectReplyEmail } from './scripts/emailService.js';
 import { generatePostHtml } from './scripts/blogGenerator.js';
 import { auditTargetWebsite } from './api/audit.js';
+import { fetchRecentEmails } from './scripts/imapService.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -16,8 +17,10 @@ const POSTS_FILE = path.join(__dirname, 'data', 'posts.json');
 const LEADS_FILE = path.join(__dirname, 'data', 'leads.json');
 
 // In-memory Live Chat store
-const liveChatSessions = new Map(); // sessionId -> { messages: [], userInfo: {}, adminJoined: false }
+const liveChatSessions = new Map(); // sessionId -> { isEmail: boolean, email: string, messages: [], userInfo: {}, adminJoined: false }
 const adminSSEClients = []; // All connected admin SSE clients for real-time push
+
+let lastEmailFetch = new Date(Date.now() - 24 * 60 * 60 * 1000); // last 24 hrs
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@zavronsolutions.com';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'ZavronAdmin2026!';
@@ -717,6 +720,15 @@ CRITICAL INSTRUCTIONS:
         try { client.write(`event: message\ndata: ${payload}\n\n`); } catch(e) {}
       });
 
+      if (session.isEmail && session.email) {
+        await sendDirectReplyEmail({
+          to: session.email,
+          subject: session.subject || 'Response to your Zavron Solutions Inquiry',
+          message: message,
+          recipientName: session.userInfo.name || 'Valued Client'
+        });
+      }
+
       return sendJson(res, 200, { success: true, message: 'Reply sent to user' });
     } catch (err) {
       return sendJson(res, 500, { success: false, error: err.message });
@@ -782,6 +794,52 @@ server.listen(PORT, async () => {
     console.warn(`⚠️  SMTP Connection Warning: ${err.message}`);
     console.warn(`   Email replies may not deliver. Check Gmail App Password in scripts/emailService.js\n`);
   }
+
+  // Start IMAP Polling
+  setInterval(async () => {
+    try {
+      const emails = await fetchRecentEmails(lastEmailFetch);
+      if (emails.length > 0) {
+        lastEmailFetch = new Date();
+        emails.forEach(email => {
+          const sid = 'email_' + email.from.address;
+          if (!liveChatSessions.has(sid)) {
+            liveChatSessions.set(sid, {
+              isEmail: true,
+              email: email.from.address,
+              subject: email.subject,
+              messages: [],
+              userInfo: { name: email.from.name || email.from.address },
+              adminJoined: true,
+              startTime: email.date
+            });
+          }
+          const session = liveChatSessions.get(sid);
+          // Check if message already exists
+          const exists = session.messages.find(m => m.uid === email.uid);
+          if (!exists) {
+            session.messages.push({
+              uid: email.uid,
+              from: 'user',
+              text: email.text,
+              time: email.date
+            });
+            // Push to admin SSE
+            const ssePayload = JSON.stringify({
+              type: 'new_message',
+              sessionId: sid,
+              session: { ...session, id: sid }
+            });
+            adminSSEClients.forEach(client => {
+              try { client.write(`event: message\ndata: ${ssePayload}\n\n`); } catch(e) {}
+            });
+          }
+        });
+      }
+    } catch(e) {
+      console.error('IMAP Polling Error:', e.message);
+    }
+  }, 10000);
 });
 
 module.exports = server;

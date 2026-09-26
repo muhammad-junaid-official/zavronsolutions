@@ -440,26 +440,66 @@ export async function sendDirectReplyEmail({ to, subject, message, recipientName
   <title>${subject || 'Message from Zavron Solutions'}</title>
 </head>
 <body style="margin: 0; padding: 0; background-color: #061426; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #ffffff;">
-  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #061426; padding: 30px 15px;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #061426; padding: 35px 15px;">
     <tr>
       <td align="center">
-        <table role="presentation" width="600" cellspacing="0" cellpadding="0" style="max-width: 600px; width: 100%; background-color: #0b1e36; border: 1px solid #1a365d; border-radius: 12px; overflow: hidden;">
+        <!-- Main Card -->
+        <table role="presentation" width="600" cellspacing="0" cellpadding="0" style="max-width: 600px; width: 100%; background-color: #0b1e36; border: 1px solid #1a365d; border-radius: 14px; overflow: hidden; box-shadow: 0 12px 40px rgba(0,0,0,0.6);">
+          
+          <!-- Branded Top Banner -->
           <tr>
-            <td style="padding: 24px 30px; background: linear-gradient(135deg, #0d2342 0%, #061426 100%); border-bottom: 2px solid #00D2FF;">
-              <span style="font-size: 20px; font-weight: 800; color: #ffffff;">ZAVRON <span style="color: #00D2FF;">SOLUTIONS</span></span>
+            <td style="padding: 32px; background: linear-gradient(135deg, #0f284a 0%, #061426 100%); border-bottom: 2px solid #FF7A00; text-align: center;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td align="center">
+                    <div style="display: inline-block; width: 44px; height: 44px; background: linear-gradient(135deg, #FF7A00, #FF5500); border-radius: 10px; text-align: center; line-height: 44px; color: #ffffff; font-weight: 800; font-size: 22px; vertical-align: middle; box-shadow: 0 4px 14px rgba(255,122,0,0.4);">
+                      Z
+                    </div>
+                    <div style="margin-top: 10px;">
+                      <span style="font-size: 22px; font-weight: 800; color: #ffffff; letter-spacing: 2px;">ZAVRON</span>
+                      <span style="font-size: 12px; font-weight: 700; color: #FF7A00; letter-spacing: 4px; display: block; margin-top: 2px;">SOLUTIONS</span>
+                    </div>
+                  </td>
+                </tr>
+              </table>
             </td>
           </tr>
+
+          <!-- Main Content -->
           <tr>
-            <td style="padding: 30px; line-height: 1.6; color: #e2e8f0; font-size: 15px;">
+             <td style="padding: 36px 32px; line-height: 1.6; color: #e2e8f0; font-size: 15px;">
               <p style="margin-top: 0; font-size: 16px; color: #ffffff;">Dear <strong>${recipientName}</strong>,</p>
               <div style="margin: 20px 0; white-space: pre-wrap; color: #cbd5e1; font-size: 15px;">${message}</div>
-              <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #1e293b; font-size: 13px; color: #94a3b8;">
-                <strong style="color: #ffffff;">Muhammad Junaid</strong><br/>
-                Founder &amp; Principal Strategist | Zavron Solutions<br/>
-                <a href="https://www.zavronsolutions.com/" style="color: #00D2FF; text-decoration: none;">zavronsolutions.com</a> &bull; <a href="mailto:zavronsolutions@gmail.com" style="color: #00D2FF; text-decoration: none;">zavronsolutions@gmail.com</a>
+              
+              <!-- Signature Block -->
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-top: 1px solid #1e293b; padding-top: 20px; margin-top: 30px;">
+                <tr>
+                  <td>
+                    <div style="font-size: 15px; font-weight: 700; color: #ffffff;">Muhammad Junaid</div>
+                    <div style="font-size: 13px; color: #FF7A00; font-weight: 600;">CEO &amp; Principal Strategist</div>
+                    <div style="font-size: 13px; color: #94a3b8; margin-top: 4px;">Zavron Solutions &bull; <a href="mailto:zavronsolutions@gmail.com" style="color: #00D2FF; text-decoration: none;">zavronsolutions@gmail.com</a></div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="padding: 24px 32px; background-color: #061426; border-top: 1px solid #1a365d; text-align: center;">
+              <p style="margin: 0 0 10px 0; color: #64748b; font-size: 12px; line-height: 1.5;">
+                &copy; ${new Date().getFullYear()} Zavron Solutions. All rights reserved.<br>
+                High-Performance Web Engineering, Custom WordPress &amp; Data-Led SEO for American Businesses.
+              </p>
+              <div>
+                <a href="https://www.zavronsolutions.com/" style="color: #FF7A00; text-decoration: none; font-size: 12px; margin: 0 8px;">Website</a> &bull;
+                <a href="https://www.zavronsolutions.com/services/" style="color: #94a3b8; text-decoration: none; font-size: 12px; margin: 0 8px;">Services</a> &bull;
+                <a href="https://www.zavronsolutions.com/work/" style="color: #94a3b8; text-decoration: none; font-size: 12px; margin: 0 8px;">Portfolio</a> &bull;
+                <a href="https://www.zavronsolutions.com/privacy-policy/" style="color: #94a3b8; text-decoration: none; font-size: 12px; margin: 0 8px;">Privacy Policy</a>
               </div>
             </td>
           </tr>
+
         </table>
       </td>
     </tr>

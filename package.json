@@ -11,6 +11,8 @@
   },
   "type": "module",
   "dependencies": {
+    "imap-simple": "^5.1.0",
+    "mailparser": "^3.9.28",
     "nodemailer": "^6.9.16"
   },
   "devDependencies": {

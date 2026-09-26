@@ -2,7 +2,7 @@
  * ZAVRON SOLUTIONS — ENTERPRISE CONVERSATIONAL AI & LIVE AUDIT ASSISTANT
  * Features:
  * - Natural Language Conversational Intelligence (General inquiries, services, tech stack, pricing, US market)
- * - Instant Live Website Audit Tool (Analyzes URLs, scores Core Web Vitals/SEO/Mobile/Security & recommends matching Zavron services)
+ * - Lead Capture & Dual-Email Dispatch via Gmail SMTP
  * - Lead Capture & Dual-Email Dispatch via Gmail SMTP
  * - 100% Conflict-free isolated UI & Mobile-first design
  */
@@ -138,11 +138,11 @@ function detectLanguage(text) {
   }
 
   // 2. Roman Urdu / Hindi patterns
-  if (ROMAN_URDU_WORDS.test(clean) || /humanbaat|baatkaro|auditkaro|dekhlein/i.test(clean)) {
+  if (ROMAN_URDU_WORDS.test(clean) || /humanbaat|baatkaro||dekhlein/i.test(clean)) {
     return 'roman_urdu';
   }
 
-  // 3. Spanish patterns
+  // 2. Spanish patterns
   if (/\b(hola|como|cómo|que|qué|si|gracias|quiero|necesito|tengo|puede|por favor|ayuda|buenos|dias|días|tardes|noches|servicios|sitio|pagina|página|precio|precios|costo|cuanto|cuánto)\b/i.test(clean)) {
     return 'spanish';
   }
@@ -771,8 +771,8 @@ class ZavronLiveChat {
     if (this.messages.length === 0) {
       setTimeout(() => {
         this.addBot(
-          "👋 **Hello and welcome to Zavron Solutions!**\n\nI'm your AI digital solutions consultant. You can ask me anything about our web engineering, SEO growth, and transparent US pricing.\n\n💡 *Tip: Drop your website URL (e.g., `yoursite.com`) anytime and I'll generate a live technical audit report with tailored service recommendations!*",
-          ["Audit My Website 🔍", "Custom Web Development", "SEO & Google Rankings", "Shopify / E-Commerce", "Talk to Muhammad Junaid"]
+          "👋 **Hello and welcome to Zavron Solutions!**\n\nI'm your AI digital solutions consultant. You can ask me anything about our web engineering, SEO growth, and transparent US pricing.\n\n",
+          ["Custom Web Development", "SEO & Google Rankings", "Shopify / E-Commerce", "Talk to Muhammad Junaid"]
         );
       }, 500);
     }
@@ -796,7 +796,7 @@ class ZavronLiveChat {
       <div id="zv-launcher">
         <div id="zv-greeting-bubble" style="display:none;">
           <div class="zv-gb-name"><span class="zv-gb-dot"></span>Live AI Strategist Online</div>
-          <p>👋 Hi! Want a free website audit or quote for your business?</p>
+          <p>👋 Hi! Want a free quote for your business?</p>
         </div>
         <button id="zv-btn" type="button" aria-label="Open live chat">
           <div id="zv-notif-dot"></div>
@@ -823,7 +823,7 @@ class ZavronLiveChat {
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
           </div>
-          <div id="zv-header-msg">Ask anything about web architecture, SEO rankings, pricing, or enter a URL for a live audit.</div>
+          <div id="zv-header-msg">Ask anything about web architecture, SEO rankings, and pricing.</div>
         </div>
 
         <!-- Messages -->
@@ -832,7 +832,7 @@ class ZavronLiveChat {
         <!-- Input Footer -->
         <div id="zv-footer">
           <form id="zv-form" autocomplete="off">
-            <input id="zv-input" type="text" placeholder="Ask a question or enter your website URL…" autocomplete="off" />
+            <input id="zv-input" type="text" placeholder="Ask a question..." autocomplete="off" />
             <button type="submit" id="zv-send" disabled aria-label="Send">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
             </button>
@@ -908,51 +908,6 @@ class ZavronLiveChat {
     const userLang = detectLanguage(text);
     this.lastLang = userLang;
 
-    // Check if the user entered a website URL for live audit
-    const url = this.extractUrl(text);
-    const isAuditIntent = /\b(audit|check|analyze|review|scan|inspect|evaluate|test|check karo|audit karo|check karna|dekho|analyze karo|auditoria|analizar)\b/i.test(text);
-
-    if (url) {
-      setTimeout(async () => {
-        // Validate that it's not our own website
-        const cleanDomain = url.replace(/^https?:\/\//, '').replace(/^www\./, '').split('/')[0].toLowerCase();
-        if (cleanDomain === 'zavronsolutions.com' || cleanDomain.startsWith('zavronsolutions')) {
-          this.hideTyping();
-          let ownSiteMsg = "🏆 **You've entered our own website — Zavron Solutions!**\n\nWe engineered and maintain this platform to 95+ PageSpeed scores, sub-second LCP, and top-tier SEO standards.\n\nPlease enter **your business website URL** (e.g. `yourcompany.com`) so I can run a complete live technical audit for you!";
-          if (userLang === 'roman_urdu') {
-            ownSiteMsg = "🏆 **Aap ne hamari apni website (Zavron Solutions) enter ki hai!**\n\nYeh platform hum ne 95+ PageSpeed score aur sub-second speed ke sath engineer kiya hai.\n\nAap **apni business website** ka URL yahan enter karein (maslan: `yourcompany.com`) taakay hum aap ki website ka 100% authentic live audit kar sakein!";
-          } else if (userLang === 'urdu') {
-            ownSiteMsg = "🏆 **یہ ہماری اپنی ویب سائٹ (زاورون سلوشنز) ہے!**\n\nہم نے یہ ویب سائٹ 95+ رفتار اور بہترین SEO معیارات کے ساتھ تیار کی ہے۔\n\nبرائے مہربانی **اپنی کاروباری ویب سائٹ** کا URL درج کریں تاکہ ہم اس کا مکمل لائیو آڈٹ تیار کر سکیں!";
-          } else if (userLang === 'spanish') {
-            ownSiteMsg = "🏆 **¡Ha ingresado nuestro propio sitio web — Zavron Solutions!**\n\nPor favor ingrese la URL del sitio web de **su empresa** para realizar una auditoría técnica completa en tiempo real.";
-          }
-          this.addBot(ownSiteMsg, ["Audit My Website 🔍", "Get a Free Quote", "Explore Services"]);
-          return;
-        }
-
-        // Run authentic live website audit
-        await this.runWebsiteAudit(url, userLang);
-      }, 350);
-      return;
-    }
-
-    // Direct audit intent without URL
-    if (isAuditIntent && /\b(site|website|page|url|domain|meri|apni|humari|website ko|sitio)\b/i.test(text)) {
-      setTimeout(() => {
-        this.hideTyping();
-        let promptUrlMsg = "🔍 **Let's audit your website right now!**\n\nPlease drop your website URL right here (e.g. `yourcompany.com` or `https://mycompany.com`).\n\nI will run an authentic live technical analysis:\n• Real Server Speed & TTFB Latency\n• Technical SEO (Title, Meta, Canonical, H1 Hierarchy)\n• Image Alt tags & Media weight\n• Mobile Viewport Responsiveness\n• SSL Security & Schema Markup";
-        if (userLang === 'roman_urdu') {
-          promptUrlMsg = "🔍 **Chalein aap ki website ka 100% authentic live audit kartay hain!**\n\nBas apni website ka domain ya URL yahan type karein (maslan: `yourcompany.com` ya `https://mycompany.com`).\n\nMain live server se analyze karunga:\n• Real Server Latency & Speed (TTFB)\n• Technical SEO (Title, Meta, Canonical, H1 Hierarchy)\n• Image Alt Tags & Accessibility\n• Mobile Responsiveness & Viewport\n• SSL Certificate & Schema Markup";
-        } else if (userLang === 'urdu') {
-          promptUrlMsg = "🔍 **آئیے آپ کی ویب سائٹ کا 100% مستند لائیو آڈٹ کرتے ہیں!**\n\nبراہ کرم اپنی ویب سائٹ کا URL یہاں درج کریں (مثال: `yourcompany.com`)۔\n\nہم حقیقی رفتار، ٹیکنیکل SEO، اور سیکیورٹی کا فوری تجزیہ کریں گے۔";
-        } else if (userLang === 'spanish') {
-          promptUrlMsg = "🔍 **¡Auditemos su sitio web en vivo ahora mismo!**\n\nPor favor ingrese la URL de su sitio web (ej. `suempresa.com`).\n\nAnalizaremos velocidad real del servidor (TTFB), SEO técnico, adaptabilidad móvil y seguridad SSL.";
-        }
-        this.addBot(promptUrlMsg, ["Audit My Website 🔍", "Talk to Muhammad Junaid", "Explore Services"]);
-      }, 350);
-      return;
-    }
-
     // Conversational query: first check if OpenAI is configured on backend
     try {
       const resp = await fetch('/api/chat', {
@@ -964,7 +919,7 @@ class ZavronLiveChat {
         const data = await resp.json();
         if (data.aiGenerated && data.reply) {
           this.hideTyping();
-          this.addBot(data.reply, ["Audit My Website 🔍", "Get a Free Quote", "Talk to Muhammad Junaid"]);
+          this.addBot(data.reply, ["Get a Free Quote", "Talk to Muhammad Junaid"]);
           return;
         }
       }
@@ -978,164 +933,7 @@ class ZavronLiveChat {
     }, 400 + Math.random() * 250);
   }
 
-  extractUrl(text) {
-    const urlPattern = /(?:https?:\/\/)?(?:www\.)?([a-zA-Z0-9][-a-zA-Z0-9]*\.[a-zA-Z]{2,}(?:\/[^\s]*)?)/i;
-    const match = text.match(urlPattern);
-    if (match) {
-      let domain = match[0].trim().replace(/[,\.?!;]+$/, '');
-      const skipList = ['e.g', 'i.e', 'etc', 'vs', 'co.', 'ltd', 'inc', 'org.', 'e.g.', 'i.e.'];
-      if (domain.length > 4 && domain.includes('.') && !skipList.some(s => domain.toLowerCase().startsWith(s))) {
-        return domain;
-      }
-    }
-    return null;
-  }
-
-  async runWebsiteAudit(rawUrl, userLang = 'english') {
-    let cleanUrl = rawUrl.trim();
-    let displayDomain = cleanUrl.replace(/^https?:\/\//i, '').replace(/^www\./i, '').split('/')[0].toLowerCase();
-
-    // Show initial scanning indicator in the user's language
-    const scanNotices = {
-      roman_urdu: `🔍 **\`${displayDomain}\` ka live technical analysis shuru ho raha hai...**\n\nBaraye meherbani 2-3 seconds intezar karein, hum live server latency (TTFB), technical SEO, headings, image alt tags aur SSL security analyze kar rahay hain...`,
-      urdu: `🔍 **\`${displayDomain}\` کا لائیو تکنیکی آڈٹ جاری ہے...**\n\nبراہ کرم چند سیکنڈ انتظار کریں، ہم لائیو سرور سپیڈ، SEO، اور سیکیورٹی میٹرکس حاصل کر رہے ہیں...`,
-      spanish: `🔍 **Iniciando análisis técnico en vivo para \`${displayDomain}\`...**\n\nPor favor espere unos segundos mientras evaluamos la velocidad del servidor, SEO y seguridad SSL...`,
-      english: `🔍 **Running authentic live technical audit for \`${displayDomain}\`...**\n\nPlease wait a moment while I inspect real server response latency (TTFB), Core Web Vitals, technical SEO hierarchy, and SSL security...`
-    };
-
-    this.addBot(scanNotices[userLang] || scanNotices.english);
-    this.showTyping();
-
-    let auditData = null;
-
-    // 1. Fetch authentic analysis from backend endpoint
-    try {
-      const resp = await fetch('/api/audit-website', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url: rawUrl })
-      });
-      if (resp.ok) {
-        auditData = await resp.json();
-      }
-    } catch (e) {
-      console.warn('Backend audit API fetch error:', e);
-    }
-
-    // 2. Fallback if server API is unreachable
-    if (!auditData || !auditData.success) {
-      const failMsg = userLang === 'roman_urdu'
-        ? `⚠️ **\`${displayDomain}\` tak rasai haasil nahi ho saki.**\n\nBaraye meherbani check karein ke domain ka naam theek hai aur website live hai.`
-        : `⚠️ **Could not connect to \`${displayDomain}\`.**\n\nPlease ensure the URL is spelled correctly and the server is live and publicly accessible.`;
-      this.addBot(failMsg, ["Try Another Website", "Get a Free Quote", "Talk to Muhammad Junaid"]);
-      return;
-    }
-
-    this.renderAuditReport(auditData, userLang);
-  }
-
-
-
-  renderAuditReport(audit, userLang) {
-    const domain = audit.hostname || 'Website';
-    const overall = audit.scores?.overall || 70;
-    const perf = audit.scores?.performance || 65;
-    const seo = audit.scores?.seo || 70;
-    const ttfb = audit.ttfbMs || 420;
-    const isHttps = audit.details?.isHttps !== false;
-    const h1Count = audit.details?.h1Count ?? 1;
-    const missingAlt = audit.details?.imagesMissingAlt ?? 0;
-
-    const ttfbColor = ttfb < 300 ? '#16A34A' : ttfb < 700 ? '#EA580C' : '#DC2626';
-    const ttfbLabel = ttfb < 300 ? 'Fast' : ttfb < 700 ? 'Fair' : 'Slow';
-    const perfColor = perf >= 80 ? '#16A34A' : perf >= 60 ? '#EA580C' : '#DC2626';
-    const seoColor = seo >= 80 ? '#16A34A' : seo >= 60 ? '#EA580C' : '#DC2626';
-
-    const cardHtml = `
-      <div class="zv-audit-card">
-        <div class="zv-audit-header">
-          <div>
-            <div style="font-size:10px; color:#0055D4; font-weight:800; text-transform:uppercase; letter-spacing:0.5px;">✓ Verified Live Website Audit</div>
-            <div class="zv-audit-domain">${this.esc(domain)}</div>
-          </div>
-          <div class="zv-audit-score-badge ${audit.gradeClass || 'zv-score-fair'}">${overall} / 100 &bull; ${audit.grade || 'NEEDS OPTIMIZATION'}</div>
-        </div>
-
-        <div class="zv-audit-grid">
-          <div class="zv-audit-metric">
-            <div class="zv-audit-metric-title">Server Response (TTFB)</div>
-            <div class="zv-audit-metric-value">
-              <span>${ttfb}ms</span>
-              <span style="font-size:11px;color:${ttfbColor};font-weight:700;">${ttfbLabel}</span>
-            </div>
-          </div>
-          <div class="zv-audit-metric">
-            <div class="zv-audit-metric-title">Technical SEO Score</div>
-            <div class="zv-audit-metric-value">
-              <span>${seo}/100</span>
-              <span style="font-size:11px;color:${seoColor};font-weight:700;">${seo >= 75 ? 'Healthy' : 'Needs Fixes'}</span>
-            </div>
-          </div>
-          <div class="zv-audit-metric">
-            <div class="zv-audit-metric-title">Headings &amp; Media</div>
-            <div class="zv-audit-metric-value">
-              <span>${h1Count} H1</span>
-              <span style="font-size:11px;color:${missingAlt > 0 ? '#DC2626' : '#16A34A'};">${missingAlt > 0 ? missingAlt + ' Missing Alt' : 'Alt Tags OK'}</span>
-            </div>
-          </div>
-          <div class="zv-audit-metric">
-            <div class="zv-audit-metric-title">Security &amp; Protocol</div>
-            <div class="zv-audit-metric-value">
-              <span>${isHttps ? 'HTTPS' : 'HTTP'}</span>
-              <span style="font-size:11px;color:${isHttps ? '#16A34A' : '#DC2626'};font-weight:700;">${isHttps ? 'Encrypted' : 'Insecure'}</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="zv-audit-findings">
-          <h6>Real Deficiencies Discovered:</h6>
-          ${(audit.issues || []).map(i => `<div class="zv-audit-item"><span style="color:#DC2626;flex-shrink:0;">⚠️</span><span>${this.esc(i)}</span></div>`).join('')}
-        </div>
-
-        ${audit.successes && audit.successes.length > 0 ? `
-          <div style="margin-bottom:10px;font-size:12px;color:#15803D;">
-            <div style="font-weight:700;font-size:11px;text-transform:uppercase;color:#16A34A;margin-bottom:4px;">Verified Successes:</div>
-            ${audit.successes.map(s => `<div class="zv-audit-item"><span style="color:#16A34A;flex-shrink:0;">✅</span><span>${this.esc(s)}</span></div>`).join('')}
-          </div>
-        ` : ''}
-
-        <div class="zv-audit-recommendations">
-          <h6>Zavron Solutions Action Roadmap:</h6>
-          <ul class="zv-audit-services-list">
-            ${(audit.recommendedServices || []).map(s => `<li><strong>${this.esc(s)}</strong></li>`).join('')}
-          </ul>
-        </div>
-
-        <a href="/get-a-free-quote/" class="zv-audit-cta-btn">Get Detailed Optimization Roadmap &rarr;</a>
-      </div>
-    `;
-
-    // Localized bot summary
-    let summaryText = `📊 **Live Technical Audit Complete for \`${domain}\`!**\n\nI evaluated real server latency (${ttfb}ms), technical SEO tags, headings, and security. Zavron Solutions can resolve these performance bottlenecks and elevate your search rankings. Below is your authentic report:`;
-    if (userLang === 'roman_urdu') {
-      summaryText = `📊 **\`${domain}\` ka live technical audit mukammal ho gaya hai!**\n\nHum ne aap ki site ka real server response time (${ttfb}ms), SEO meta tags, heading hierarchy aur security verify ki hai.\n\nZavron Solutions ki engineering team in issues ko fix kar ke aap ki site ko sub-second speed aur Google ke top rankings par pohancha sakti hai. Aap ki detailed preliminary report niche moujood hai:`;
-    } else if (userLang === 'urdu') {
-      summaryText = `📊 **\`${domain}\` کا لائیو تکنیکی آڈٹ مکمل ہو گیا ہے!**\n\nہم نے آپ کی ویب سائٹ کی اصل رفتار (${ttfb}ms)، SEO، اور سیکیورٹی چیک کی ہے۔ زاورون سلوشنز کی ٹیم ان خامیوں کو دور کر کے آپ کی ویب سائٹ کو گوگل کے پہلے صفحے پر لا سکتی ہے:`;
-    } else if (userLang === 'spanish') {
-      summaryText = `📊 **¡Auditoría técnica en vivo completada para \`${domain}\`!**\n\nEvaluamos la latencia real del servidor (${ttfb}ms), etiquetas SEO técnicas y seguridad. Nuestro equipo puede solucionar estos cuellos de botella:`;
-    }
-
-    this.addBot(summaryText, ["Schedule Strategy Call with Junaid", "Get Custom Proposal", "Audit Another Website"]);
-
-    const container = document.getElementById('zv-messages');
-    if (container) {
-      const cardWrap = document.createElement('div');
-      cardWrap.style.paddingLeft = '34px';
-      cardWrap.innerHTML = cardHtml;
-      container.appendChild(cardWrap);
-      this.scrollBottom();
-    }
-  }
+  
 
   generateConversationalReply(raw, userLang = 'english') {
     const t = raw.toLowerCase().trim();
@@ -1149,7 +947,7 @@ class ZavronLiveChat {
         return {
           text: "🤝 **Muhammad Junaid aur Zavron Leadership se Direct Rabta:**\n\nHamaray Founder & CEO, **Muhammad Junaid**, US aur international projects ke liye personally 15-minute ki technical discovery consultation call kartay hain.\n\nAap niche apna naam aur email ya phone number darj kar dein, hamari senior team **2 business hours** ke andar aap se direct rabta karegi:",
           lead: true,
-          chips: ["Email: zavronsolutions@gmail.com", "Services Dekhein", "Audit My Website 🔍"]
+          chips: ["Email: zavronsolutions@gmail.com", "Services Dekhein"]
         };
       }
       if (userLang === 'urdu') {
@@ -1169,7 +967,7 @@ class ZavronLiveChat {
       return {
         text: "🤝 **Connect Directly With Our Leadership**\n\nOur CEO & Principal Strategist, **Muhammad Junaid**, personally conducts 15-minute technical discovery calls for qualified US projects.\n\nLeave your contact details below and our senior team will reply within **2 business hours** with availability:",
         lead: true,
-        chips: ["Email: zavronsolutions@gmail.com", "Explore Case Studies", "Audit My Website 🔍"]
+        chips: ["Email: zavronsolutions@gmail.com", "Explore Case Studies"]
       };
     }
 
@@ -1178,7 +976,7 @@ class ZavronLiveChat {
       if (userLang === 'roman_urdu') {
         return {
           text: "Jee bilkul, aap jo bhi poochna chahein bila-jijhak pooch saktay hain! 😊\n\nAap website development, pricing packages, SEO rankings, hamari technology stack, ya Muhammad Junaid se direct strategy consultation ke baray mein kuch bhi pooch saktay hain. Farmayen kya sawal hai aap ka?",
-          chips: ["Pricing Packages", "Audit My Website 🔍", "Talk to Muhammad Junaid", "Our Services"]
+          chips: ["Pricing Packages", "Talk to Muhammad Junaid", "Our Services"]
         };
       }
       if (userLang === 'urdu') {
@@ -1194,7 +992,7 @@ class ZavronLiveChat {
       if (userLang === 'roman_urdu') {
         return {
           text: "Walaikum Assalam / Hello! 👋 Zavron Solutions mein khush aamdeed.\n\nMain Zavron Solutions ka AI Solutions Strategist hoon. Hum US aur global businesses ke liye high-performance Next.js websites, enterprise WordPress, Shopify stores, aur dominant SEO provide kartay hain.\n\nMain aaj aap ke business ki kya madad kar sakta hoon?",
-          chips: ["Audit My Website 🔍", "Custom Web Development", "SEO Retainers", "Pricing & Quote", "Muhammad Junaid se Rabta"]
+          chips: ["Custom Web Development", "SEO Retainers", "Pricing & Quote", "Muhammad Junaid se Rabta"]
         };
       }
       if (userLang === 'urdu') {
@@ -1211,7 +1009,7 @@ class ZavronLiveChat {
       }
       return {
         text: "Hello! 👋 Great to connect with you.\n\nI'm the AI Solutions Strategist at **Zavron Solutions**. We partner with US businesses to deliver high-performance web engineering, custom WordPress, Shopify Plus, and dominant SEO.\n\nHow can I assist your business today?",
-        chips: ["Audit My Website 🔍", "Custom Web Development", "SEO Retainers", "Pricing & Quote", "Talk to Muhammad Junaid"]
+        chips: ["Custom Web Development", "SEO Retainers", "Pricing & Quote", "Talk to Muhammad Junaid"]
       };
     }
 
@@ -1220,7 +1018,7 @@ class ZavronLiveChat {
       if (userLang === 'roman_urdu') {
         return {
           text: "💰 **Zavron Solutions ke Transparent Investment Packages:**\n\n• **Custom Web Development (Next.js/React):** $2,500 – $15,000+ (Milestone-based)\n• **Enterprise WordPress & Headless:** $1,800 – $8,000+\n• **Shopify Plus & E-Commerce:** $3,000 – $18,000+\n• **SEO Retainers (Monthly Traffic Growth):** $1,200 – $4,500/month (No lock-in)\n• **Google Ads PPC & Social Ads:** $750 – $2,500/month\n\nHar project ke sath complete source code ownership, post-launch warranty, aur sub-second speed guarantee shamil hai.",
-          chips: ["Get a Free Quote →", "Audit My Website 🔍", "Talk to Muhammad Junaid"]
+          chips: ["Get a Free Quote →", "Talk to Muhammad Junaid"]
         };
       }
       if (userLang === 'urdu') {
@@ -1231,7 +1029,7 @@ class ZavronLiveChat {
       }
       return {
         text: "💰 **Transparent Investment Tiers at Zavron Solutions:**\n\n• **Custom Web Development (Next.js/React):** $2,500 – $15,000+ (Milestone-based)\n• **Enterprise WordPress & Headless:** $1,800 – $8,000+\n• **Shopify Plus & E-Commerce Stores:** $3,000 – $18,000+\n• **SEO Retainers (Growth Packages):** $1,200 – $4,500/month (No lock-in)\n• **Google Ads PPC & Paid Social:** Retainers from $750 – $2,500/month\n\nEvery project includes full IP ownership, post-launch warranty, and transparent milestone deliverables.",
-        chips: ["Get a Free Quote →", "Audit My Website 🔍", "Book Strategy Call"]
+        chips: ["Get a Free Quote →", "Book Strategy Call"]
       };
     }
 
@@ -1240,12 +1038,12 @@ class ZavronLiveChat {
       if (userLang === 'roman_urdu') {
         return {
           text: "⏱️ **Project Delivery Timelines:**\n\n• **High-Converting Landing Pages:** 7 to 10 business days\n• **Custom Corporate Websites:** 2 to 4 weeks\n• **Full-Scale E-Commerce / Web Apps:** 4 to 6 weeks\n• **SEO Momentum & Growth:** 60 to 90 days mein measurable rankings\n\nHum dedicated weekly agile sprints mein transparent updates ke sath kaam kartay hain.",
-          chips: ["Start a Project", "Audit My Website 🔍", "Talk to Muhammad Junaid"]
+          chips: ["Start a Project", "Talk to Muhammad Junaid"]
         };
       }
       return {
         text: "⏱️ **Typical Project Timelines:**\n\n• **Landing Pages & Mini-sites:** 7 to 10 business days\n• **Custom Corporate Websites:** 2 to 4 weeks\n• **Full-Scale E-Commerce / Web Apps:** 4 to 6 weeks\n• **SEO & Rankings:** Measurable algorithmic momentum within 60–90 days\n\nWe work in dedicated weekly agile sprints with transparent milestone reviews.",
-        chips: ["Start a Project", "Audit My Website 🔍", "Talk to a Human"]
+        chips: ["Start a Project", "Talk to a Human"]
       };
     }
 
@@ -1254,12 +1052,12 @@ class ZavronLiveChat {
       if (userLang === 'roman_urdu') {
         return {
           text: "⚡ **Zavron Solutions ka Enterprise Tech Stack:**\n\n• **Frontend:** Next.js (App Router), React 18/19, TypeScript, Tailwind CSS\n• **Backend & APIs:** Node.js, Express, REST & GraphQL, PostgreSQL, Redis\n• **CMS & E-Commerce:** Custom WordPress (ACF Pro, Headless WP), Shopify Plus Liquid & Hydrogen\n• **Infrastructure:** Vercel, AWS, Cloudflare Enterprise CDN\n• **Performance Guarantee:** 90+ Google PageSpeed & sub-second LCP.",
-          chips: ["Web Development Info", "WordPress Services", "Audit My Website 🔍"]
+          chips: ["Web Development Info", "WordPress Services"]
         };
       }
       return {
         text: "⚡ **Our Enterprise Engineering Tech Stack:**\n\n• **Frontend:** Next.js (App Router), React 18/19, TypeScript, Tailwind CSS\n• **Backend & APIs:** Node.js, Express, REST & GraphQL, PostgreSQL, Redis\n• **CMS & E-Commerce:** Custom WordPress (ACF Pro, Headless WP), Shopify Plus Liquid & Hydrogen\n• **Infrastructure:** Vercel, AWS, Cloudflare Enterprise CDN\n• **Performance Guarantee:** 90+ Google PageSpeed & sub-second LCP.",
-        chips: ["Web Development Info", "WordPress Services", "Audit My Website 🔍"]
+        chips: ["Web Development Info", "WordPress Services"]
       };
     }
 
@@ -1267,7 +1065,7 @@ class ZavronLiveChat {
     if (/\b(wordpress vs shopify|shopify vs woocommerce|shopify or wordpress|ecommerce|shopify|woocommerce|online store)\b/i.test(t)) {
       return {
         text: "⚖️ **Shopify Plus vs. WordPress / WooCommerce:**\n\n• **Choose Shopify Plus** if you want zero hosting maintenance, seamless POS integration, and out-of-the-box payment gateways.\n• **Choose WordPress / WooCommerce** if you need 100% data ownership, custom database logic, zero transaction fees, and deep editorial content integration.\n\nZavron Solutions engineers top-tier stores on both platforms!",
-        chips: ["E-Commerce Services", "Audit My Website 🔍", "Talk to a Specialist"]
+        chips: ["E-Commerce Services", "Talk to a Specialist"]
       };
     }
 
@@ -1276,12 +1074,12 @@ class ZavronLiveChat {
       if (userLang === 'roman_urdu') {
         return {
           text: "📈 **White-Hat Data-Driven SEO System:**\n\nHum andazay par nahi, verified data par kaam kartay hain:\n\n1. **Technical Foundation:** Core Web Vitals remediation, Schema JSON-LD, crawl budget maximization.\n2. **Topical Authority Clustering:** Comprehensive content silos jo Google AI Overviews aur search intent ko dominate karein.\n3. **Local SEO & Google Maps 3-Pack:** Geo-targeted landing pages & Google Business Profile optimization.\n4. **High-Authority Digital PR:** Contextual backlinks from reputable US publications.",
-          chips: ["SEO Retainers", "Audit My Website 🔍", "Local SEO Services", "Free Proposal"]
+          chips: ["SEO Retainers", "Local SEO Services", "Free Proposal"]
         };
       }
       return {
         text: "📈 **White-Hat Data-Driven SEO System:**\n\nWe don't rely on guesswork. Our multi-phase strategy includes:\n\n1. **Technical Foundation:** Core Web Vitals remediation, Schema JSON-LD, crawl budget maximization.\n2. **Topical Authority Clustering:** Building comprehensive content silos that satisfy search intent and Google AI Overviews.\n3. **Local SEO & Map Pack:** Geo-targeted landing pages & Google Business Profile optimization.\n4. **High-Authority Digital PR:** Contextual backlinks from reputable US publications.",
-        chips: ["SEO Retainers", "Audit My Website 🔍", "Local SEO Services", "Free Proposal"]
+        chips: ["SEO Retainers", "Local SEO Services", "Free Proposal"]
       };
     }
 
@@ -1289,7 +1087,7 @@ class ZavronLiveChat {
     if (/\b(who are you|about|company|agency|zavron|location|located|usa|united states|where are you|legit|kon ho|kahan)\b/i.test(t)) {
       return {
         text: `🏢 **About Zavron Solutions:**\n\n${ZAVRON_KB.agency.overview}\n\n📍 **Coverage:** ${ZAVRON_KB.agency.coverage}\n👤 **Leadership:** ${ZAVRON_KB.agency.founder}\n✉️ **Direct Email:** ${ZAVRON_KB.agency.email}\n⏰ **Business Hours:** ${ZAVRON_KB.agency.hours}`,
-        chips: ["View Case Studies", "Explore Services", "Audit My Website 🔍"]
+        chips: ["View Case Studies", "Explore Services"]
       };
     }
 
@@ -1297,7 +1095,7 @@ class ZavronLiveChat {
     if (/\b(portfolio|case stud|work|past projects|clients|results|proof|reviews|examples|kam dikhao|purana kaam)\b/i.test(t)) {
       return {
         text: "🏆 **Proven Real-World Case Studies:**\n\n• **Apex Health Tech:** 340% organic patient traffic growth and sub-second appointment portal\n• **B2B SaaS CloudMetrics:** 120k+ monthly organic visitors via programmatic SEO\n• **Vance Law LLC:** Top 3 Google Map Pack rankings across 18 Dallas zip codes\n\nExplore all our live deployments at: [View Work Portfolio](/work/)",
-        chips: ["View Portfolio", "Request Proposal", "Audit My Website 🔍"]
+        chips: ["View Portfolio", "Request Proposal"]
       };
     }
 
@@ -1306,7 +1104,7 @@ class ZavronLiveChat {
       if (svc.keywords.some(k => t.includes(k))) {
         return {
           text: `🚀 **${svc.name}**\n\n${svc.summary}\n\n• **Investment:** ${svc.pricing}\n• **Timeline:** ${svc.timeline}\n\n[Explore ${svc.name} Page →](${svc.url})`,
-          chips: [`Get Quote for ${svc.name}`, "Audit My Website 🔍", "Talk to Muhammad Junaid"]
+          chips: [`Get Quote for ${svc.name}`, "Talk to Muhammad Junaid"]
         };
       }
     }
@@ -1317,7 +1115,7 @@ class ZavronLiveChat {
       if (words.some(w => w.length > 3 && t.includes(w))) {
         return {
           text: `🏢 **Zavron Solutions for ${ind.name}:**\n\n${ind.desc}\n\nWe provide battle-tested architecture and marketing tailored to the ${ind.name} sector in the USA.\n\n[View ${ind.name} Solutions →](${ind.url})`,
-          chips: ["Request Consultation", "Audit My Website 🔍", "Pricing Info"]
+          chips: ["Request Consultation", "Pricing Info"]
         };
       }
     }
@@ -1326,7 +1124,7 @@ class ZavronLiveChat {
     if (userLang === 'roman_urdu') {
       return {
         text: "Aap ke message ka bohat shukriya! 😊\n\n**Zavron Solutions** mein hum high-performance custom web development (Next.js/React), enterprise WordPress, Shopify e-commerce stores, aur Google ranking SEO ke specialists hain.\n\nKya aap chahein gay:\n1. **Apni website ka 100% authentic live audit karwayen?** (Bas apna website URL share karein)\n2. **Nayi website ya redesign ke liye custom quote haasil karein?**\n3. **Hamaray CEO Muhammad Junaid se 15-minute ki strategy consultation call schedule karein?**",
-        chips: ["Audit My Website 🔍", "Free Quote Haasil Karein", "Muhammad Junaid se Rabta", "Explore Services"]
+        chips: ["Free Quote Haasil Karein", "Muhammad Junaid se Rabta", "Explore Services"]
       };
     }
     if (userLang === 'urdu') {
@@ -1344,7 +1142,7 @@ class ZavronLiveChat {
 
     return {
       text: "I appreciate your message! 😊\n\nAt **Zavron Solutions**, we specialize in custom full-stack web engineering, enterprise WordPress, Shopify e-commerce, and high-impact SEO for US companies.\n\nWould you like me to:\n1. **Run an authentic live audit on your website?** (Just share your URL)\n2. **Provide a tailored quote for a new website or redesign?**\n3. **Connect you with Muhammad Junaid for a discovery call?**",
-      chips: ["Audit My Website 🔍", "Get a Free Quote", "Explore Services", "Talk to Muhammad Junaid"]
+      chips: ["Get a Free Quote", "Explore Services", "Talk to Muhammad Junaid"]
     };
   }
 
