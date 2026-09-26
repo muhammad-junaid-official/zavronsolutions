@@ -1,8 +1,7 @@
 /**
- * ZAVRON SOLUTIONS — ENTERPRISE CONVERSATIONAL AI & LIVE AUDIT ASSISTANT
+ * ZAVRON SOLUTIONS — ENTERPRISE CONVERSATIONAL AI ASSISTANT
  * Features:
  * - Natural Language Conversational Intelligence (General inquiries, services, tech stack, pricing, US market)
- * - Lead Capture & Dual-Email Dispatch via Gmail SMTP
  * - Lead Capture & Dual-Email Dispatch via Gmail SMTP
  * - 100% Conflict-free isolated UI & Mobile-first design
  */
@@ -954,14 +953,14 @@ class ZavronLiveChat {
         return {
           text: "🤝 **محمد جنید اور زاورون لیڈرشپ سے براہ راست رابطہ:**\n\nہمارے بانی اور سی ای او، **محمد جنید**، منصوبوں کے لیے 15 منٹ کی تکنیکی مشاورتی کال کا اہتمام کرتے ہیں۔\n\nبراہ کرم نیچے اپنی تفصیلات درج کریں، ہماری سینئر ٹیم 2 گھنٹوں کے اندر رابطہ کرے گی:",
           lead: true,
-          chips: ["Email: zavronsolutions@gmail.com", "خدمات دیکھیں", "ویب سائٹ آڈٹ"]
+          chips: ["Email: zavronsolutions@gmail.com", "خدمات دیکھیں", "محمد جنید سے رابطہ"]
         };
       }
       if (userLang === 'spanish') {
         return {
           text: "🤝 **Conéctese directamente con Muhammad Junaid y nuestro equipo:**\n\nNuestro CEO y Estratega Principal, **Muhammad Junaid**, realiza llamadas de descubrimiento técnico de 15 minutos para proyectos.\n\nDeje sus datos de contacto a continuación y le responderemos en menos de 2 horas hábiles:",
           lead: true,
-          chips: ["Email: zavronsolutions@gmail.com", "Explorar Servicios", "Auditar Mi Sitio 🔍"]
+          chips: ["Email: zavronsolutions@gmail.com", "Explorar Servicios", "Ver Portafolio"]
         };
       }
       return {
@@ -998,13 +997,13 @@ class ZavronLiveChat {
       if (userLang === 'urdu') {
         return {
           text: "السلام علیکم! 👋 زاورون سلوشنز میں خوش آمدید۔\n\nمیں Zavron Solutions کا AI اسٹریٹجسٹ ہوں۔ ہم کسٹم ویب ڈویلپمنٹ، Next.js، شاپیفائی، اور ایس ای او میں خدمات فراہم کرتے ہیں۔ میں آپ کی کیا مدد کر سکتا ہوں؟",
-          chips: ["ویب سائٹ آڈٹ 🔍", "ویب ڈویلپمنٹ", "ایس ای او سروسز", "محمد جنید سے رابطہ"]
+          chips: ["ویب ڈویلپمنٹ", "ایس ای او سروسز", "قیمتیں اور پیکیجز", "محمد جنید سے رابطہ"]
         };
       }
       if (userLang === 'spanish') {
         return {
           text: "¡Hola! 👋 Bienvenido a **Zavron Solutions**.\n\nSoy el estratega de IA de Zavron Solutions. Ayudamos a empresas estadounidenses con ingeniería web moderna (Next.js/React), WordPress corporativo, Shopify Plus y SEO de alto impacto.\n\n¿En qué puedo ayudar a su negocio hoy?",
-          chips: ["Auditar Mi Sitio 🔍", "Desarrollo Web", "Planes de SEO", "Precios y Cotización"]
+          chips: ["Desarrollo Web", "Planes de SEO", "Precios y Cotización", "Hablar con Muhammad Junaid"]
         };
       }
       return {
@@ -1024,7 +1023,7 @@ class ZavronLiveChat {
       if (userLang === 'urdu') {
         return {
           text: "💰 **زاورون سلوشنز کے شفاف سرمایہ کاری پیکیجز:**\n\n• **کسٹم ویب ڈویلپمنٹ (Next.js/React):** $2,500 – $15,000+\n• **انٹرپرائز ورڈپریس:** $1,800 – $8,000+\n• **شاپیفائی پلس ای کامرس:** $3,000 – $18,000+\n• **ایس ای او گروتھ ریٹینرز:** $1,200 – $4,500 ماہانہ\n• **گوگل اشتہارات PPC:** $750 – $2,500 ماہانہ\n\nہر پروجیکٹ میں مکمل کوڈ ملکیت اور پوسٹ لانچ سپورٹ شامل ہے۔",
-          chips: ["مفت کوٹ حاصل کریں", "ویب سائٹ آڈٹ", "محمد جنید سے رابطہ"]
+          chips: ["مفت کوٹ حاصل کریں", "محمد جنید سے رابطہ"]
         };
       }
       return {
@@ -1123,25 +1122,25 @@ class ZavronLiveChat {
     // 13. Conversational Fallback in user's exact language
     if (userLang === 'roman_urdu') {
       return {
-        text: "Aap ke message ka bohat shukriya! 😊\n\n**Zavron Solutions** mein hum high-performance custom web development (Next.js/React), enterprise WordPress, Shopify e-commerce stores, aur Google ranking SEO ke specialists hain.\n\nKya aap chahein gay:\n1. **Apni website ka 100% authentic live audit karwayen?** (Bas apna website URL share karein)\n2. **Nayi website ya redesign ke liye custom quote haasil karein?**\n3. **Hamaray CEO Muhammad Junaid se 15-minute ki strategy consultation call schedule karein?**",
-        chips: ["Free Quote Haasil Karein", "Muhammad Junaid se Rabta", "Explore Services"]
+        text: "Aap ke message ka bohat shukriya! 😊\n\n**Zavron Solutions** mein hum high-performance custom web development (Next.js/React), enterprise WordPress, Shopify e-commerce stores, aur Google ranking SEO ke specialists hain.\n\nKya aap chahein gay:\n1. **Nayi website ya redesign ke liye custom quote haasil karein?**\n2. **Hamaray services ke baray mein tafseel haasil karein?**\n3. **Hamaray CEO Muhammad Junaid se 15-minute ki strategy consultation call schedule karein?**",
+        chips: ["Free Quote Haasil Karein", "Muhammad Junaid se Rabta", "Services Dekhein"]
       };
     }
     if (userLang === 'urdu') {
       return {
-        text: "آپ کے پیغام کا شکریہ! 😊\n\n**زاورون سلوشنز** میں ہم کسٹم ویب انجینئرنگ، ورڈپریس، شاپیفائی، اور اعلیٰ درجے کی ایس ای او کے ماہر ہیں۔\n\nکیا آپ:\n1. **اپنی ویب سائٹ کا لائیو تکنیکی آڈٹ کروانا چاہتے ہیں؟** (اپنا URL شیئر کریں)\n2. **کسی پروجیکٹ کے لیے قیمت جاننا چاہتے ہیں؟**\n3. **سی ای او محمد جنید سے مشاورتی کال طے کرنا چاہتے ہیں؟**",
-        chips: ["ویب سائٹ آڈٹ 🔍", "مفت کوٹ حاصل کریں", "محمد جنید سے رابطہ"]
+        text: "آپ کے پیغام کا شکریہ! 😊\n\n**زاورون سلوشنز** میں ہم کسٹم ویب انجینئرنگ، ورڈپریس، شاپیفائی، اور اعلیٰ درجے کی ایس ای او کے ماہر ہیں۔\n\nکیا آپ:\n1. **کسی پروجیکٹ کے لیے قیمت جاننا چاہتے ہیں؟**\n2. **ہماری خدمات کے بارے میں تفصیل حاصل کرنا چاہتے ہیں؟**\n3. **سی ای او محمد جنید سے مشاورتی کال طے کرنا چاہتے ہیں؟**",
+        chips: ["مفت کوٹ حاصل کریں", "محمد جنید سے رابطہ", "خدمات دیکھیں"]
       };
     }
     if (userLang === 'spanish') {
       return {
-        text: "¡Gracias por su mensaje! 😊\n\nEn **Zavron Solutions**, nos especializamos en desarrollo web moderno (Next.js/React), WordPress empresarial, tiendas Shopify Plus y estrategias de SEO de alto impacto.\n\n¿Le gustaría:\n1. **Auditar su sitio web en tiempo real?** (Solo comparta su URL)\n2. **Solicitar una cotización personalizada?**\n3. **Agendar una llamada estratégica con nuestro CEO Muhammad Junaid?**",
-        chips: ["Auditar Mi Sitio 🔍", "Obtener Cotización", "Hablar con Muhammad Junaid"]
+        text: "¡Gracias por su mensaje! 😊\n\nEn **Zavron Solutions**, nos especializamos en desarrollo web moderno (Next.js/React), WordPress empresarial, tiendas Shopify Plus y estrategias de SEO de alto impacto.\n\n¿Le gustaría:\n1. **Solicitar una cotización personalizada?**\n2. **Conocer más sobre nuestros servicios digitales?**\n3. **Agendar una llamada estratégica con nuestro CEO Muhammad Junaid?**",
+        chips: ["Obtener Cotización", "Ver Servicios", "Hablar con Muhammad Junaid"]
       };
     }
 
     return {
-      text: "I appreciate your message! 😊\n\nAt **Zavron Solutions**, we specialize in custom full-stack web engineering, enterprise WordPress, Shopify e-commerce, and high-impact SEO for US companies.\n\nWould you like me to:\n1. **Run an authentic live audit on your website?** (Just share your URL)\n2. **Provide a tailored quote for a new website or redesign?**\n3. **Connect you with Muhammad Junaid for a discovery call?**",
+      text: "I appreciate your message! 😊\n\nAt **Zavron Solutions**, we specialize in custom full-stack web engineering, enterprise WordPress, Shopify e-commerce, and high-impact SEO for US companies.\n\nWould you like me to:\n1. **Provide a tailored quote for a new website or redesign?**\n2. **Tell you more about our services and case studies?**\n3. **Connect you with Muhammad Junaid for a 15-min discovery call?**",
       chips: ["Get a Free Quote", "Explore Services", "Talk to Muhammad Junaid"]
     };
   }

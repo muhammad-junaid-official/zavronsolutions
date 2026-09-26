@@ -18,24 +18,33 @@
     "@context": "https://schema.org",
     "@graph": [
       {
+        "@type": "Service",
+        "@id": "https://www.zavronsolutions.com/services/digital-marketing/#service",
+        "name": "Digital Marketing & Growth Funnels",
+        "description": "Full-funnel demand generation, customer acquisition cost (CAC) reduction, B2B lead generation, and automated email nurturing funnels.",
+        "url": "https://www.zavronsolutions.com/services/digital-marketing/",
+        "category": "Digital Marketing",
+        "offers": {
+          "@type": "Offer",
+          "price": "Custom retainer",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        "provider": {
+      "@type": "Organization",
+      "@id": "https://www.zavronsolutions.com/#organization",
+      "name": "Zavron Solutions",
+      "url": "https://www.zavronsolutions.com/",
+      "logo": {"@type": "ImageObject", "url": "https://www.zavronsolutions.com/assets/favicon.svg"}
+    }
+      },
+      {
         "@type": "WebPage",
         "@id": "https://www.zavronsolutions.com/services/digital-marketing/#webpage",
         "url": "https://www.zavronsolutions.com/services/digital-marketing/",
-        "name": "Digital Marketing Agency USA | PPC &amp; Growth Marketing | Zavron Solutions",
-        "description": "ROI-focused digital marketing and paid media management for US companies. Google Ads, Paid Social, Conversion Rate Optimization, and performance attribution.",
-        "isPartOf": {
-          "@id": "https://www.zavronsolutions.com/#website"
-        }
-      },
-      {
-        "@type": "Organization",
-        "@id": "https://www.zavronsolutions.com/#organization",
-        "name": "Zavron Solutions",
-        "url": "https://www.zavronsolutions.com/",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "https://www.zavronsolutions.com/assets/favicon.svg"
-        }
+        "name": "Digital Marketing & Growth Funnels | Zavron Solutions",
+        "description": "Full-funnel demand generation, customer acquisition cost (CAC) reduction, B2B lead generation, and automated email nurturing funnels.",
+        "isPartOf": {"@id": "https://www.zavronsolutions.com/#website"}
       }
     ]
   }
