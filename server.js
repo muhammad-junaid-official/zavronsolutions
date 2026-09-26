@@ -847,4 +847,4 @@ server.listen(PORT, async () => {
   }, 10000);
 });
 
-module.exports = server;
+export default server;
