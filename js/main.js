@@ -3,6 +3,10 @@
  * Global Header, Mobile Navigation, Active Link Highlighting, ARIA Management
  */
 import './chatbot.js';
+import { injectSpeedInsights } from '@vercel/speed-insights';
+
+// Initialize Vercel Speed Insights
+injectSpeedInsights();
 
 document.addEventListener('DOMContentLoaded', () => {
   initHeaderScroll();
