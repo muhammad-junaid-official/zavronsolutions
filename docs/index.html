@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Agency Documentation & Engineering Standards | Zavron Solutions</title>
+  <meta content="Official agency documentation, engineering standards, SEO governance, brand design tokens, and service level agreements (SLA) for Zavron Solutions." name="description"/>
+  <meta name="keywords" content="agency documentation, web development standards USA, enterprise SEO governance, brand guidelines, SLA service level agreements, WCAG accessibility standards, Core Web Vitals rules, engineering SOP"/>
+  <link rel="canonical" href="https://www.zavronsolutions.com/docs/"/>
+  <link href="/assets/favicon.svg" rel="icon" type="image/svg+xml"/>
+  <link href="/site.webmanifest" rel="manifest"/>
+  <meta content="#061426" name="theme-color"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link href="/css/variables.css" rel="stylesheet"/>
+  <link href="/css/global.css" rel="stylesheet"/>
+  <link href="/css/components.css" rel="stylesheet"/>
+  <link href="/css/animations.css" rel="stylesheet"/>
+
+  <style>
+    :root {
+      --docs-sidebar-w: 280px;
+      --docs-code-bg: #030B15;
+    }
+    .docs-page-wrapper {
+      background: var(--color-navy-950, #030B15);
+      color: #E2E8F0;
+      min-height: 100vh;
+    }
+    .docs-hero {
+      padding: 5rem 1.5rem 3.5rem;
+      background: radial-gradient(circle at 50% 0%, rgba(0, 210, 255, 0.09) 0%, rgba(6, 20, 38, 0) 70%),
+                  var(--color-navy-900, #061426);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      position: relative;
+    }
+    .docs-layout {
+      display: grid;
+      grid-template-columns: var(--docs-sidebar-w) minmax(0, 1fr);
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 5rem;
+      gap: 3rem;
+      align-items: start;
+    }
+    .docs-sidebar {
+      position: sticky;
+      top: 90px;
+      max-height: calc(100vh - 110px);
+      overflow-y: auto;
+      padding-right: 1rem;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+    }
+    .docs-nav-group {
+      margin-bottom: 2rem;
+    }
+    .docs-nav-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #64748B;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .docs-nav-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    .docs-nav-link {
+      display: block;
+      padding: 0.45rem 0.75rem;
+      border-radius: 6px;
+      color: #94A3B8;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      border-left: 2px solid transparent;
+    }
+    .docs-nav-link:hover, .docs-nav-link.active {
+      color: #00D2FF;
+      background: rgba(0, 210, 255, 0.06);
+      border-left-color: #00D2FF;
+    }
+    .docs-content {
+      max-width: 900px;
+    }
+    .docs-section {
+      margin-bottom: 4.5rem;
+      scroll-margin-top: 100px;
+    }
+    .docs-section-title {
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: #FFFFFF;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .docs-section-title span.tag {
+      font-size: 0.75rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+      background: rgba(0, 210, 255, 0.1);
+      color: #00D2FF;
+      border: 1px solid rgba(0, 210, 255, 0.3);
+      font-weight: 600;
+    }
+    .docs-card {
+      background: rgba(15, 30, 54, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 1.75rem;
+      margin: 1.5rem 0;
+      box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3);
+    }
+    .docs-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.25rem 0;
+      font-size: 0.9rem;
+    }
+    .docs-table th, .docs-table td {
+      padding: 0.85rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .docs-table th {
+      background: rgba(6, 20, 38, 0.6);
+      color: #FFFFFF;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+    }
+    .docs-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .code-block {
+      background: var(--docs-code-bg);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 1.25rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: #A5F3FC;
+      overflow-x: auto;
+      line-height: 1.6;
+      margin: 1rem 0;
+    }
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    .badge-green { background: rgba(34, 197, 94, 0.15); color: #4ADE80; border: 1px solid rgba(34, 197, 94, 0.3); }
+    .badge-orange { background: rgba(255, 122, 0, 0.15); color: #FF9E40; border: 1px solid rgba(255, 122, 0, 0.3); }
+    .badge-blue { background: rgba(0, 210, 255, 0.15); color: #38BDF8; border: 1px solid rgba(0, 210, 255, 0.3); }
+    
+    @media (max-width: 900px) {
+      .docs-layout {
+        grid-template-columns: 1fr;
+      }
+      .docs-sidebar {
+        position: static;
+        max-height: none;
+        margin-bottom: 2rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        padding-bottom: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body class="docs-page-wrapper">
+  <a class="skip-nav" href="#docs-content">Skip to content</a>
+
+  <!-- Header -->
+  <header class="site-header" id="siteHeader">
+    <div class="header-container">
+      <a aria-label="Zavron Solutions Home" class="brand-logo" href="/">
+        <div class="brand-logo-icon">
+          <svg fill="none" height="24" viewbox="0 0 64 64" width="24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16 18H48L24 46H48" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"></path>
+            <circle cx="48" cy="18" fill="#00D2FF" r="4.5"></circle>
+          </svg>
+        </div>
+        <div class="brand-logo-text">
+          <span class="brand-logo-title">ZAVRON</span>
+          <span class="brand-logo-subtitle">SOLUTIONS</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav aria-label="Main Navigation" class="desktop-nav">
+        <div class="nav-item">
+          <a class="nav-link" href="/">Home</a>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/about-us/">About Us</a>
+        </div>
+        <div class="nav-item">
+          <a aria-haspopup="true" class="nav-link" href="/services/">
+            Services
+            <svg class="caret-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </a>
+          <div class="dropdown-menu dropdown-mega">
+            <a class="dropdown-item" href="/services/web-development/">
+              <div class="dropdown-item-content">
+                <span class="dropdown-item-title">Web Development</span>
+                <span class="dropdown-item-desc">Custom high-performance websites</span>
+              </div>
+            </a>
+            <a class="dropdown-item" href="/services/wordpress-development/">
+              <div class="dropdown-item-content">
+                <span class="dropdown-item-title">WordPress Development</span>
+                <span class="dropdown-item-desc">Secure bespoke CMS architectures</span>
+              </div>
+            </a>
+            <a class="dropdown-item" href="/services/ecommerce-development/">
+              <div class="dropdown-item-content">
+                <span class="dropdown-item-title">E-Commerce Development</span>
+                <span class="dropdown-item-desc">High-converting online stores</span>
+              </div>
+            </a>
+            <a class="dropdown-item" href="/services/seo/">
+              <div class="dropdown-item-content">
+                <span class="dropdown-item-title">SEO Services</span>
+                <span class="dropdown-item-desc">Data-driven organic search growth</span>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/work/">Work</a>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/industries/">Industries</a>
+        </div>
+        <div class="nav-item">
+          <a aria-haspopup="true" class="nav-link active" href="/resources/">
+            Resources
+            <svg class="caret-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="/blog/">
+              <div class="dropdown-item-content">
+                <span class="dropdown-item-title">Blog &amp; Insights</span>
+                <span class="dropdown-item-desc">SEO, web tech &amp; digital marketing</span>
+              </div>
+            </a>
+            <a class="dropdown-item" href="/case-studies/">
+              <div class="dropdown-item-content">
+                <span class="dropdown-item-title">Case Studies</span>
+                <span class="dropdown-item-desc">Client growth benchmarks</span>
+              </div>
+            </a>
+            <a class="dropdown-item" href="/resources/guides/">
+              <div class="dropdown-item-content">
+                <span class="dropdown-item-title">Strategy Guides</span>
+                <span class="dropdown-item-desc">Actionable digital playbooks</span>
+              </div>
+            </a>
+            <a class="dropdown-item" href="/docs/">
+              <div class="dropdown-item-content">
+                <span class="dropdown-item-title">Documentation &amp; Standards</span>
+                <span class="dropdown-item-desc">Agency governance &amp; rules</span>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" href="/contact/">Contact</a>
+        </div>
+      </nav>
+
+      <div class="header-actions">
+        <a class="btn btn-primary btn-sm btn-header-quote" href="/get-a-free-quote/">
+          Get a Free Quote
+          <svg fill="none" height="16" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24" width="16">
+            <line x1="5" x2="19" y1="12" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+        <button aria-expanded="false" aria-label="Toggle Mobile Menu" class="mobile-toggle">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="docs-hero text-center">
+    <div class="container" style="max-width: 800px; margin: 0 auto;">
+      <div class="eyebrow eyebrow-pill dark" style="margin-bottom: 1rem; display: inline-flex; align-items: center; gap: 8px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+        Agency Governance &bull; Version 2.4 (2026)
+      </div>
+      <h1 class="hero-headline" style="font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 1rem;">
+        Zavron Solutions <br/><span class="text-orange">Agency Standards &amp; Documentation</span>
+      </h1>
+      <p class="hero-subhead" style="color: #94A3B8; font-size: 1.125rem; line-height: 1.6;">
+        The official operating manual and technical playbook governing our web engineering, technical SEO architecture, brand design system, and client service level agreements (SLA).
+      </p>
+    </div>
+  </section>
+
+  <!-- Docs Main Layout -->
+  <div class="docs-layout">
+    <!-- Sidebar -->
+    <aside class="docs-sidebar">
+      <div class="docs-nav-group">
+        <div class="docs-nav-title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline></svg>
+          1. Agency Framework
+        </div>
+        <ul class="docs-nav-list">
+          <li><a href="#overview" class="docs-nav-link active">Agency Overview &amp; Mandate</a></li>
+          <li><a href="#principles" class="docs-nav-link">Core Operating Tenets</a></li>
+        </ul>
+      </div>
+
+      <div class="docs-nav-group">
+        <div class="docs-nav-title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+          2. Engineering Standards
+        </div>
+        <ul class="docs-nav-list">
+          <li><a href="#code-standards" class="docs-nav-link">Semantic HTML &amp; CSS Tokens</a></li>
+          <li><a href="#performance" class="docs-nav-link">Core Web Vitals Budgets</a></li>
+          <li><a href="#accessibility" class="docs-nav-link">WCAG 2.2 AA Compliance</a></li>
+        </ul>
+      </div>
+
+      <div class="docs-nav-group">
+        <div class="docs-nav-title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+          3. SEO &amp; Data Governance
+        </div>
+        <ul class="docs-nav-list">
+          <li><a href="#seo-rules" class="docs-nav-link">URL &amp; Canonical Rules</a></li>
+          <li><a href="#schema-governance" class="docs-nav-link">JSON-LD Schema Hierarchy</a></li>
+          <li><a href="#error-governance" class="docs-nav-link">404 &amp; Redirect Governance</a></li>
+        </ul>
+      </div>
+
+      <div class="docs-nav-group">
+        <div class="docs-nav-title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          4. Quality &amp; SLA Rules
+        </div>
+        <ul class="docs-nav-list">
+          <li><a href="#qa-checklist" class="docs-nav-link">5-Tier Pre-Launch QA</a></li>
+          <li><a href="#security" class="docs-nav-link">Security &amp; Hardening SOP</a></li>
+          <li><a href="#sla" class="docs-nav-link">Service Level Agreements (SLA)</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="docs-content" id="docs-content">
+      <!-- Section 1 -->
+      <section class="docs-section" id="overview">
+        <h2 class="docs-section-title">
+          1. Agency Overview &amp; Mandate
+          <span class="tag">Foundation</span>
+        </h2>
+        <p style="font-size:1.05rem; line-height:1.7; color:#CBD5E1;">
+          Zavron Solutions operates as a premier full-service digital engineering, search optimization, and growth strategy firm. We engineer digital assets that convert high-value commercial intent into verifiable revenue for mid-market and enterprise organizations across the United States.
+        </p>
+
+        <div class="docs-card">
+          <h3 style="color:#00D2FF; font-size:1.15rem; margin-bottom:0.75rem;">Agency Service Capabilities</h3>
+          <table class="docs-table">
+            <thead>
+              <tr>
+                <th>Discipline</th>
+                <th>Core Stack</th>
+                <th>Standard Delivery Window</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Custom Web Engineering</strong></td>
+                <td>Next.js, React, Node.js, Semantic HTML5/CSS3</td>
+                <td><span class="badge-pill badge-blue">4 &ndash; 8 Weeks</span></td>
+              </tr>
+              <tr>
+                <td><strong>Enterprise WordPress</strong></td>
+                <td>Decoupled Headless, ACF Pro, Custom Gutenberg Blocks</td>
+                <td><span class="badge-pill badge-blue">3 &ndash; 6 Weeks</span></td>
+              </tr>
+              <tr>
+                <td><strong>Enterprise Technical SEO</strong></td>
+                <td>JSON-LD Graphs, Programmatic SEO, Topical Authority</td>
+                <td><span class="badge-pill badge-green">Ongoing Retainer</span></td>
+              </tr>
+              <tr>
+                <td><strong>PPC &amp; Lead Funnels</strong></td>
+                <td>Google Ads PMax, LinkedIn ABM, Meta Scaling</td>
+                <td><span class="badge-pill badge-orange">Sprint-Based</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Section 2: Principles -->
+      <section class="docs-section" id="principles">
+        <h2 class="docs-section-title">
+          2. Core Operating Tenets
+          <span class="tag">Philosophy</span>
+        </h2>
+        <p style="color:#CBD5E1; line-height:1.7;">
+          Like top global digital agencies, every artifact built by Zavron Solutions adheres to four non-negotiable principles:
+        </p>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:1.25rem; margin:1.5rem 0;">
+          <div class="docs-card" style="margin:0;">
+            <strong style="color:#FFFFFF; font-size:1.05rem; display:block; margin-bottom:0.4rem;">Zero Bloat Architecture</strong>
+            <p style="font-size:0.875rem; color:#94A3B8; margin:0; line-height:1.5;">Every script, stylesheet, and font must serve a verified conversion purpose. No unvetted third-party plugins or bloated dependencies.</p>
+          </div>
+          <div class="docs-card" style="margin:0;">
+            <strong style="color:#FFFFFF; font-size:1.05rem; display:block; margin-bottom:0.4rem;">Deterministic SEO</strong>
+            <p style="font-size:0.875rem; color:#94A3B8; margin:0; line-height:1.5;">We don't guess. We structure content based on verified search intent, entity relationship mapping, and comprehensive schema graphs.</p>
+          </div>
+          <div class="docs-card" style="margin:0;">
+            <strong style="color:#FFFFFF; font-size:1.05rem; display:block; margin-bottom:0.4rem;">Radical Transparency</strong>
+            <p style="font-size:0.875rem; color:#94A3B8; margin:0; line-height:1.5;">Every metric, indexation report, and ad dollar is tracked in real-time dashboards with clear multi-touch revenue attribution.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Engineering Standards -->
+      <section class="docs-section" id="code-standards">
+        <h2 class="docs-section-title">
+          3. Semantic Code &amp; CSS Design Tokens
+          <span class="tag">Engineering</span>
+        </h2>
+        <p style="color:#CBD5E1; line-height:1.7;">
+          Our codebase utilizes atomic CSS variables and structured semantic HTML to maximize rendering speed, screen-reader compliance, and clean search bot indexing.
+        </p>
+        
+        <div class="code-block">
+/* Zavron Design System Core Tokens */
+:root {
+  --color-primary: #00D2FF;        /* Vibrant Tech Cyan */
+  --color-orange-500: #FF7A00;     /* High-Energy Conversion Accent */
+  --color-navy-950: #030B15;       /* Deep Space Base */
+  --color-navy-900: #061426;       /* Surface Dark */
+  
+  --font-heading: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --shadow-glow: 0 10px 30px rgba(0, 210, 255, 0.2);
+}
+        </div>
+      </section>
+
+      <!-- Section 4: Performance & Core Web Vitals -->
+      <section class="docs-section" id="performance">
+        <h2 class="docs-section-title">
+          4. Core Web Vitals Performance Budgets
+          <span class="tag">Speed KPI</span>
+        </h2>
+        <p style="color:#CBD5E1; line-height:1.7;">
+          Every page deployed under Zavron Solutions governance must achieve green performance scores on Google PageSpeed Insights and Web Vitals field data:
+        </p>
+
+        <div class="docs-card">
+          <table class="docs-table">
+            <thead>
+              <tr>
+                <th>Metric</th>
+                <th>Definition</th>
+                <th>Target Threshold</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>LCP</strong></td>
+                <td>Largest Contentful Paint</td>
+                <td>&le; 2.2 Seconds</td>
+                <td><span class="badge-pill badge-green">Enforced</span></td>
+              </tr>
+              <tr>
+                <td><strong>INP</strong></td>
+                <td>Interaction to Next Paint</td>
+                <td>&le; 150 Milliseconds</td>
+                <td><span class="badge-pill badge-green">Enforced</span></td>
+              </tr>
+              <tr>
+                <td><strong>CLS</strong></td>
+                <td>Cumulative Layout Shift</td>
+                <td>&le; 0.05</td>
+                <td><span class="badge-pill badge-green">Enforced</span></td>
+              </tr>
+              <tr>
+                <td><strong>TTFB</strong></td>
+                <td>Time to First Byte</td>
+                <td>&le; 300 Milliseconds</td>
+                <td><span class="badge-pill badge-green">Enforced</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Section 5: SEO Rules & Canonicalization -->
+      <section class="docs-section" id="seo-rules">
+        <h2 class="docs-section-title">
+          5. SEO Architecture &amp; Canonical Rules
+          <span class="tag">Search Rules</span>
+        </h2>
+        <p style="color:#CBD5E1; line-height:1.7;">
+          To ensure 100% crawl budget efficiency and eliminate duplicate content penalties, all Zavron systems adhere to the following URL policies:
+        </p>
+        <ul style="color:#CBD5E1; line-height:1.8; margin-left:1.5rem;">
+          <li><strong>Trailing Slashes:</strong> Directory-based URLs must consistently enforce trailing slashes (e.g. <code>https://www.zavronsolutions.com/blog/</code>).</li>
+          <li><strong>Canonical Consistency:</strong> Every public page must contain a self-referencing <code>&lt;link rel="canonical"&gt;</code> matching its authoritative URL exactly.</li>
+          <li><strong>USA Market Keywords:</strong> All blog posts and service landing pages must feature curated high-intent US search queries in meta keywords and structured Open Graph cards.</li>
+          <li><strong>Crawl Optimization:</strong> Orphaned pages are strictly banned. Every single page in <code>sitemap.xml</code> must be reachable via internal navigation.</li>
+        </ul>
+      </section>
+
+      <!-- Section 6: 404 & Redirect Governance -->
+      <section class="docs-section" id="error-governance">
+        <h2 class="docs-section-title">
+          6. 404 &amp; Redirect Governance
+          <span class="tag">Integrity</span>
+        </h2>
+        <p style="color:#CBD5E1; line-height:1.7;">
+          Broken links erode organic crawl efficiency and damage brand credibility. Our standard protocols dictate:
+        </p>
+        <div class="docs-card">
+          <ul style="color:#CBD5E1; line-height:1.8; margin-left:1.25rem;">
+            <li><strong>Immediate Removal from Sitemaps:</strong> Any retired or renamed URL must be stripped from both <code>sitemap.xml</code> and <code>public/sitemap.xml</code> immediately.</li>
+            <li><strong>301 Permanent Redirects:</strong> Deprecated URLs must redirect with HTTP 301 status directly to their closest thematic equivalent. Chains or loops are strictly rejected.</li>
+            <li><strong>Custom 404 Experience:</strong> The custom 404 template must present standard navigation, search routing, and direct links to active agency service categories.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Section 7: Quality Assurance & SLA -->
+      <section class="docs-section" id="qa-checklist">
+        <h2 class="docs-section-title">
+          7. 5-Tier Pre-Launch QA Checklist
+          <span class="tag">Quality Assurance</span>
+        </h2>
+        <div class="docs-card">
+          <p style="margin-top:0; color:#CBD5E1;">Before pushing any release to staging or production, the engineer must verify:</p>
+          <ol style="color:#CBD5E1; line-height:1.9; margin-left:1.5rem;">
+            <li><strong>Cross-Device Validation:</strong> Flawless rendering verified on Chrome, Safari, Firefox, Edge, and iOS/Android viewport sizes (320px to 2560px).</li>
+            <li><strong>Functional Integrity:</strong> All contact forms, quote calculators, email triggers, and chat widgets fire and persist data accurately.</li>
+            <li><strong>Schema Validation:</strong> Zero errors or warnings on Schema.org Rich Results Validator.</li>
+            <li><strong>Broken Link Scan:</strong> Zero internal 4xx or 5xx response codes returned in automated crawl.</li>
+            <li><strong>Security Sweep:</strong> HTTPS everywhere, valid SSL certificates, no mixed active content.</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- Section 8: SLA -->
+      <section class="docs-section" id="sla">
+        <h2 class="docs-section-title">
+          8. Service Level Agreements (SLA)
+          <span class="tag">Client SLA</span>
+        </h2>
+        <table class="docs-table">
+          <thead>
+            <tr>
+              <th>Severity Level</th>
+              <th>Incident Classification</th>
+              <th>Guaranteed Response</th>
+              <th>Resolution Target</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="badge-pill badge-orange">Priority 1 (Critical)</span></td>
+              <td>Site outage, database failure, checkout down</td>
+              <td>&lt; 30 Minutes</td>
+              <td>&lt; 2 Hours</td>
+            </tr>
+            <tr>
+              <td><span class="badge-pill badge-blue">Priority 2 (High)</span></td>
+              <td>Key form degradation, broken integration</td>
+              <td>&lt; 2 Hours</td>
+              <td>&lt; 6 Hours</td>
+            </tr>
+            <tr>
+              <td><span class="badge-pill badge-green">Priority 3 (Standard)</span></td>
+              <td>Content updates, new landing page builds</td>
+              <td>&lt; 8 Hours</td>
+              <td>&lt; 24 Hours</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div>
+          <a class="brand-logo" href="/" style="margin-bottom:1rem;">
+            <div class="brand-logo-icon">
+              <svg fill="none" height="24" viewbox="0 0 64 64" width="24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16 18H48L24 46H48" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"></path>
+                <circle cx="48" cy="18" fill="#00D2FF" r="4.5"></circle>
+              </svg>
+            </div>
+            <div class="brand-logo-text">
+              <span class="brand-logo-title">ZAVRON</span>
+              <span class="brand-logo-subtitle">SOLUTIONS</span>
+            </div>
+          </a>
+          <p class="footer-brand-p">
+            Helping US businesses build better digital experiences, improve online visibility, and turn digital growth into measurable business results.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Quick Links</h4>
+          <div class="footer-links">
+            <a href="/" class="footer-link">Home</a>
+            <a href="/about-us/" class="footer-link">About Us</a>
+            <a href="/services/" class="footer-link">Services</a>
+            <a href="/work/" class="footer-link">Work</a>
+            <a href="/blog/" class="footer-link">Blog</a>
+            <a href="/docs/" class="footer-link">Documentation</a>
+            <a href="/contact/" class="footer-link">Contact</a>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Services</h4>
+          <div class="footer-links">
+            <a href="/services/web-development/" class="footer-link">Web Development</a>
+            <a href="/services/wordpress-development/" class="footer-link">WordPress Development</a>
+            <a href="/services/ecommerce-development/" class="footer-link">E-Commerce Development</a>
+            <a href="/services/seo/" class="footer-link">SEO Services</a>
+            <a href="/services/local-seo/" class="footer-link">Local SEO</a>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Resources</h4>
+          <div class="footer-links">
+            <a href="/blog/" class="footer-link">Blog &amp; Insights</a>
+            <a href="/case-studies/" class="footer-link">Case Studies</a>
+            <a href="/resources/guides/" class="footer-link">Strategy Guides</a>
+            <a href="/docs/" class="footer-link">Agency Standards</a>
+            <a href="/get-a-free-quote/" class="footer-link text-orange">Get a Free Quote</a>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Contact</h4>
+          <div class="footer-contact-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+            <a href="mailto:zavronsolutions@gmail.com" style="color:var(--color-text-light-muted);">zavronsolutions@gmail.com</a>
+          </div>
+          <div class="footer-contact-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <span>Mon &ndash; Fri: 8:00 AM &ndash; 6:00 PM EST</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 Zavron Solutions. All Rights Reserved. Serving US Businesses Nationwide.</div>
+        <div class="footer-legal-links">
+          <a href="/privacy-policy/">Privacy Policy</a>
+          <a href="/terms-and-conditions/">Terms &amp; Conditions</a>
+          <a href="/cookie-policy/">Cookie Policy</a>
+          <a href="/disclaimer/">Disclaimer</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/main.js"></script>
+  <script type="module" src="/js/animations.js"></script>
+</body>
+</html>
