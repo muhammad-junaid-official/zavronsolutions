@@ -59,6 +59,7 @@ export default defineConfig({
       "resources": "resources/index.html",
       "resource-guides": "resources/guides/index.html",
       "resource-faqs": "resources/faqs/index.html",
+      "blog-ai-driven-seo-playbook-2026": "blog/ai-driven-seo-playbook-2026/index.html",
       "blog-enterprise-web-development-trends-usa": "blog/enterprise-web-development-trends-usa/index.html",
       "blog-custom-web-development-vs-templates-roi": "blog/custom-web-development-vs-templates-roi/index.html",
       "blog-nextjs-react-for-modern-business-websites": "blog/nextjs-react-for-modern-business-websites/index.html",
