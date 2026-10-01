@@ -21,7 +21,6 @@ export default defineConfig({
       input: {
       "main": "index.html",
       "not-found": "404.html",
-      "docs": "docs/index.html",
       "admin": "admin/index.html",
       "admin-login": "admin/login.html",
       "about-us": "about-us/index.html",
