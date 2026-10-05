@@ -326,7 +326,7 @@ export function getClientConfirmationTemplate(data) {
                 <tr>
                   <td align="center">
                     <a href="https://www.zavronsolutions.com/work/" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #FF7A00, #FF5500); color: #ffffff; text-decoration: none; border-radius: 8px; font-weight: 700; font-size: 15px; box-shadow: 0 4px 15px rgba(255,122,0,0.4);">
-                      Explore Our 40+ Live Case Studies &rarr;
+                      Explore Our 30+ Live Case Studies &rarr;
                     </a>
                   </td>
                 </tr>

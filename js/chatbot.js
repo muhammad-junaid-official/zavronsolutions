@@ -12,7 +12,7 @@ const ZAVRON_KB = {
     email: "zavronsolutions@gmail.com",
     hours: "Mon–Fri: 8:00 AM – 6:00 PM EST (24/7 Priority Emergency Support)",
     coverage: "Serving Ambitious US Businesses Across All 50 States",
-    founder: "Muhammad Junaid (CEO & Principal Technical Strategist)",
+    founder: "Muhammad Junaid (Founder & CEO)",
     overview: "Zavron Solutions is an elite US digital agency specializing in custom web engineering (Next.js/React/Node), enterprise WordPress, Shopify Plus e-commerce, white-hat technical & local SEO, Google Ads PPC, and conversion-driven UI/UX design.",
     website: "https://www.zavronsolutions.com/"
   },
@@ -1093,7 +1093,7 @@ class ZavronLiveChat {
     // 10. Portfolio, Results, Case Studies
     if (/\b(portfolio|case stud|work|past projects|clients|results|proof|reviews|examples|kam dikhao|purana kaam)\b/i.test(t)) {
       return {
-        text: "🏆 **Proven Real-World Case Studies:**\n\n• **Apex Health Tech:** 340% organic patient traffic growth and sub-second appointment portal\n• **B2B SaaS CloudMetrics:** 120k+ monthly organic visitors via programmatic SEO\n• **Vance Law LLC:** Top 3 Google Map Pack rankings across 18 Dallas zip codes\n\nExplore all our live deployments at: [View Work Portfolio](/work/)",
+        text: "🏆 **Proven Real-World Case Studies:**\n\n• **Apex Health Tech:** 340% organic patient traffic growth and sub-second appointment portal\n• **B2B SaaS CloudMetrics:** 120k+ monthly organic visitors via programmatic SEO\n• **Vance Law LLC:** Top 3 Google Map Pack rankings across high-competition regional zip codes\n\nExplore all our live deployments at: [View Work Portfolio](/work/)",
         chips: ["View Portfolio", "Request Proposal"]
       };
     }
