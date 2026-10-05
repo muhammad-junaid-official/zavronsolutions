@@ -3,7 +3,7 @@ import re
 from pathlib import Path
 import xml.etree.ElementTree as ET
 
-WORKSPACE = Path(r"c:\Users\Tech Planet\Desktop\Zavronsolutions\zavronsolutions")
+WORKSPACE = Path(r"c:\Users\Tech Planet\Desktop\Zavron Solutions\zavronsolutions")
 
 print("=== 1. Checking for deleted URLs across entire codebase ===")
 bad_strings = ["apex-health-tech", "how-seo-drives-us-business-growth"]
