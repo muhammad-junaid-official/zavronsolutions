@@ -4,8 +4,8 @@ from pathlib import Path
 
 print("=== STARTING COMPREHENSIVE FINAL VERIFICATION ===")
 
-# 1. Check Microsoft Clarity snippet in all HTML files
-html_files = list(Path(".").rglob("*.html"))
+# 1. Check Microsoft Clarity snippet in all HTML files (excluding raw verification file)
+html_files = [p for p in Path(".").rglob("*.html") if not p.name.startswith("google1a53f697")]
 clarity_missing = []
 for hf in html_files:
     txt = hf.read_text(encoding="utf-8")
