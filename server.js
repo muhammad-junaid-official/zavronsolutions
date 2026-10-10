@@ -361,6 +361,66 @@ CRITICAL INSTRUCTIONS:
     }
   }
 
+  // 2a-2. Lead Inquiry Dispatch API (/api/send-email)
+  if (url === '/api/send-email' && req.method === 'POST') {
+    try {
+      const data = await parseJsonBody(req);
+      if (!data || typeof data !== 'object') {
+        return sendJson(res, 400, { success: false, error: 'Invalid payload format' });
+      }
+      if (data._gotcha || data.honeypot || data.website_url_hp) {
+        return sendJson(res, 200, { success: true, message: 'Inquiry received' });
+      }
+      const email = typeof data.email === 'string' ? data.email.trim() : '';
+      const name = typeof data.name === 'string' ? data.name.trim() : '';
+      const message = typeof data.message === 'string' ? data.message.trim() : '';
+      const service = typeof data.service === 'string' ? data.service.trim() : 'General Inquiry';
+
+      if (!name || name.length < 2 || name.length > 150) {
+        return sendJson(res, 400, { success: false, error: 'Please provide a valid contact name.' });
+      }
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!email || !emailRegex.test(email) || email.length > 254) {
+        return sendJson(res, 400, { success: false, error: 'Please provide a valid work email address.' });
+      }
+      if (message.length > 10000) {
+        return sendJson(res, 400, { success: false, error: 'Message exceeds maximum length.' });
+      }
+
+      // Save lead to local store as well
+      const leads = getLeads();
+      leads.unshift({
+        id: 'lead_' + Date.now(),
+        date: new Date().toISOString(),
+        name,
+        email,
+        phone: data.phone || 'N/A',
+        company: data.company || 'N/A',
+        service,
+        details: message || 'Web inquiry form submission',
+        status: 'new'
+      });
+      saveLeads(leads);
+
+      const result = await sendInquiryEmails({ ...data, name, email, service, message });
+      return sendJson(res, 200, {
+        success: true,
+        accepted: true,
+        message: 'Inquiry accepted and routed to Zavron Solutions executive desk.',
+        delivery: {
+          adminSent: !!result.adminMessageId,
+          clientSent: !!result.clientMessageId
+        }
+      });
+    } catch (err) {
+      console.error('Server /api/send-email error:', err);
+      return sendJson(res, 500, {
+        success: false,
+        error: 'Unable to deliver inquiry via primary mail server. Please try again or email zavronsolutions@gmail.com directly.'
+      });
+    }
+  }
+
   // 2b. Live Website Audit API (100% Authentic Real HTTP/DOM Inspection)
   if ((url === '/api/audit-website' || url === '/api/audit') && req.method === 'POST') {
     try {

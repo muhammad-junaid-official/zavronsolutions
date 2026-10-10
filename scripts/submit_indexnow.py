@@ -3,7 +3,7 @@ import re
 import urllib.request
 from pathlib import Path
 
-WORKSPACE = Path(r"c:\Users\Tech Planet\Desktop\Zavron Solutions\zavronsolutions")
+WORKSPACE = Path(__file__).resolve().parent.parent
 sitemap_path = WORKSPACE / "sitemap.xml"
 sitemap_content = sitemap_path.read_text(encoding="utf-8")
 
@@ -37,7 +37,7 @@ try:
         status = response.getcode()
         print(f"IndexNow Response Status: {status} {response.msg}")
         if status in [200, 202]:
-            print("✅ IndexNow submission successful! All canonical URLs queued for search engine indexing.")
+            print("[SUCCESS] IndexNow submission successful! All canonical URLs queued for search engine indexing.")
         else:
             print(f"Response: {response.read().decode('utf-8', errors='ignore')}")
 except urllib.error.HTTPError as e:

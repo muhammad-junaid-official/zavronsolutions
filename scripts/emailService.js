@@ -1,9 +1,21 @@
 /**
  * Zavron Solutions - Enterprise Email Service
  * Handles SMTP Email Dispatching via Nodemailer using Gmail SMTP
- * Fully Optimized for CAN-SPAM Compliance & Inbox Deliverability
+ * Fully Optimized for CAN-SPAM Compliance & Deliverability
+ * Policy: Official Communication Channel is strictly Email (zavronsolutions@gmail.com)
  */
 import nodemailer from 'nodemailer';
+
+// Helper to escape HTML characters and prevent injection
+function escapeHtml(str) {
+  if (str === null || str === undefined) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
 
 // SMTP Configuration
 export const smtpConfig = {
@@ -53,28 +65,27 @@ ${message}
 
 ---
 Zavron Solutions Automated Inquiry Routing
-https://www.zavronsolutions.com
+Official Communication Desk: zavronsolutions@gmail.com
+Website: https://www.zavronsolutions.com
 `;
 }
 
 /**
  * Generate Admin Notification HTML Template
+ * Safely escaped and strictly email-only contact channels
  */
 export function getAdminEmailTemplate(data) {
-  const {
-    name = 'N/A',
-    email = 'N/A',
-    phone = 'N/A',
-    company = 'N/A',
-    service = 'General Inquiry',
-    budget = 'Not specified',
-    timeline = 'Not specified',
-    message = 'No additional message provided',
-    source = 'Website Form'
-  } = data;
+  const safeName = escapeHtml(data.name || 'N/A');
+  const safeEmail = escapeHtml(data.email || 'N/A');
+  const safePhone = escapeHtml(data.phone || 'N/A');
+  const safeCompany = escapeHtml(data.company || 'N/A');
+  const safeService = escapeHtml(data.service || 'General Inquiry');
+  const safeBudget = escapeHtml(data.budget || 'Not specified');
+  const safeTimeline = escapeHtml(data.timeline || 'Not specified');
+  const safeMessage = escapeHtml(data.message || 'No additional message provided');
+  const safeSource = escapeHtml(data.source || 'Website Form');
 
-  return `
-<!DOCTYPE html>
+  return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -100,7 +111,7 @@ export function getAdminEmailTemplate(data) {
                     <span style="font-size: 20px; font-weight: 800; color: #ffffff; letter-spacing: 1px; margin-left: 12px; vertical-align: middle;">ZAVRON <span style="color: #FF7A00;">SOLUTIONS</span></span>
                   </td>
                   <td align="right">
-                    <span style="display: inline-block; padding: 4px 10px; background-color: rgba(255, 122, 0, 0.15); border: 1px solid #FF7A00; border-radius: 20px; color: #FF7A00; font-size: 12px; font-weight: 600;">NEW LEAD</span>
+                    <span style="display: inline-block; padding: 4px 10px; background-color: rgba(255, 122, 0, 0.15); border: 1px solid #FF7A00; border-radius: 20px; color: #FF7A00; font-size: 12px; font-weight: 600;">NEW INQUIRY</span>
                   </td>
                 </tr>
               </table>
@@ -111,52 +122,49 @@ export function getAdminEmailTemplate(data) {
           <tr>
             <td style="padding: 32px;">
               <h2 style="margin-top: 0; margin-bottom: 8px; color: #ffffff; font-size: 22px; font-weight: 700;">New Project Inquiry Received</h2>
-              <p style="margin-top: 0; margin-bottom: 24px; color: #94a3b8; font-size: 14px;">Source: <strong style="color: #00D2FF;">${source}</strong> | Received: ${new Date().toUTCString()}</p>
+              <p style="margin-top: 0; margin-bottom: 24px; color: #94a3b8; font-size: 14px;">Source: <strong style="color: #00D2FF;">${safeSource}</strong> | Received: ${new Date().toUTCString()}</p>
 
               <!-- Client Info Table -->
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #061426; border: 1px solid #1e293b; border-radius: 8px; margin-bottom: 24px;">
                 <tr>
                   <td style="padding: 14px 18px; border-bottom: 1px solid #1e293b; width: 35%; color: #94a3b8; font-size: 13px; font-weight: 600; text-transform: uppercase;">Client Name</td>
-                  <td style="padding: 14px 18px; border-bottom: 1px solid #1e293b; color: #ffffff; font-size: 15px; font-weight: 600;">${name}</td>
+                  <td style="padding: 14px 18px; border-bottom: 1px solid #1e293b; color: #ffffff; font-size: 15px; font-weight: 600;">${safeName}</td>
                 </tr>
                 <tr>
                   <td style="padding: 14px 18px; border-bottom: 1px solid #1e293b; color: #94a3b8; font-size: 13px; font-weight: 600; text-transform: uppercase;">Email Address</td>
-                  <td style="padding: 14px 18px; border-bottom: 1px solid #1e293b; color: #00D2FF; font-size: 15px;"><a href="mailto:${email}" style="color: #00D2FF; text-decoration: none;">${email}</a></td>
+                  <td style="padding: 14px 18px; border-bottom: 1px solid #1e293b; color: #00D2FF; font-size: 15px;"><a href="mailto:${safeEmail}" style="color: #00D2FF; text-decoration: none;">${safeEmail}</a></td>
                 </tr>
                 <tr>
                   <td style="padding: 14px 18px; border-bottom: 1px solid #1e293b; color: #94a3b8; font-size: 13px; font-weight: 600; text-transform: uppercase;">Phone Number</td>
-                  <td style="padding: 14px 18px; border-bottom: 1px solid #1e293b; color: #ffffff; font-size: 15px;">${phone !== 'N/A' ? `<a href="tel:${phone}" style="color: #ffffff; text-decoration: none;">${phone}</a>` : 'Not provided'}</td>
+                  <td style="padding: 14px 18px; border-bottom: 1px solid #1e293b; color: #ffffff; font-size: 15px;">${safePhone}</td>
                 </tr>
                 <tr>
                   <td style="padding: 14px 18px; border-bottom: 1px solid #1e293b; color: #94a3b8; font-size: 13px; font-weight: 600; text-transform: uppercase;">Company</td>
-                  <td style="padding: 14px 18px; border-bottom: 1px solid #1e293b; color: #ffffff; font-size: 15px;">${company}</td>
+                  <td style="padding: 14px 18px; border-bottom: 1px solid #1e293b; color: #ffffff; font-size: 15px;">${safeCompany}</td>
                 </tr>
                 <tr>
                   <td style="padding: 14px 18px; border-bottom: 1px solid #1e293b; color: #94a3b8; font-size: 13px; font-weight: 600; text-transform: uppercase;">Requested Service</td>
-                  <td style="padding: 14px 18px; border-bottom: 1px solid #1e293b; color: #FF7A00; font-size: 15px; font-weight: 600;">${service}</td>
+                  <td style="padding: 14px 18px; border-bottom: 1px solid #1e293b; color: #FF7A00; font-size: 15px; font-weight: 600;">${safeService}</td>
                 </tr>
                 <tr>
                   <td style="padding: 14px 18px; border-bottom: 1px solid #1e293b; color: #94a3b8; font-size: 13px; font-weight: 600; text-transform: uppercase;">Budget Range</td>
-                  <td style="padding: 14px 18px; border-bottom: 1px solid #1e293b; color: #ffffff; font-size: 15px;">${budget}</td>
+                  <td style="padding: 14px 18px; border-bottom: 1px solid #1e293b; color: #ffffff; font-size: 15px;">${safeBudget}</td>
                 </tr>
                 <tr>
                   <td style="padding: 14px 18px; color: #94a3b8; font-size: 13px; font-weight: 600; text-transform: uppercase;">Timeline</td>
-                  <td style="padding: 14px 18px; color: #ffffff; font-size: 15px;">${timeline}</td>
+                  <td style="padding: 14px 18px; color: #ffffff; font-size: 15px;">${safeTimeline}</td>
                 </tr>
               </table>
 
               <!-- Project Details / Message -->
-              <h3 style="margin-top: 0; margin-bottom: 10px; color: #ffffff; font-size: 16px; font-weight: 600;">Project Scope & Requirements:</h3>
-              <div style="background-color: #061426; border: 1px solid #1e293b; border-radius: 8px; padding: 18px; color: #e2e8f0; font-size: 14px; line-height: 1.6; white-space: pre-wrap; margin-bottom: 24px;">
-${message}
-              </div>
+              <h3 style="margin-top: 0; margin-bottom: 10px; color: #ffffff; font-size: 16px; font-weight: 600;">Project Scope &amp; Requirements:</h3>
+              <div style="background-color: #061426; border: 1px solid #1e293b; border-radius: 8px; padding: 18px; color: #e2e8f0; font-size: 14px; line-height: 1.6; white-space: pre-wrap; margin-bottom: 24px;">${safeMessage}</div>
 
-              <!-- Quick Action CTAs -->
+              <!-- Quick Action CTA -->
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
                 <tr>
                   <td align="center">
-                    <a href="mailto:${email}?subject=Re:%20Your%20Inquiry%20with%20Zavron%20Solutions" style="display: inline-block; padding: 12px 28px; background: linear-gradient(135deg, #FF7A00, #FF5500); color: #ffffff; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 14px; margin-right: 12px;">Reply Directly to Client</a>
-                    ${phone !== 'N/A' ? `<a href="tel:${phone}" style="display: inline-block; padding: 12px 24px; background-color: #1e293b; color: #ffffff; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 14px; border: 1px solid #334155;">Call Client</a>` : ''}
+                    <a href="mailto:${safeEmail}?subject=Re:%20Your%20Inquiry%20with%20Zavron%20Solutions" style="display: inline-block; padding: 12px 28px; background: linear-gradient(135deg, #FF7A00, #FF5500); color: #ffffff; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 14px;">Reply to Client via Email</a>
                   </td>
                 </tr>
               </table>
@@ -166,7 +174,7 @@ ${message}
           <!-- Footer -->
           <tr>
             <td style="padding: 20px 32px; background-color: #061426; border-top: 1px solid #1a365d; text-align: center; color: #64748b; font-size: 12px;">
-              Zavron Solutions Lead Router &bull; <a href="https://www.zavronsolutions.com/" style="color: #FF7A00; text-decoration: none;">zavronsolutions.com</a>
+              Zavron Solutions Lead Router &bull; Contact: <a href="mailto:zavronsolutions@gmail.com" style="color: #FF7A00; text-decoration: none;">zavronsolutions@gmail.com</a> &bull; <a href="https://www.zavronsolutions.com/" style="color: #94a3b8; text-decoration: none;">zavronsolutions.com</a>
             </td>
           </tr>
         </table>
@@ -174,12 +182,13 @@ ${message}
     </tr>
   </table>
 </body>
-</html>
-  `;
+</html>`;
 }
 
 /**
- * Generate Client Confirmation Plain Text (Crucial for spam avoidance)
+ * Generate Client Confirmation Plain Text
+ * Unifies response SLA commitment to 1 business day
+ * Exclusively provides email communication
  */
 export function getClientConfirmationText(data) {
   const {
@@ -198,11 +207,10 @@ Thank you for reaching out to Zavron Solutions. We have received your inquiry.
 Our Senior Technical Strategists are currently reviewing your project requirements:
 - Service Requested: ${service}
 ${budget ? `- Budget Tier: ${budget}\n` : ''}${timeline ? `- Target Timeline: ${timeline}\n` : ''}
-
 WHAT HAPPENS NEXT:
-1. Technical Assessment (Within 2 Business Hours): A dedicated strategist analyzes your project scope.
-2. Strategic Discovery Consultation: We align on high-impact architecture, milestones, and ROI targets.
-3. Detailed Proposal & Architecture Plan: You receive a transparent milestone roadmap.
+1. Technical Scope Review (Within 1 Business Day): A dedicated technical strategist analyzes your scope, tech stack, and goals.
+2. Discovery Alignment: We respond via email to align on architecture milestones, deliverables, and timeline.
+3. Detailed Proposal: You receive a transparent scope of work and roadmap tailored to your business.
 
 Explore our recent live deployments:
 https://www.zavronsolutions.com/work/
@@ -217,25 +225,22 @@ Website: https://www.zavronsolutions.com
 
 ---
 © ${new Date().getFullYear()} Zavron Solutions. All rights reserved.
-Strategic US Digital Solutions Agency | High-Performance Web Engineering, Custom WordPress & Technical SEO.
+Official Client Inquiries: zavronsolutions@gmail.com
 `;
 }
 
 /**
  * Generate Client Confirmation HTML Template
+ * Pure Email-only contact via zavronsolutions@gmail.com
  */
 export function getClientConfirmationTemplate(data) {
-  const {
-    name = 'Valued Client',
-    service = 'Digital Solutions & Web Engineering',
-    budget = '',
-    timeline = ''
-  } = data;
+  const safeName = escapeHtml(data.name || 'Valued Client');
+  const firstName = safeName.split(' ')[0] || 'there';
+  const safeService = escapeHtml(data.service || 'Digital Solutions & Web Engineering');
+  const safeBudget = escapeHtml(data.budget || '');
+  const safeTimeline = escapeHtml(data.timeline || '');
 
-  const firstName = name.split(' ')[0] || 'there';
-
-  return `
-<!DOCTYPE html>
+  return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -272,11 +277,11 @@ export function getClientConfirmationTemplate(data) {
           <tr>
             <td style="padding: 36px 32px;">
               <h1 style="margin-top: 0; margin-bottom: 16px; color: #ffffff; font-size: 22px; font-weight: 700; line-height: 1.3;">
-                Hi ${firstName}, <br><span style="color: #FF7A00;">We Have Received Your Strategy Brief!</span>
+                Hi ${firstName}, <br><span style="color: #FF7A00;">We Have Received Your Inquiry!</span>
               </h1>
               
               <p style="color: #cbd5e1; font-size: 15px; line-height: 1.7; margin-bottom: 24px;">
-                Thank you for reaching out to <strong>Zavron Solutions</strong>. Our Senior Technical Strategists and Software Architects are reviewing your inquiry to prepare a tailored action plan for your business.
+                Thank you for reaching out to <strong>Zavron Solutions</strong>. Our Senior Technical Strategists and Software Architects are reviewing your project requirements.
               </p>
 
               <!-- Inquiry Summary Box -->
@@ -284,9 +289,9 @@ export function getClientConfirmationTemplate(data) {
                 <tr>
                   <td style="padding: 18px 20px;">
                     <div style="font-size: 12px; font-weight: 700; color: #FF7A00; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Your Request Summary</div>
-                    <div style="font-size: 15px; color: #ffffff; font-weight: 600; margin-bottom: 4px;">Service: <span style="color: #00D2FF;">${service}</span></div>
-                    ${budget ? `<div style="font-size: 14px; color: #94a3b8; margin-bottom: 4px;">Target Budget: <span style="color: #ffffff;">${budget}</span></div>` : ''}
-                    ${timeline ? `<div style="font-size: 14px; color: #94a3b8;">Preferred Timeline: <span style="color: #ffffff;">${timeline}</span></div>` : ''}
+                    <div style="font-size: 15px; color: #ffffff; font-weight: 600; margin-bottom: 4px;">Service: <span style="color: #00D2FF;">${safeService}</span></div>
+                    ${safeBudget ? `<div style="font-size: 14px; color: #94a3b8; margin-bottom: 4px;">Target Budget: <span style="color: #ffffff;">${safeBudget}</span></div>` : ''}
+                    ${safeTimeline ? `<div style="font-size: 14px; color: #94a3b8;">Preferred Timeline: <span style="color: #ffffff;">${safeTimeline}</span></div>` : ''}
                   </td>
                 </tr>
               </table>
@@ -300,7 +305,7 @@ export function getClientConfirmationTemplate(data) {
                     <div style="width: 24px; height: 24px; background-color: rgba(255,122,0,0.15); border: 1px solid #FF7A00; border-radius: 50%; text-align: center; line-height: 22px; color: #FF7A00; font-size: 12px; font-weight: bold;">1</div>
                   </td>
                   <td style="padding-bottom: 14px; padding-left: 10px; color: #cbd5e1; font-size: 14px; line-height: 1.5;">
-                    <strong style="color: #ffffff;">Technical Assessment (Within 2 Business Hours):</strong> A senior strategist analyzes your website architecture, SEO visibility, and technical needs.
+                    <strong style="color: #ffffff;">Technical Review (Within 1 Business Day):</strong> A senior technical strategist analyzes your scope, architecture, and goals.
                   </td>
                 </tr>
                 <tr>
@@ -308,7 +313,7 @@ export function getClientConfirmationTemplate(data) {
                     <div style="width: 24px; height: 24px; background-color: rgba(255,122,0,0.15); border: 1px solid #FF7A00; border-radius: 50%; text-align: center; line-height: 22px; color: #FF7A00; font-size: 12px; font-weight: bold;">2</div>
                   </td>
                   <td style="padding-bottom: 14px; padding-left: 10px; color: #cbd5e1; font-size: 14px; line-height: 1.5;">
-                    <strong style="color: #ffffff;">Strategic Discovery Call:</strong> We discuss high-impact architecture, conversion milestones, and direct ROI targets.
+                    <strong style="color: #ffffff;">Discovery Alignment:</strong> We correspond directly via email to clarify technical specifications, deliverables, and milestones.
                   </td>
                 </tr>
                 <tr>
@@ -326,7 +331,7 @@ export function getClientConfirmationTemplate(data) {
                 <tr>
                   <td align="center">
                     <a href="https://www.zavronsolutions.com/work/" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #FF7A00, #FF5500); color: #ffffff; text-decoration: none; border-radius: 8px; font-weight: 700; font-size: 15px; box-shadow: 0 4px 15px rgba(255,122,0,0.4);">
-                      Explore Our 30+ Live Case Studies &rarr;
+                      Explore Our 30+ Live Deployments &rarr;
                     </a>
                   </td>
                 </tr>
@@ -350,7 +355,8 @@ export function getClientConfirmationTemplate(data) {
             <td style="padding: 24px 32px; background-color: #061426; border-top: 1px solid #1a365d; text-align: center;">
               <p style="margin: 0 0 10px 0; color: #64748b; font-size: 12px; line-height: 1.5;">
                 &copy; ${new Date().getFullYear()} Zavron Solutions. All rights reserved.<br>
-                High-Performance Web Engineering, Custom WordPress &amp; Data-Led SEO for American Businesses.
+                High-Performance Web Engineering, Custom WordPress &amp; Data-Led SEO for American Businesses.<br>
+                For all correspondence: <a href="mailto:zavronsolutions@gmail.com" style="color: #FF7A00; text-decoration: none;">zavronsolutions@gmail.com</a>
               </p>
               <div>
                 <a href="https://www.zavronsolutions.com/" style="color: #FF7A00; text-decoration: none; font-size: 12px; margin: 0 8px;">Website</a> &bull;
@@ -366,14 +372,13 @@ export function getClientConfirmationTemplate(data) {
     </tr>
   </table>
 </body>
-</html>
-  `;
+</html>`;
 }
 
 /**
  * Main Dispatcher Function
  * Sends both Admin Notification & Client Confirmation via Gmail SMTP
- * Includes full multipart/alternative (HTML + Plaintext) and CAN-SPAM headers
+ * Preserves Gmail setup, CAN-SPAM compliant, strictly email-focused
  */
 export async function sendInquiryEmails(data) {
   const {
@@ -386,7 +391,7 @@ export async function sendInquiryEmails(data) {
 
   const adminMailOptions = {
     from: `"Zavron Solutions Inquiries" <${smtpConfig.auth.user}>`,
-    to: smtpConfig.auth.user, // sends to zavronsolutions@gmail.com
+    to: smtpConfig.auth.user,
     replyTo: email || smtpConfig.auth.user,
     subject: `New Project Inquiry: ${service} - ${name || 'Website Visitor'}`,
     text: getAdminEmailText(data),
@@ -417,7 +422,11 @@ export async function sendInquiryEmails(data) {
       }
     };
 
-    clientResult = await transporter.sendMail(clientMailOptions);
+    try {
+      clientResult = await transporter.sendMail(clientMailOptions);
+    } catch (clientErr) {
+      console.warn('Client confirmation email dispatch warning:', clientErr.message);
+    }
   }
 
   return {
@@ -429,15 +438,19 @@ export async function sendInquiryEmails(data) {
 
 /**
  * Send Direct In-Dashboard Admin Reply to Client
+ * Exclusively provides email communication
  */
 export async function sendDirectReplyEmail({ to, subject, message, recipientName = 'Valued Client' }) {
   const timestamp = Date.now();
-  const htmlBody = `
-<!DOCTYPE html>
+  const safeRecipient = escapeHtml(recipientName);
+  const safeMessage = escapeHtml(message);
+  const safeSubject = escapeHtml(subject || 'Message from Zavron Solutions');
+
+  const htmlBody = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>${subject || 'Message from Zavron Solutions'}</title>
+  <title>${safeSubject}</title>
 </head>
 <body style="margin: 0; padding: 0; background-color: #061426; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #ffffff;">
   <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #061426; padding: 35px 15px;">
@@ -468,8 +481,8 @@ export async function sendDirectReplyEmail({ to, subject, message, recipientName
           <!-- Main Content -->
           <tr>
              <td style="padding: 36px 32px; line-height: 1.6; color: #e2e8f0; font-size: 15px;">
-              <p style="margin-top: 0; font-size: 16px; color: #ffffff;">Dear <strong>${recipientName}</strong>,</p>
-              <div style="margin: 20px 0; white-space: pre-wrap; color: #cbd5e1; font-size: 15px;">${message}</div>
+              <p style="margin-top: 0; font-size: 16px; color: #ffffff;">Dear <strong>${safeRecipient}</strong>,</p>
+              <div style="margin: 20px 0; white-space: pre-wrap; color: #cbd5e1; font-size: 15px;">${safeMessage}</div>
               
               <!-- Signature Block -->
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-top: 1px solid #1e293b; padding-top: 20px; margin-top: 30px;">
@@ -489,7 +502,8 @@ export async function sendDirectReplyEmail({ to, subject, message, recipientName
             <td style="padding: 24px 32px; background-color: #061426; border-top: 1px solid #1a365d; text-align: center;">
               <p style="margin: 0 0 10px 0; color: #64748b; font-size: 12px; line-height: 1.5;">
                 &copy; ${new Date().getFullYear()} Zavron Solutions. All rights reserved.<br>
-                High-Performance Web Engineering, Custom WordPress &amp; Data-Led SEO for American Businesses.
+                High-Performance Web Engineering, Custom WordPress &amp; Data-Led SEO for American Businesses.<br>
+                Direct Email: <a href="mailto:zavronsolutions@gmail.com" style="color: #FF7A00; text-decoration: none;">zavronsolutions@gmail.com</a>
               </p>
               <div>
                 <a href="https://www.zavronsolutions.com/" style="color: #FF7A00; text-decoration: none; font-size: 12px; margin: 0 8px;">Website</a> &bull;
@@ -512,7 +526,7 @@ export async function sendDirectReplyEmail({ to, subject, message, recipientName
     to: to,
     replyTo: smtpConfig.auth.user,
     subject: subject || 'Response to your Zavron Solutions Inquiry',
-    text: `Dear ${recipientName},\n\n${message}\n\n---\nMuhammad Junaid\nFounder & Principal Strategist\nZavron Solutions\nhttps://www.zavronsolutions.com`,
+    text: `Dear ${recipientName},\n\n${message}\n\n---\nMuhammad Junaid\nCEO & Principal Strategist\nZavron Solutions\nEmail: zavronsolutions@gmail.com\nWebsite: https://www.zavronsolutions.com`,
     html: htmlBody,
     headers: {
       'X-Entity-Ref-ID': `admin-reply-${timestamp}`
@@ -522,4 +536,3 @@ export async function sendDirectReplyEmail({ to, subject, message, recipientName
   const info = await transporter.sendMail(mailOptions);
   return { success: true, messageId: info.messageId };
 }
-

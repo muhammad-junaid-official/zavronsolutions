@@ -944,27 +944,27 @@ class ZavronLiveChat {
     if (isHumanIntent) {
       if (userLang === 'roman_urdu') {
         return {
-          text: "🤝 **Muhammad Junaid aur Zavron Leadership se Direct Rabta:**\n\nHamaray Founder & CEO, **Muhammad Junaid**, US aur international projects ke liye personally 15-minute ki technical discovery consultation call kartay hain.\n\nAap niche apna naam aur email ya phone number darj kar dein, hamari senior team **2 business hours** ke andar aap se direct rabta karegi:",
+          text: "🤝 **Muhammad Junaid aur Zavron Leadership se Direct Rabta:**\n\nHamaray Founder & CEO, **Muhammad Junaid**, US aur international projects ke liye personally 15-minute ki technical discovery consultation call kartay hain.\n\nAap niche apna naam aur email darj kar dein, hamari senior team **1 business day** ke andar aap se email par direct rabta karegi:",
           lead: true,
           chips: ["Email: zavronsolutions@gmail.com", "Services Dekhein"]
         };
       }
       if (userLang === 'urdu') {
         return {
-          text: "🤝 **محمد جنید اور زاورون لیڈرشپ سے براہ راست رابطہ:**\n\nہمارے بانی اور سی ای او، **محمد جنید**، منصوبوں کے لیے 15 منٹ کی تکنیکی مشاورتی کال کا اہتمام کرتے ہیں۔\n\nبراہ کرم نیچے اپنی تفصیلات درج کریں، ہماری سینئر ٹیم 2 گھنٹوں کے اندر رابطہ کرے گی:",
+          text: "🤝 **محمد جنید اور زاورون لیڈرشپ سے براہ راست رابطہ:**\n\nہمارے بانی اور سی ای او، **محمد جنید**، منصوبوں کے لیے 15 منٹ کی تکنیکی مشاورتی کال کا اہتمام کرتے ہیں۔\n\nبراہ کرم نیچے اپنی تفصیلات درج کریں، ہماری سینئر ٹیم 1 کاروباری دن کے اندر ای میل کے ذریعے رابطہ کرے گی:",
           lead: true,
           chips: ["Email: zavronsolutions@gmail.com", "خدمات دیکھیں", "محمد جنید سے رابطہ"]
         };
       }
       if (userLang === 'spanish') {
         return {
-          text: "🤝 **Conéctese directamente con Muhammad Junaid y nuestro equipo:**\n\nNuestro CEO y Estratega Principal, **Muhammad Junaid**, realiza llamadas de descubrimiento técnico de 15 minutos para proyectos.\n\nDeje sus datos de contacto a continuación y le responderemos en menos de 2 horas hábiles:",
+          text: "🤝 **Conéctese directamente con Muhammad Junaid y nuestro equipo:**\n\nNuestro CEO y Estratega Principal, **Muhammad Junaid**, realiza llamadas de descubrimiento técnico de 15 minutos para proyectos.\n\nDeje sus datos de contacto a continuación y le responderemos por correo electrónico en menos de 1 día hábil:",
           lead: true,
           chips: ["Email: zavronsolutions@gmail.com", "Explorar Servicios", "Ver Portafolio"]
         };
       }
       return {
-        text: "🤝 **Connect Directly With Our Leadership**\n\nOur CEO & Principal Strategist, **Muhammad Junaid**, personally conducts 15-minute technical discovery calls for qualified US projects.\n\nLeave your contact details below and our senior team will reply within **2 business hours** with availability:",
+        text: "🤝 **Connect Directly With Our Leadership**\n\nOur CEO & Principal Strategist, **Muhammad Junaid**, personally conducts 15-minute technical discovery calls for qualified US projects.\n\nLeave your contact details below and our senior team will reply via email within **1 business day** with availability:",
         lead: true,
         chips: ["Email: zavronsolutions@gmail.com", "Explore Case Studies"]
       };
