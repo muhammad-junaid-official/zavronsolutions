@@ -179,7 +179,7 @@
         <div class="admin-user-profile">
           <div class="admin-avatar" style="background: linear-gradient(135deg, #FF7A00 0%, #E66E00 100%); color: #FFFFFF; font-weight: 800; border: 2px solid rgba(255, 122, 0, 0.4);">J</div>
           <div class="admin-user-info">
-            <h5 id="adminUserName">Muhammad Junaid</h5>
+            <div id="adminUserName" style="font-weight:700;">Muhammad Junaid</div>
             <span>Super Administrator</span>
           </div>
         </div>
@@ -213,27 +213,27 @@
       <div class="admin-container tab-content" id="tab-overview">
         <div class="metrics-grid">
           <div class="metric-card">
-            <div class="metric-data"><h4>TOTAL ARTICLES</h4><p class="number" id="metricTotalPosts">0</p></div>
+            <div class="metric-data"><span class="metric-label" style="display:block;font-size:0.75rem;font-weight:700;color:var(--adm-text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.25rem;">TOTAL ARTICLES</span><p class="number" id="metricTotalPosts">0</p></div>
             <div class="metric-icon blue"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg></div>
           </div>
           <div class="metric-card">
-            <div class="metric-data"><h4>AVG SEO SCORE</h4><p class="number" style="color: var(--adm-green);" id="metricAvgSEO">92%</p></div>
+            <div class="metric-data"><span class="metric-label" style="display:block;font-size:0.75rem;font-weight:700;color:var(--adm-text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.25rem;">AVG SEO SCORE</span><p class="number" style="color: var(--adm-green);" id="metricAvgSEO">92%</p></div>
             <div class="metric-icon green"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div>
           </div>
           <div class="metric-card">
-            <div class="metric-data"><h4>INDEXED ROUTES</h4><p class="number" style="color: var(--adm-orange);" id="metricIndexRoutes">--</p></div>
+            <div class="metric-data"><span class="metric-label" style="display:block;font-size:0.75rem;font-weight:700;color:var(--adm-text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.25rem;">INDEXED ROUTES</span><p class="number" style="color: var(--adm-orange);" id="metricIndexRoutes">--</p></div>
             <div class="metric-icon orange"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg></div>
           </div>
           <div class="metric-card">
-            <div class="metric-data"><h4>CHATBOT INQUIRIES</h4><p class="number" style="color: var(--adm-cyan);" id="metricChatLeads">0</p></div>
+            <div class="metric-data"><span class="metric-label" style="display:block;font-size:0.75rem;font-weight:700;color:var(--adm-text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.25rem;">CHATBOT INQUIRIES</span><p class="number" style="color: var(--adm-cyan);" id="metricChatLeads">0</p></div>
             <div class="metric-icon yellow"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg></div>
           </div>
           <div class="metric-card">
-            <div class="metric-data"><h4>LIVE CHAT SESSIONS</h4><p class="number" style="color: #10B981;" id="metricLiveSessions">0</p></div>
+            <div class="metric-data"><span class="metric-label" style="display:block;font-size:0.75rem;font-weight:700;color:var(--adm-text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.25rem;">LIVE CHAT SESSIONS</span><p class="number" style="color: #10B981;" id="metricLiveSessions">0</p></div>
             <div class="metric-icon green"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 9h8M8 13h6M18 3a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3h-5l-5 3v-3H6a3 3 0 0 1-3-3V6a3 3 0 0 1 3-3z"></path></svg></div>
           </div>
           <div class="metric-card">
-            <div class="metric-data"><h4>SITE HEALTH</h4><p class="number" style="color: var(--adm-green);" id="metricSiteHealth">--</p></div>
+            <div class="metric-data"><span class="metric-label" style="display:block;font-size:0.75rem;font-weight:700;color:var(--adm-text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.25rem;">SITE HEALTH</span><p class="number" style="color: var(--adm-green);" id="metricSiteHealth">--</p></div>
             <div class="metric-icon blue"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg></div>
           </div>
         </div>
@@ -697,7 +697,7 @@
         <input type="hidden" id="replyLeadService" value="" />
         <input type="hidden" id="replyLeadDetails" value="" />
         <div class="ai-composer-box">
-          <h5><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path></svg> AI Email Writer Assistant</h5>
+          <div style="font-size:0.85rem;font-weight:700;color:var(--adm-cyan);margin-bottom:8px;display:flex;align-items:center;gap:6px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path></svg> AI Email Writer Assistant</div>
           <div style="display: flex; gap: 8px;">
             <input type="text" id="aiCustomPrompt" class="form-control" placeholder="e.g. Offer 10% discount and invite for a Zoom call..." />
             <button type="button" class="btn-adm btn-adm-primary" id="btnGenerateAiDraft" style="white-space: nowrap; padding: 8px 14px;">✨ Generate AI Draft</button>
