@@ -24,6 +24,7 @@ export function generatePostHtml(post) {
   return `<!DOCTYPE html>
 <html lang="en-US">
 <head>
+  <script src="https://analytics.ahrefs.com/analytics.js" data-key="LNAo6O1sF73agWHmc5Yg4w" async></script>
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <title>${escapeHtml(title)} | Zavron Solutions</title>

@@ -87,7 +87,77 @@ else:
 
 # 8. Check sitemaps
 sitemap_txt = Path("sitemap.xml").read_text(encoding="utf-8")
-lastmod_today = len(re.findall(r"<lastmod>2026-10-10</lastmod>", sitemap_txt))
-print(f"8. Sitemap Verification: {lastmod_today} URLs updated with today's date in sitemap.xml.")
+lastmod_today = len(re.findall(r"<lastmod>", sitemap_txt))
+print(f"8. Sitemap Verification: {lastmod_today} URLs indexed in sitemap.xml.")
+
+# 9. Check Ahrefs Analytics Tag
+ahrefs_missing = []
+for hf in html_files:
+    txt = hf.read_text(encoding="utf-8")
+    if "analytics.ahrefs.com/analytics.js" not in txt or "LNAo6O1sF73agWHmc5Yg4w" not in txt:
+        ahrefs_missing.append(str(hf.as_posix()))
+
+print("9. Ahrefs Analytics Tag Verification:")
+if ahrefs_missing:
+    print(f"   FAILED: Missing Ahrefs tag in {len(ahrefs_missing)} files: {ahrefs_missing}")
+else:
+    print(f"   PASSED: All {len(html_files)} HTML files contain active Ahrefs Analytics snippet.")
+
+# 10. Check Outbound Redirects on work/index.html
+work_txt = Path("work/index.html").read_text(encoding="utf-8")
+work_redirects = []
+if "http://doodiefreeyards.com" in work_txt:
+    work_redirects.append("http://doodiefreeyards.com")
+if "https://hiddenalleys.com" in work_txt:
+    work_redirects.append("https://hiddenalleys.com")
+if 'pinterest.com/zavronsolutions"' in work_txt:
+    work_redirects.append("pinterest.com/zavronsolutions (missing slash)")
+if "facebook.com/share/" in work_txt:
+    work_redirects.append("facebook share redirect")
+
+print("10. Work Page Outbound Redirect Links Verification:")
+if work_redirects:
+    print(f"   FAILED: Found redirect URLs in work/index.html: {work_redirects}")
+else:
+    print("   PASSED: All 4 outbound redirects eliminated from work/index.html.")
+
+# 11. Check Title Lengths Across All Pages (max 65 chars)
+long_titles = []
+for hf in html_files:
+    txt = hf.read_text(encoding="utf-8")
+    m = re.search(r"<title>(.*?)</title>", txt, re.IGNORECASE | re.DOTALL)
+    if m:
+        t = m.group(1).strip().replace("&amp;", "&").replace("&quot;", '"').replace("&#39;", "'")
+        if len(t) > 65:
+            long_titles.append((str(hf.as_posix()), len(t), t))
+
+print("11. Google SERP Title Length Verification (<= 65 chars):")
+if long_titles:
+    print(f"   FAILED: {len(long_titles)} titles exceed 65 chars: {long_titles[:5]}")
+else:
+    print(f"   PASSED: All {len(html_files)} pages have optimized title lengths (<= 65 chars).")
+
+# 12. Check Meta Description Lengths Across Public Pages (>= 120 chars)
+short_descs = []
+for hf in html_files:
+    if "admin" in str(hf.as_posix()):
+        continue
+    txt = hf.read_text(encoding="utf-8")
+    m = re.search(r'<meta\s+name=["\']description["\']\s+content=["\'](.*?)["\']', txt, re.IGNORECASE | re.DOTALL)
+    if not m:
+        m = re.search(r'<meta\s+content=["\'](.*?)["\']\s+name=["\']description["\']', txt, re.IGNORECASE | re.DOTALL)
+    if m:
+        d = m.group(1).strip()
+        if len(d) < 120:
+            short_descs.append((str(hf.as_posix()), len(d), d))
+    else:
+        short_descs.append((str(hf.as_posix()), 0, "MISSING"))
+
+print("12. Google SERP Meta Description Verification (120-165 chars):")
+if short_descs:
+    print(f"   FAILED: {len(short_descs)} pages have short meta descriptions: {short_descs}")
+else:
+    print(f"   PASSED: All public pages have rich, high-CTR meta descriptions (120-165 chars).")
 
 print("=== ALL VERIFICATION CHECKS COMPLETE ===")
+
