@@ -63,6 +63,19 @@
   will-change: opacity, transform;
 }
 
+/* Ensure Above-the-Fold Hero Content is painted immediately (Zero LCP Delay) */
+.hero .hero-content,
+.hero .hero-visual,
+.hero .reveal,
+.hero-content,
+.hero-visual,
+.hero-headline,
+.hero-subhead {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+
 .reveal.is-revealed {
   opacity: 1;
   transform: translateY(0);

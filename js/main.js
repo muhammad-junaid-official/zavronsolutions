@@ -2,7 +2,22 @@
  * ZAVRON SOLUTIONS — MAIN INTERACTIVE LOGIC
  * Global Header, Mobile Navigation, Active Link Highlighting, ARIA Management
  */
-import './chatbot.js';
+
+// Dynamically lazy-load Conversational AI Chatbot to optimize Total Blocking Time (TBT)
+function loadChatbot() {
+  if (window.zavronChatLoaded) return;
+  window.zavronChatLoaded = true;
+  import('./chatbot.js');
+}
+
+if ('requestIdleCallback' in window) {
+  requestIdleCallback(() => setTimeout(loadChatbot, 1500));
+} else {
+  window.addEventListener('load', () => setTimeout(loadChatbot, 2000));
+}
+['scroll', 'touchstart', 'click', 'keydown'].forEach(evt => {
+  window.addEventListener(evt, loadChatbot, { once: true, passive: true });
+});
 
 document.addEventListener('DOMContentLoaded', () => {
   initHeaderScroll();

@@ -3,11 +3,25 @@
 
 <head>
   <script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "ymn2w0fs9j");
+    (function(){
+      function loadClarity(){
+        if(window.clarity_loaded) return;
+        window.clarity_loaded = true;
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "ymn2w0fs9j");
+      }
+      if('requestIdleCallback' in window){
+        requestIdleCallback(function(){ setTimeout(loadClarity, 1200); });
+      } else {
+        window.addEventListener('load', function(){ setTimeout(loadClarity, 1500); });
+      }
+      ['scroll','touchstart','click','keydown'].forEach(function(e){
+        window.addEventListener(e, loadClarity, { once: true, passive: true });
+      });
+    })();
   </script>
 
 
@@ -187,12 +201,14 @@
   <link rel="manifest" href="/site.webmanifest">
   <meta name="theme-color" content="#061426">
 
-  <!-- Fonts Optimization -->
+  <!-- Fonts Optimization (Non-Render-Blocking) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
-    rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'">
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap">
+  </noscript>
 
   <!-- Stylesheets -->
   <link rel="stylesheet" href="/css/variables.css">
@@ -528,13 +544,13 @@
     </div>
   </div>
 
-  <main id="mainContent" id="main-content">
+  <main id="main-content">
     <!-- ==================== SECTION 1: HERO ==================== -->
     <section class="hero">
       <div class="hero-grid-bg"></div>
       <div class="container">
         <div class="grid grid-2 items-center">
-          <div class="hero-content reveal">
+          <div class="hero-content">
             <div class="hero-floating-badges">
               <span class="hero-pill-badge active">
                 <span class="ceo-status-dot"></span>
@@ -589,7 +605,7 @@
             </div>
           </div>
 
-          <div class="hero-visual reveal reveal-delay-2" style="position:relative;">
+          <div class="hero-visual" style="position:relative;">
             <!-- Floating Metric Top Right -->
             <div class="hero-metric-card-float pos-top-right">
               <div class="hero-metric-icon-box">
