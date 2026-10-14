@@ -158,7 +158,7 @@ CATEGORY_KNOWLEDGE = {
             ("Enterprise WordPress Security Protocol", "Implementing strict file permission policies, two-factor authentication, XML-RPC termination, and automated daily off-site cloud backups.")
         ],
         "s3_title": "Benchmarking Core Web Vitals & Content Velocity",
-        "kpis": "Benchmark Mobile PageSpeed Score (95+), Largest Contentful Paint (<0.8s), Cumulative Layout Shift (0.00), and Editorial Publishing Efficiency."
+        "kpis": "Benchmark Mobile PageSpeed Score (95+), Largest Contentful Paint (&lt;0.8s), Cumulative Layout Shift (0.00), and Editorial Publishing Efficiency."
     },
     "DIGITAL MARKETING": {
         "s1_title": "Full-Funnel Digital Growth & Commercial Pipeline Engine",
