@@ -219,13 +219,14 @@ ul, ol {
 
 .btn-primary {
   background: var(--color-orange-500);
-  color: var(--color-white);
+  color: var(--color-navy-950);
+  font-weight: 800;
   box-shadow: 0 4px 14px rgba(255, 122, 0, 0.35);
 }
 
 .btn-primary:hover {
-  background: var(--color-orange-600);
-  color: var(--color-white);
+  background: var(--color-orange-400);
+  color: var(--color-navy-950);
   box-shadow: 0 6px 20px rgba(255, 122, 0, 0.45);
   transform: translateY(-2px);
 }

@@ -540,8 +540,12 @@
   gap: 0.4rem;
   font-weight: 700;
   font-size: 0.95rem;
-  color: var(--color-orange-500);
+  color: #B84A00;
   text-decoration: none;
+}
+
+.service-card-link:hover {
+  color: var(--color-orange-600);
 }
 
 .service-card-link svg {

@@ -17,6 +17,11 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     emptyOutDir: true,
+    modulePreload: {
+      resolveDependencies(url, deps) {
+        return deps.filter(dep => !dep.includes('chatbot'));
+      }
+    },
     rollupOptions: {
       input: {
       "main": "index.html",

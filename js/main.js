@@ -3,19 +3,17 @@
  * Global Header, Mobile Navigation, Active Link Highlighting, ARIA Management
  */
 
-// Dynamically lazy-load Conversational AI Chatbot to optimize Total Blocking Time (TBT)
+// Dynamically lazy-load Conversational AI Chatbot exclusively on user interaction to avoid chaining critical requests
 function loadChatbot() {
   if (window.zavronChatLoaded) return;
   window.zavronChatLoaded = true;
+  ['scroll', 'touchstart', 'click', 'keydown', 'mousemove'].forEach(evt => {
+    window.removeEventListener(evt, loadChatbot);
+  });
   import('./chatbot.js');
 }
 
-if ('requestIdleCallback' in window) {
-  requestIdleCallback(() => setTimeout(loadChatbot, 1500));
-} else {
-  window.addEventListener('load', () => setTimeout(loadChatbot, 2000));
-}
-['scroll', 'touchstart', 'click', 'keydown'].forEach(evt => {
+['scroll', 'touchstart', 'click', 'keydown', 'mousemove'].forEach(evt => {
   window.addEventListener(evt, loadChatbot, { once: true, passive: true });
 });
 
