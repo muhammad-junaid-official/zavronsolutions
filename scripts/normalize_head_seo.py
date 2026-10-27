@@ -21,7 +21,7 @@ import re
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 EMAIL_USER, EMAIL_DOMAIN = "zavronsolutions", "gmail.com"
 EMAIL = f"{EMAIL_USER}@{EMAIL_DOMAIN}"
-GA4_ID = os.environ.get("GA4_ID", "").strip()
+GA4_ID = os.environ.get("GA4_ID", "G-T6VP26BX6W").strip()  # Google Analytics 4 measurement ID
 
 FONT_URL = ("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800"
             "&amp;family=Inter:wght@400;500;600;700&amp;display=swap")
@@ -157,6 +157,8 @@ def process(path: str) -> bool:
 def main():
     files = [p for p in glob.glob(os.path.join(ROOT, "**", "*.html"), recursive=True)
              if "/node_modules/" not in p and "/dist/" not in p and "google1a53f" not in p]
+    if GA4_ID:
+        files = [p for p in files if "/admin/" not in p]
     changed = sum(process(p) for p in files)
     print(f"normalized {changed}/{len(files)} HTML files")
 
