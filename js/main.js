@@ -41,7 +41,64 @@ function initHeaderScroll() {
 }
 
 // Accessible Mobile Navigation Drawer
+// The mobile drawer is generated from the desktop navigation so the page HTML
+// contains each navigation link only once (avoids duplicate anchor-text flags).
+function buildMobileDrawer() {
+  const drawer = document.querySelector('.mobile-drawer');
+  const desktopNav = document.querySelector('.desktop-nav');
+  if (!drawer || !desktopNav || drawer.querySelector('.mobile-nav-list')) return;
+
+  const chevron = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>';
+  const list = document.createElement('div');
+  list.className = 'mobile-nav-list';
+
+  desktopNav.querySelectorAll(':scope > .nav-item').forEach((navItem) => {
+    const topLink = navItem.querySelector(':scope > .nav-link');
+    if (!topLink) return;
+    const label = topLink.textContent.trim();
+    const item = document.createElement('div');
+    item.className = 'mobile-nav-item';
+    const dropdown = navItem.querySelector('.dropdown-menu');
+
+    if (dropdown) {
+      const toggle = document.createElement('a');
+      toggle.href = '#';
+      toggle.className = 'mobile-nav-link mobile-submenu-toggle';
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.innerHTML = `${label} ${chevron}`;
+      const sub = document.createElement('div');
+      sub.className = 'mobile-submenu';
+      const overview = document.createElement('a');
+      overview.href = topLink.getAttribute('href');
+      overview.textContent = `All ${label}`;
+      if (overview.getAttribute('href') && overview.getAttribute('href') !== '#') sub.appendChild(overview);
+      dropdown.querySelectorAll('a[href]').forEach((a) => {
+        const link = document.createElement('a');
+        link.href = a.getAttribute('href');
+        const title = a.querySelector('.dropdown-item-title');
+        link.textContent = (title ? title.textContent : a.textContent).trim();
+        sub.appendChild(link);
+      });
+      item.append(toggle, sub);
+    } else {
+      const link = document.createElement('a');
+      link.href = topLink.getAttribute('href');
+      link.className = 'mobile-nav-link';
+      link.textContent = label;
+      item.appendChild(link);
+    }
+    list.appendChild(item);
+  });
+
+  const cta = document.createElement('div');
+  cta.className = 'mt-8';
+  const quote = document.querySelector('.btn-header-quote');
+  cta.innerHTML = `<a href="${quote ? quote.getAttribute('href') : '/get-a-free-quote/'}" class="btn btn-primary w-full">Get a Free Quote →</a>`;
+  drawer.replaceChildren(list, cta);
+}
+
 function initMobileNav() {
+  buildMobileDrawer();
   const toggleBtn = document.querySelector('.mobile-toggle');
   const drawer = document.querySelector('.mobile-drawer');
   const overlay = document.querySelector('.mobile-drawer-overlay');
@@ -243,3 +300,48 @@ if (document.readyState === 'loading') {
 } else {
   initTestimonialsLoop();
 }
+
+/* ==========================================================================
+   WebMCP (imperative): read-only tools so AI agents can learn about Zavron
+   Solutions reliably. Registered only in browsers that support WebMCP.
+   ========================================================================== */
+(function registerWebMCPTools() {
+  const mc = typeof navigator !== 'undefined' && navigator.modelContext;
+  if (!mc || typeof mc.registerTool !== 'function') return;
+  const base = 'https://www.zavronsolutions.com';
+  const services = [
+    ['Custom Web Development', '/services/web-development/'],
+    ['WordPress Development', '/services/wordpress-development/'],
+    ['E-Commerce Development', '/services/ecommerce-development/'],
+    ['SEO Services', '/services/seo/'],
+    ['Technical SEO', '/services/technical-seo/'],
+    ['Local SEO', '/services/local-seo/'],
+    ['E-Commerce SEO', '/services/ecommerce-seo/'],
+    ['Digital Marketing', '/services/digital-marketing/'],
+    ['Google Ads Management', '/services/google-ads/'],
+    ['Social Media Marketing', '/services/social-media-marketing/'],
+    ['UI/UX Design', '/services/ui-ux-design/'],
+  ];
+  const text = (obj) => ({ content: [{ type: 'text', text: JSON.stringify(obj) }] });
+  try {
+    mc.registerTool({
+      name: 'list_zavron_services',
+      description: 'List the web development, SEO and digital marketing services offered by Zavron Solutions, with page URLs.',
+      inputSchema: { type: 'object', properties: {} },
+      annotations: { readOnlyHint: true },
+      execute: async () => text(services.map(([name, path]) => ({ name, url: base + path }))),
+    });
+    mc.registerTool({
+      name: 'get_zavron_contact_options',
+      description: 'Get how to contact Zavron Solutions or request a free website and SEO proposal.',
+      inputSchema: { type: 'object', properties: {} },
+      annotations: { readOnlyHint: true },
+      execute: async () => text({
+        contactPage: `${base}/contact/`,
+        freeQuote: `${base}/get-a-free-quote/`,
+        hours: 'Mon–Fri 8:00 AM – 6:00 PM EST',
+        areaServed: 'United States (all 50 states)',
+      }),
+    });
+  } catch (e) { /* WebMCP unavailable or tool already registered */ }
+})();

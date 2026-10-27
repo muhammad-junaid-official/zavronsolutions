@@ -830,8 +830,8 @@ class ZavronLiveChat {
 
         <!-- Input Footer -->
         <div id="zv-footer">
-          <form id="zv-form" autocomplete="off">
-            <input id="zv-input" type="text" placeholder="Ask a question..." autocomplete="off" />
+          <form id="zv-form" autocomplete="off" toolname="ask_zavron_assistant" tooldescription="Ask the Zavron Solutions assistant a question about web development, SEO, pricing, timelines or services.">
+            <input id="zv-input" name="question" type="text" placeholder="Ask a question..." autocomplete="off" aria-label="Your question" toolparamtitle="Question" toolparamdescription="The question to ask about Zavron Solutions services." />
             <button type="submit" id="zv-send" disabled aria-label="Send">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
             </button>
@@ -1186,11 +1186,11 @@ class ZavronLiveChat {
           <div class="zv-lead-card">
             <h5>🚀 Request Direct Strategy Consultation</h5>
             <p>Our senior US strategist will review your requirements and respond within 2 hours.</p>
-            <form class="zv-lead-form">
-              <input class="zv-lead-input" type="text" placeholder="Your Full Name" required />
-              <input class="zv-lead-input" type="email" placeholder="Work Email Address" required />
-              <input class="zv-lead-input" type="tel" placeholder="Phone Number (optional)" />
-              <textarea class="zv-lead-input" rows="2" placeholder="Brief project goals or website URL..." style="resize:none;"></textarea>
+            <form class="zv-lead-form" toolname="request_strategy_consultation" tooldescription="Request a free web development and SEO strategy consultation from Zavron Solutions. A senior strategist replies by email.">
+              <input class="zv-lead-input" type="text" name="name" aria-label="Your Full Name" toolparamtitle="Your Full Name" toolparamdescription="Full name of the person requesting the consultation." placeholder="Your Full Name" required />
+              <input class="zv-lead-input" type="email" name="email" aria-label="Work Email Address" toolparamtitle="Work Email Address" toolparamdescription="Email address where Zavron should reply." placeholder="Work Email Address" required />
+              <input class="zv-lead-input" type="tel" name="phone" aria-label="Phone Number (optional)" toolparamtitle="Phone Number (optional)" toolparamdescription="Optional phone number." placeholder="Phone Number (optional)" />
+              <textarea class="zv-lead-input" name="message" aria-label="Project goals" toolparamtitle="Project goals" toolparamdescription="Brief project goals or current website URL." rows="2" placeholder="Brief project goals or website URL..." style="resize:none;"></textarea>
               <button type="submit" class="zv-lead-submit">Send to Zavron Directors &rarr;</button>
             </form>
           </div>
