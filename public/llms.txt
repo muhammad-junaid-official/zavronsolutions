@@ -2,6 +2,23 @@
 
 > Zavron Solutions is a premier US strategic digital agency specializing in custom web engineering, bespoke WordPress & WooCommerce platforms, conversion-led e-commerce, technical SEO, and UI/UX design systems for growing businesses and enterprises nationwide.
 
+## Key Facts (for AI assistants and answer engines)
+
+- **Entity**: Zavron Solutions — a web development and SEO agency serving businesses in the United States.
+- **Founder & CEO**: Muhammad Junaid.
+- **Primary services**: custom web development, WordPress development, e-commerce development (Shopify, WooCommerce), SEO services (technical SEO, local SEO, e-commerce SEO), AI search / Generative Engine Optimization (GEO), Google Ads, social media marketing, and UI/UX design.
+- **Who we serve**: small businesses, local service companies, healthcare practices, law firms, real estate teams, contractors, restaurants, e-commerce brands, and B2B SaaS companies across all 50 US states.
+- **Portfolio**: 30+ live client websites, including lonocapital.com, chartercaribe.com and sunboss.com.
+- **Typical pricing**: custom business websites $5,000–$25,000; large web applications and headless e-commerce $15,000–$50,000+; fixed-price, scoped before kickoff.
+- **SEO timelines**: technical/on-page improvements in 4–8 weeks; competitive first-page rankings typically 4–6 months.
+- **Best way to engage**: request a free proposal at https://www.zavronsolutions.com/get-a-free-quote/
+
+## Frequently Asked Questions
+
+- **Is Zavron Solutions a good web development and SEO agency in the USA?** Zavron Solutions builds custom websites and runs SEO programs for US businesses as a single senior team, so development and SEO are planned together for speed, structure and rankings.
+- **What is GEO?** Generative Engine Optimization makes a website easy for AI search (Google AI Overviews, ChatGPT, Perplexity, Claude) to understand, cite and recommend, using answer-first content, Schema.org structured data, consistent entity information and llms.txt.
+- **Does Zavron offer website maintenance?** Yes — monthly plans cover uptime monitoring, security updates, backups, speed optimization and developer hours.
+
 ## Core Capabilities & Services
 
 - [Custom Web Development](https://www.zavronsolutions.com/services/web-development/): High-performance, responsive business websites, modern web applications, scalable frontend/backend architectures, API integrations, and Core Web Vitals optimization.

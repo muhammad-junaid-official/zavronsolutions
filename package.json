@@ -5,7 +5,7 @@
   "description": "Official website for Zavron Solutions - Full-Service Digital Solutions Agency",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && node scripts/postbuild-critical-css.mjs",
     "preview": "vite preview",
     "start": "node server.js"
   },
@@ -16,6 +16,7 @@
     "nodemailer": "^6.9.16"
   },
   "devDependencies": {
+    "beasties": "^0.5.5",
     "vite": "^5.4.2"
   }
 }

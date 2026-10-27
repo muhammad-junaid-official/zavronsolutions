@@ -1,0 +1,5 @@
+# ads.txt for www.zavronsolutions.com
+# Zavron Solutions does not sell programmatic advertising inventory.
+# Per the IAB Tech Lab ads.txt 1.1 spec, the placeholder record below
+# declares that no sellers are authorized to sell ads on this domain.
+placeholder.example.com, placeholder, DIRECT, placeholder

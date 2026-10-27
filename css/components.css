@@ -3081,3 +3081,55 @@ html, body {
     justify-content: center !important;
   }
 }
+
+/* ==========================================================================
+   HOMEPAGE UTILITIES (replaces former inline styles — SEO "no inline styles")
+   ========================================================================== */
+.w-full { width: 100%; }
+.pos-relative { position: relative; }
+.img-fluid { width: 100%; height: auto; }
+.bg-navy-900 { background: var(--color-navy-900); }
+.text-light-muted { color: var(--color-text-light-muted); }
+.section-dark h2.text-white, .section-dark h3.text-white { color: var(--color-white); }
+.capability-icon { color: var(--color-orange-500); margin-bottom: 1rem; }
+.why-item { display: flex; gap: 1rem; align-items: flex-start; }
+.why-num {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(255, 122, 0, 0.15); color: var(--color-orange-500);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; font-weight: 800;
+}
+.why-title { margin-bottom: 0.25rem; font-size: 1.05rem; }
+.why-desc { font-size: 0.9rem; color: var(--color-text-secondary); margin: 0; }
+.why-card {
+  background: var(--color-navy-900); padding: 3rem 2.5rem;
+  border-radius: var(--radius-2xl); border: 1px solid rgba(255, 122, 0, 0.25);
+}
+.why-card-title { color: var(--color-white); margin-bottom: 1rem; font-size: 1.6rem; }
+.why-card-text { color: var(--color-text-light-muted); margin-bottom: 2rem; font-size: 0.95rem; line-height: 1.65; }
+.why-stats {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 1.5rem;
+}
+.why-stat-val { font-size: 2rem; font-weight: 800; color: var(--color-orange-500); font-family: var(--font-heading); }
+.why-stat-val.is-white { color: var(--color-white); }
+.why-stat-lbl { color: var(--color-text-light-muted); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; }
+.process-card {
+  background: var(--color-navy-800); border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-lg); padding: 2rem 1.5rem; position: relative;
+}
+.process-num {
+  font-size: 2.5rem; font-weight: 800; color: rgba(255, 122, 0, 0.3);
+  font-family: var(--font-heading); margin-bottom: 0.75rem;
+}
+.process-title { color: var(--color-white); font-size: 1.15rem; margin-bottom: 0.75rem; }
+.process-desc { color: var(--color-text-light-muted); font-size: 0.875rem; line-height: 1.6; margin: 0; }
+.cta-actions { display: flex; justify-content: center; gap: 1.25rem; flex-wrap: wrap; }
+
+/* Answer-first intro block (SEO + GEO) */
+.home-intro h2 { margin-bottom: 1.25rem; }
+.home-intro p { color: var(--color-text-secondary); line-height: 1.75; margin-bottom: 1rem; }
+.home-intro .home-intro-answer { color: var(--color-text-primary, var(--color-navy-900)); }
+.home-intro-list { margin: 1.5rem 0 0; padding-left: 1.25rem; display: grid; gap: 0.75rem; }
+.home-intro-list li { color: var(--color-text-secondary); line-height: 1.65; }
+.home-intro-list strong { color: var(--color-navy-900); }

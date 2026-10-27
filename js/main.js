@@ -203,3 +203,43 @@ function setupBlogSearch(grid, itemSelector) {
     });
   });
 }
+
+/* ==========================================================================
+   Spam-safe email links: addresses are never written in plain HTML.
+   <a href="/contact/" data-eu="user" data-ed="domain.com">Email our team</a>
+   ========================================================================== */
+function decodeEmailLinks() {
+  document.querySelectorAll('a[data-eu][data-ed]').forEach((a) => {
+    const addr = `${a.dataset.eu}@${a.dataset.ed}`;
+    a.href = `mailto:${addr}`;
+    if (/email our team/i.test(a.textContent)) {
+      const strong = a.querySelector('strong');
+      (strong || a).textContent = addr;
+    }
+  });
+}
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', decodeEmailLinks);
+} else {
+  decodeEmailLinks();
+}
+
+/* Testimonials marquee: clone cards at runtime for a seamless loop so the
+   HTML contains each review only once (no duplicate-content flags). */
+function initTestimonialsLoop() {
+  document.querySelectorAll('.testimonials-marquee-track[data-loop]').forEach((track) => {
+    if (track.dataset.cloned) return;
+    Array.from(track.children).forEach((card) => {
+      const clone = card.cloneNode(true);
+      clone.setAttribute('aria-hidden', 'true');
+      clone.querySelectorAll('a,button').forEach((el) => el.setAttribute('tabindex', '-1'));
+      track.appendChild(clone);
+    });
+    track.dataset.cloned = '1';
+  });
+}
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initTestimonialsLoop);
+} else {
+  initTestimonialsLoop();
+}
