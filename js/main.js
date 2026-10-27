@@ -3,6 +3,15 @@
  * Global Header, Mobile Navigation, Active Link Highlighting, ARIA Management
  */
 
+// Vercel Web Analytics + Speed Insights (real-user Core Web Vitals).
+// Both only send data in production on Vercel; they are no-ops locally.
+import { inject } from '@vercel/analytics';
+import { injectSpeedInsights } from '@vercel/speed-insights';
+
+inject();
+injectSpeedInsights();
+
+
 // Dynamically lazy-load Conversational AI Chatbot exclusively on user interaction to avoid chaining critical requests
 function loadChatbot() {
   if (window.zavronChatLoaded) return;

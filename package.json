@@ -11,6 +11,8 @@
   },
   "type": "module",
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
+    "@vercel/speed-insights": "^2.0.0",
     "imap-simple": "^5.1.0",
     "mailparser": "^3.9.28",
     "nodemailer": "^6.9.16"
