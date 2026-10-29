@@ -3,7 +3,7 @@
  * Robust Lead Capture Handler with Server-Side Validation & Abuse Protection
  */
 import { sendInquiryEmails, checkSmtp } from '../scripts/emailService.js';
-import { isPersistent, rateLimit, clientIp } from '../lib/db.js';
+import { isPersistent, rateLimit, clientIp, pingDatabase } from '../lib/db.js';
 import { createLead, updateLead, getChat, updateChat, addChatMessage } from '../lib/store.js';
 
 export default async function handler(req, res) {
@@ -24,6 +24,7 @@ export default async function handler(req, res) {
   // Health check: GET /api/send-email?check=1 (never exposes the password)
   if (req.method === 'GET' && req.query && req.query.check) {
     const status = await checkSmtp();
+    status.database = isPersistent ? await pingDatabase() : 'not connected';
     res.setHeader('Cache-Control', 'no-store');
     return res.status(status.ok ? 200 : 503).json(status);
   }
