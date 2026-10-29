@@ -355,7 +355,7 @@ function initQuoteWizard() {
       // 1. Attempt primary backend API (/api/send-email)
       try {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 9000); // 9-second timeout
+        const timeoutId = setTimeout(() => controller.abort(), 25000); // 25-second timeout (SMTP over SSL can be slow)
 
         const apiRes = await fetch('/api/send-email', {
           method: 'POST',
@@ -380,7 +380,7 @@ function initQuoteWizard() {
       if (!serverAccepted) {
         try {
           const fbController = new AbortController();
-          const fbTimeout = setTimeout(() => fbController.abort(), 9000);
+          const fbTimeout = setTimeout(() => fbController.abort(), 15000);
 
           const fbRes = await fetch('https://formsubmit.co/ajax/info@zavronsolutions.com', {
             method: 'POST',

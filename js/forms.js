@@ -132,7 +132,7 @@ function initContactForms() {
       // 1. Try primary SMTP endpoint
       try {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 9000);
+        const timeoutId = setTimeout(() => controller.abort(), 25000);
 
         const apiRes = await fetch('/api/send-email', {
           method: 'POST',
@@ -156,7 +156,7 @@ function initContactForms() {
       if (!serverAccepted) {
         try {
           const fbController = new AbortController();
-          const fbTimeout = setTimeout(() => fbController.abort(), 9000);
+          const fbTimeout = setTimeout(() => fbController.abort(), 15000);
 
           const fbRes = await fetch('https://formsubmit.co/ajax/info@zavronsolutions.com', {
             method: 'POST',

@@ -2,7 +2,7 @@
  * Vercel Serverless API Endpoint: /api/send-email
  * Robust Lead Capture Handler with Server-Side Validation & Abuse Protection
  */
-import { sendInquiryEmails } from '../scripts/emailService.js';
+import { sendInquiryEmails, checkSmtp } from '../scripts/emailService.js';
 
 export default async function handler(req, res) {
   // CORS configuration
@@ -17,6 +17,13 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') {
     res.status(200).end();
     return;
+  }
+
+  // Health check: GET /api/send-email?check=1 (never exposes the password)
+  if (req.method === 'GET' && req.query && req.query.check) {
+    const status = await checkSmtp();
+    res.setHeader('Cache-Control', 'no-store');
+    return res.status(status.ok ? 200 : 503).json(status);
   }
 
   if (req.method !== 'POST') {
@@ -78,6 +85,7 @@ export default async function handler(req, res) {
     // Return sanitized error without exposing credentials or internal paths
     return res.status(500).json({
       success: false,
+      code: error && (error.code || error.responseCode) ? String(error.code || error.responseCode) : 'ERROR',
       error: 'Unable to deliver inquiry via primary mail server. Please try again or email info@zavronsolutions.com directly.'
     });
   }

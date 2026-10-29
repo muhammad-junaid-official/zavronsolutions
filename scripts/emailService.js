@@ -26,9 +26,13 @@ export const smtpConfig = {
   port: SMTP_PORT,
   secure: process.env.SMTP_SECURE ? process.env.SMTP_SECURE === 'true' : SMTP_PORT === 465, // SSL/TLS on 465
   auth: {
-    user: process.env.SMTP_USER || 'info@zavronsolutions.com',
-    pass: process.env.SMTP_PASS || ''
-  }
+    user: (process.env.SMTP_USER || 'info@zavronsolutions.com').trim(),
+    pass: (process.env.SMTP_PASS || '').trim()
+  },
+  // Fail fast instead of hanging until the serverless function is killed
+  connectionTimeout: 10000,
+  greetingTimeout: 10000,
+  socketTimeout: 15000
 };
 
 // Where new-lead notifications are delivered (defaults to the SMTP mailbox)
@@ -412,11 +416,17 @@ export async function sendInquiryEmails(data) {
     }
   };
 
-  // 1. Send Admin Email
-  const adminResult = await transporter.sendMail(adminMailOptions);
+  if (!smtpConfig.auth.pass) {
+    const err = new Error('SMTP_PASS environment variable is not set');
+    err.code = 'ENOPASS';
+    throw err;
+  }
 
-  let clientResult = null;
-  // 2. Send Client Confirmation Email if email is valid
+  // 1. Admin notification (required) and 2. client confirmation (best effort)
+  // are sent in parallel so the request finishes well inside the time limit.
+  const adminPromise = transporter.sendMail(adminMailOptions);
+
+  let clientPromise = Promise.resolve(null);
   if (email && email.includes('@')) {
     const clientMailOptions = {
       from: `"Muhammad Junaid | Zavron Solutions" <${smtpConfig.auth.user}>`,
@@ -432,12 +442,13 @@ export async function sendInquiryEmails(data) {
       }
     };
 
-    try {
-      clientResult = await transporter.sendMail(clientMailOptions);
-    } catch (clientErr) {
+    clientPromise = transporter.sendMail(clientMailOptions).catch((clientErr) => {
       console.warn('Client confirmation email dispatch warning:', clientErr.message);
-    }
+      return null;
+    });
   }
+
+  const [adminResult, clientResult] = await Promise.all([adminPromise, clientPromise]);
 
   return {
     success: true,
@@ -545,4 +556,24 @@ export async function sendDirectReplyEmail({ to, subject, message, recipientName
 
   const info = await transporter.sendMail(mailOptions);
   return { success: true, messageId: info.messageId };
+}
+
+/**
+ * Non-secret SMTP health check used by GET /api/send-email?check=1
+ */
+export async function checkSmtp() {
+  const out = {
+    host: smtpConfig.host,
+    port: smtpConfig.port,
+    secure: smtpConfig.secure,
+    user: smtpConfig.auth.user,
+    passwordSet: Boolean(smtpConfig.auth.pass)
+  };
+  if (!out.passwordSet) return { ...out, ok: false, code: 'ENOPASS' };
+  try {
+    await transporter.verify();
+    return { ...out, ok: true };
+  } catch (err) {
+    return { ...out, ok: false, code: err.code || 'ERROR', responseCode: err.responseCode || null, message: String(err.message || '').slice(0, 160) };
+  }
 }
