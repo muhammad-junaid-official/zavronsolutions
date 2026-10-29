@@ -5,10 +5,10 @@ export const imapConfig = {
   imap: {
     user: process.env.IMAP_USER || process.env.SMTP_USER || 'info@zavronsolutions.com',
     password: process.env.IMAP_PASS || process.env.SMTP_PASS || '',
-    host: process.env.IMAP_HOST || 'imap.titan.email',
+    host: process.env.IMAP_HOST || 'imap.secureserver.net',
     port: 993,
     tls: true,
-    tlsOptions: { servername: process.env.IMAP_HOST || 'imap.titan.email' },
+    tlsOptions: { servername: process.env.IMAP_HOST || 'imap.secureserver.net' },
     authTimeout: 3000
   }
 };

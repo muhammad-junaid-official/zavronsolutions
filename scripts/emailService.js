@@ -1,6 +1,6 @@
 /**
  * Zavron Solutions - Enterprise Email Service
- * Handles SMTP Email Dispatching via Nodemailer using Titan Mail SMTP (smtp.titan.email:465 SSL)
+ * Handles SMTP Email Dispatching via Nodemailer using GoDaddy SMTP (smtpout.secureserver.net:465 SSL)
  * Fully Optimized for CAN-SPAM Compliance & Deliverability
  * Policy: Official Communication Channel is strictly Email (info@zavronsolutions.com)
  */
@@ -17,12 +17,12 @@ function escapeHtml(str) {
     .replace(/'/g, '&#39;');
 }
 
-// SMTP Configuration — Titan Mail (info@zavronsolutions.com)
+// SMTP Configuration — GoDaddy Professional Email (info@zavronsolutions.com)
 // The password is NEVER stored in code (this repository is public).
 // Set SMTP_PASS in Vercel → Project → Settings → Environment Variables.
 const SMTP_PORT = parseInt(process.env.SMTP_PORT || '465', 10);
 export const smtpConfig = {
-  host: process.env.SMTP_HOST || 'smtp.titan.email',
+  host: process.env.SMTP_HOST || 'smtpout.secureserver.net',
   port: SMTP_PORT,
   secure: process.env.SMTP_SECURE ? process.env.SMTP_SECURE === 'true' : SMTP_PORT === 465, // SSL/TLS on 465
   auth: {
