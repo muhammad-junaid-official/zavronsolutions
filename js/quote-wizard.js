@@ -54,7 +54,7 @@ function initQuoteWizard() {
           <div>${escapeHtml(message)}</div>
           <div style="margin-top: 0.75rem; display: flex; gap: 0.75rem; flex-wrap: wrap;">
             <button type="button" id="wizardRetryBtn" class="btn btn-primary btn-sm" style="background: #ef4444; border-color: #ef4444; padding: 6px 16px; font-size: 0.85rem;">Retry Submission</button>
-            <a href="mailto:zavronsolutions@gmail.com?subject=Direct%20Quote%20Inquiry" class="btn btn-outline btn-sm" style="padding: 6px 16px; font-size: 0.85rem; border-color: rgba(255,255,255,0.3); color: #ffffff;">Email zavronsolutions@gmail.com directly</a>
+            <a href="mailto:info@zavronsolutions.com?subject=Direct%20Quote%20Inquiry" class="btn btn-outline btn-sm" style="padding: 6px 16px; font-size: 0.85rem; border-color: rgba(255,255,255,0.3); color: #ffffff;">Email info@zavronsolutions.com directly</a>
           </div>
         </div>
       </div>
@@ -345,7 +345,7 @@ function initQuoteWizard() {
       formData.append('Budget_Tier', selectedBudget);
       formData.append('Target_Timeline', timeline);
       formData.append('Project_Requirements', projectDetails);
-      formData.append('_destination', 'zavronsolutions@gmail.com');
+      formData.append('_destination', 'info@zavronsolutions.com');
       formData.append('_subject', `🎯 New Project Quote Request: ${businessName} (${selectedBudget})`);
       formData.append('_template', 'table');
 
@@ -382,7 +382,7 @@ function initQuoteWizard() {
           const fbController = new AbortController();
           const fbTimeout = setTimeout(() => fbController.abort(), 9000);
 
-          const fbRes = await fetch('https://formsubmit.co/ajax/zavronsolutions@gmail.com', {
+          const fbRes = await fetch('https://formsubmit.co/ajax/info@zavronsolutions.com', {
             method: 'POST',
             body: formData,
             headers: { 'Accept': 'application/json' },
@@ -410,7 +410,7 @@ function initQuoteWizard() {
         submitBtn.innerHTML = originalText;
 
         showSubmissionError(
-          'We were unable to route your inquiry due to a temporary network connection error. All your entered details and selections have been safely preserved. Please click Retry Submission or email us directly at zavronsolutions@gmail.com.'
+          'We were unable to route your inquiry due to a temporary network connection error. All your entered details and selections have been safely preserved. Please click Retry Submission or email us directly at info@zavronsolutions.com.'
         );
         return;
       }

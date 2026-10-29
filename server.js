@@ -319,7 +319,7 @@ We specialize in:
 KEY FACTS:
 - Pricing: Custom Web Dev $2,500–$15,000+ | WordPress $1,800–$8,000+ | Shopify $3,000–$18,000+ | SEO $1,200–$4,500/mo | Google Ads from $750/mo
 - Timelines: Landing pages 7–10 days | Websites 2–4 weeks | E-Commerce 4–6 weeks | SEO results 60–90 days
-- Email: zavronsolutions@gmail.com | Founder: Muhammad Junaid
+- Email: info@zavronsolutions.com | Founder: Muhammad Junaid
 
 CRITICAL INSTRUCTIONS:
 1. Detect and reply in the EXACT language of the user:
@@ -416,7 +416,7 @@ CRITICAL INSTRUCTIONS:
       console.error('Server /api/send-email error:', err);
       return sendJson(res, 500, {
         success: false,
-        error: 'Unable to deliver inquiry via primary mail server. Please try again or email zavronsolutions@gmail.com directly.'
+        error: 'Unable to deliver inquiry via primary mail server. Please try again or email info@zavronsolutions.com directly.'
       });
     }
   }

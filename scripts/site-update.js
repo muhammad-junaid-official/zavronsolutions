@@ -84,7 +84,7 @@ const FOOTER_HTML = `  <!-- ==================== GLOBAL FOOTER =================
           <h4 class="footer-col-title">Contact</h4>
           <div class="footer-contact-item">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-            <a href="mailto:zavronsolutions@gmail.com" style="color:var(--color-text-light-muted);">zavronsolutions@gmail.com</a>
+            <a href="mailto:info@zavronsolutions.com" style="color:var(--color-text-light-muted);">info@zavronsolutions.com</a>
           </div>
           <div class="footer-contact-item">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
@@ -138,9 +138,9 @@ for (const filePath of htmlFiles) {
   // -----------------------------------------------
   const emailPatterns = [
     /contact@zavronsolutions\.com/g,
-    /zavronsolutions@gmail\.com(?!.*zavronsolutions@gmail\.com)/g, // keep existing correct ones
+    /info@zavronsolutions\.com(?!.*info@zavronsolutions\.com)/g, // keep existing correct ones
   ];
-  const newContent1 = content.replace(/contact@zavronsolutions\.com/g, 'zavronsolutions@gmail.com');
+  const newContent1 = content.replace(/contact@zavronsolutions\.com/g, 'info@zavronsolutions.com');
   if (newContent1 !== content) { content = newContent1; modified = true; }
 
   // -----------------------------------------------

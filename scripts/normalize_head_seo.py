@@ -19,7 +19,7 @@ import os
 import re
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-EMAIL_USER, EMAIL_DOMAIN = "zavronsolutions", "gmail.com"
+EMAIL_USER, EMAIL_DOMAIN = "info", "zavronsolutions.com"
 EMAIL = f"{EMAIL_USER}@{EMAIL_DOMAIN}"
 GA4_ID = os.environ.get("GA4_ID", "G-T6VP26BX6W").strip()  # Google Analytics 4 measurement ID
 

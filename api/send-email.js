@@ -78,7 +78,7 @@ export default async function handler(req, res) {
     // Return sanitized error without exposing credentials or internal paths
     return res.status(500).json({
       success: false,
-      error: 'Unable to deliver inquiry via primary mail server. Please try again or email zavronsolutions@gmail.com directly.'
+      error: 'Unable to deliver inquiry via primary mail server. Please try again or email info@zavronsolutions.com directly.'
     });
   }
 }

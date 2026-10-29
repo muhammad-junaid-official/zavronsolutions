@@ -3,12 +3,12 @@ import { simpleParser } from 'mailparser';
 
 export const imapConfig = {
   imap: {
-    user: process.env.SMTP_USER || 'zavronsolutions@gmail.com',
-    password: process.env.SMTP_PASS || 'chrr tbby kjpj dmlt',
-    host: 'imap.gmail.com',
+    user: process.env.IMAP_USER || process.env.SMTP_USER || 'info@zavronsolutions.com',
+    password: process.env.IMAP_PASS || process.env.SMTP_PASS || '',
+    host: process.env.IMAP_HOST || 'imap.titan.email',
     port: 993,
     tls: true,
-    tlsOptions: { rejectUnauthorized: false },
+    tlsOptions: { servername: process.env.IMAP_HOST || 'imap.titan.email' },
     authTimeout: 3000
   }
 };

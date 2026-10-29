@@ -33,7 +33,7 @@ The Zavron Solutions website is a modern, high-performance, mobile-first agency 
 
 ### 4.2 Unified Admin Dashboard (Chat & Email)
 - **Live Chat Panel**: Admins can monitor ongoing chatbot conversations in real-time via Server-Sent Events (SSE).
-- **Two-Way Email Syncing**: The Node.js server polls the IMAP server (`zavronsolutions@gmail.com`) every 10 seconds. Incoming inquiry emails instantly appear in the Admin Dashboard exactly like live chat sessions.
+- **Two-Way Email Syncing**: The Node.js server polls the IMAP server (`info@zavronsolutions.com`) every 10 seconds. Incoming inquiry emails instantly appear in the Admin Dashboard exactly like live chat sessions.
 - **Admin Replies**: When an admin types a reply from the dashboard, it is dispatched via SMTP using a beautifully branded, mobile-responsive HTML email template.
 
 ### 4.3 High-Performance SEO & Schema

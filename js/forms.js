@@ -123,7 +123,7 @@ function initContactForms() {
       };
 
       const formData = new FormData(contactForm);
-      formData.append('_destination', 'zavronsolutions@gmail.com');
+      formData.append('_destination', 'info@zavronsolutions.com');
       formData.append('_subject', `🚀 New Client Message: ${userName} — Zavron Solutions`);
       formData.append('_template', 'table');
 
@@ -158,7 +158,7 @@ function initContactForms() {
           const fbController = new AbortController();
           const fbTimeout = setTimeout(() => fbController.abort(), 9000);
 
-          const fbRes = await fetch('https://formsubmit.co/ajax/zavronsolutions@gmail.com', {
+          const fbRes = await fetch('https://formsubmit.co/ajax/info@zavronsolutions.com', {
             method: 'POST',
             body: formData,
             headers: { 'Accept': 'application/json' },
@@ -186,7 +186,7 @@ function initContactForms() {
           submitBtn.innerHTML = originalText;
         }
         showToast(
-          'Message delivery encountered a temporary connection issue. Your details have been preserved. Please try clicking submit again, or email us directly at zavronsolutions@gmail.com.',
+          'Message delivery encountered a temporary connection issue. Your details have been preserved. Please try clicking submit again, or email us directly at info@zavronsolutions.com.',
           'error'
         );
         return;
@@ -254,12 +254,12 @@ function initNewsletterForms() {
 
       const formData = new FormData();
       formData.append('email', email);
-      formData.append('_destination', 'zavronsolutions@gmail.com');
+      formData.append('_destination', 'info@zavronsolutions.com');
       formData.append('_subject', `📰 New Strategy Newsletter Subscriber: ${email}`);
       formData.append('_template', 'table');
 
       try {
-        const fbRes = await fetch('https://formsubmit.co/ajax/zavronsolutions@gmail.com', {
+        const fbRes = await fetch('https://formsubmit.co/ajax/info@zavronsolutions.com', {
           method: 'POST',
           body: formData,
           headers: { 'Accept': 'application/json' }
@@ -269,10 +269,10 @@ function initNewsletterForms() {
           form.reset();
           showToast(`Thank you! You are now subscribed to Zavron Solutions quarterly technical insights.`, 'success');
         } else {
-          showToast('Subscription is temporarily unavailable. Please email zavronsolutions@gmail.com directly.', 'error');
+          showToast('Subscription is temporarily unavailable. Please email info@zavronsolutions.com directly.', 'error');
         }
       } catch (err) {
-        showToast('Subscription is temporarily unavailable. Please email zavronsolutions@gmail.com directly.', 'error');
+        showToast('Subscription is temporarily unavailable. Please email info@zavronsolutions.com directly.', 'error');
       } finally {
         isSubmitting = false;
         if (submitBtn) {

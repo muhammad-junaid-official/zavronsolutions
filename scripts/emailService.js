@@ -1,8 +1,8 @@
 /**
  * Zavron Solutions - Enterprise Email Service
- * Handles SMTP Email Dispatching via Nodemailer using Gmail SMTP
+ * Handles SMTP Email Dispatching via Nodemailer using Titan Mail SMTP (smtp.titan.email:465 SSL)
  * Fully Optimized for CAN-SPAM Compliance & Deliverability
- * Policy: Official Communication Channel is strictly Email (zavronsolutions@gmail.com)
+ * Policy: Official Communication Channel is strictly Email (info@zavronsolutions.com)
  */
 import nodemailer from 'nodemailer';
 
@@ -17,16 +17,26 @@ function escapeHtml(str) {
     .replace(/'/g, '&#39;');
 }
 
-// SMTP Configuration
+// SMTP Configuration — Titan Mail (info@zavronsolutions.com)
+// The password is NEVER stored in code (this repository is public).
+// Set SMTP_PASS in Vercel → Project → Settings → Environment Variables.
+const SMTP_PORT = parseInt(process.env.SMTP_PORT || '465', 10);
 export const smtpConfig = {
-  host: process.env.SMTP_HOST || 'smtp.gmail.com',
-  port: parseInt(process.env.SMTP_PORT || '587', 10),
-  secure: false, // true for 465, false for 587 (uses STARTTLS)
+  host: process.env.SMTP_HOST || 'smtp.titan.email',
+  port: SMTP_PORT,
+  secure: process.env.SMTP_SECURE ? process.env.SMTP_SECURE === 'true' : SMTP_PORT === 465, // SSL/TLS on 465
   auth: {
-    user: process.env.SMTP_USER || 'zavronsolutions@gmail.com',
-    pass: process.env.SMTP_PASS || 'chrr tbby kjpj dmlt'
+    user: process.env.SMTP_USER || 'info@zavronsolutions.com',
+    pass: process.env.SMTP_PASS || ''
   }
 };
+
+// Where new-lead notifications are delivered (defaults to the SMTP mailbox)
+export const LEAD_INBOX = process.env.LEAD_INBOX || smtpConfig.auth.user;
+
+if (!smtpConfig.auth.pass) {
+  console.warn('⚠️ SMTP_PASS is not set — emails cannot be sent until it is added as an environment variable.');
+}
 
 export const transporter = nodemailer.createTransport(smtpConfig);
 
@@ -65,7 +75,7 @@ ${message}
 
 ---
 Zavron Solutions Automated Inquiry Routing
-Official Communication Desk: zavronsolutions@gmail.com
+Official Communication Desk: info@zavronsolutions.com
 Website: https://www.zavronsolutions.com
 `;
 }
@@ -174,7 +184,7 @@ export function getAdminEmailTemplate(data) {
           <!-- Footer -->
           <tr>
             <td style="padding: 20px 32px; background-color: #061426; border-top: 1px solid #1a365d; text-align: center; color: #64748b; font-size: 12px;">
-              Zavron Solutions Lead Router &bull; Contact: <a href="mailto:zavronsolutions@gmail.com" style="color: #FF7A00; text-decoration: none;">zavronsolutions@gmail.com</a> &bull; <a href="https://www.zavronsolutions.com/" style="color: #94a3b8; text-decoration: none;">zavronsolutions.com</a>
+              Zavron Solutions Lead Router &bull; Contact: <a href="mailto:info@zavronsolutions.com" style="color: #FF7A00; text-decoration: none;">info@zavronsolutions.com</a> &bull; <a href="https://www.zavronsolutions.com/" style="color: #94a3b8; text-decoration: none;">zavronsolutions.com</a>
             </td>
           </tr>
         </table>
@@ -220,18 +230,18 @@ Warm regards,
 Muhammad Junaid
 CEO & Principal Strategist
 Zavron Solutions
-Email: zavronsolutions@gmail.com
+Email: info@zavronsolutions.com
 Website: https://www.zavronsolutions.com
 
 ---
 © ${new Date().getFullYear()} Zavron Solutions. All rights reserved.
-Official Client Inquiries: zavronsolutions@gmail.com
+Official Client Inquiries: info@zavronsolutions.com
 `;
 }
 
 /**
  * Generate Client Confirmation HTML Template
- * Pure Email-only contact via zavronsolutions@gmail.com
+ * Pure Email-only contact via info@zavronsolutions.com
  */
 export function getClientConfirmationTemplate(data) {
   const safeName = escapeHtml(data.name || 'Valued Client');
@@ -343,7 +353,7 @@ export function getClientConfirmationTemplate(data) {
                   <td>
                     <div style="font-size: 15px; font-weight: 700; color: #ffffff;">Muhammad Junaid</div>
                     <div style="font-size: 13px; color: #FF7A00; font-weight: 600;">CEO &amp; Principal Strategist</div>
-                    <div style="font-size: 13px; color: #94a3b8; margin-top: 4px;">Zavron Solutions &bull; <a href="mailto:zavronsolutions@gmail.com" style="color: #00D2FF; text-decoration: none;">zavronsolutions@gmail.com</a></div>
+                    <div style="font-size: 13px; color: #94a3b8; margin-top: 4px;">Zavron Solutions &bull; <a href="mailto:info@zavronsolutions.com" style="color: #00D2FF; text-decoration: none;">info@zavronsolutions.com</a></div>
                   </td>
                 </tr>
               </table>
@@ -356,7 +366,7 @@ export function getClientConfirmationTemplate(data) {
               <p style="margin: 0 0 10px 0; color: #64748b; font-size: 12px; line-height: 1.5;">
                 &copy; ${new Date().getFullYear()} Zavron Solutions. All rights reserved.<br>
                 High-Performance Web Engineering, Custom WordPress &amp; Data-Led SEO for American Businesses.<br>
-                For all correspondence: <a href="mailto:zavronsolutions@gmail.com" style="color: #FF7A00; text-decoration: none;">zavronsolutions@gmail.com</a>
+                For all correspondence: <a href="mailto:info@zavronsolutions.com" style="color: #FF7A00; text-decoration: none;">info@zavronsolutions.com</a>
               </p>
               <div>
                 <a href="https://www.zavronsolutions.com/" style="color: #FF7A00; text-decoration: none; font-size: 12px; margin: 0 8px;">Website</a> &bull;
@@ -391,7 +401,7 @@ export async function sendInquiryEmails(data) {
 
   const adminMailOptions = {
     from: `"Zavron Solutions Inquiries" <${smtpConfig.auth.user}>`,
-    to: smtpConfig.auth.user,
+    to: LEAD_INBOX,
     replyTo: email || smtpConfig.auth.user,
     subject: `New Project Inquiry: ${service} - ${name || 'Website Visitor'}`,
     text: getAdminEmailText(data),
@@ -490,7 +500,7 @@ export async function sendDirectReplyEmail({ to, subject, message, recipientName
                   <td>
                     <div style="font-size: 15px; font-weight: 700; color: #ffffff;">Muhammad Junaid</div>
                     <div style="font-size: 13px; color: #FF7A00; font-weight: 600;">CEO &amp; Principal Strategist</div>
-                    <div style="font-size: 13px; color: #94a3b8; margin-top: 4px;">Zavron Solutions &bull; <a href="mailto:zavronsolutions@gmail.com" style="color: #00D2FF; text-decoration: none;">zavronsolutions@gmail.com</a></div>
+                    <div style="font-size: 13px; color: #94a3b8; margin-top: 4px;">Zavron Solutions &bull; <a href="mailto:info@zavronsolutions.com" style="color: #00D2FF; text-decoration: none;">info@zavronsolutions.com</a></div>
                   </td>
                 </tr>
               </table>
@@ -503,7 +513,7 @@ export async function sendDirectReplyEmail({ to, subject, message, recipientName
               <p style="margin: 0 0 10px 0; color: #64748b; font-size: 12px; line-height: 1.5;">
                 &copy; ${new Date().getFullYear()} Zavron Solutions. All rights reserved.<br>
                 High-Performance Web Engineering, Custom WordPress &amp; Data-Led SEO for American Businesses.<br>
-                Direct Email: <a href="mailto:zavronsolutions@gmail.com" style="color: #FF7A00; text-decoration: none;">zavronsolutions@gmail.com</a>
+                Direct Email: <a href="mailto:info@zavronsolutions.com" style="color: #FF7A00; text-decoration: none;">info@zavronsolutions.com</a>
               </p>
               <div>
                 <a href="https://www.zavronsolutions.com/" style="color: #FF7A00; text-decoration: none; font-size: 12px; margin: 0 8px;">Website</a> &bull;
@@ -526,7 +536,7 @@ export async function sendDirectReplyEmail({ to, subject, message, recipientName
     to: to,
     replyTo: smtpConfig.auth.user,
     subject: subject || 'Response to your Zavron Solutions Inquiry',
-    text: `Dear ${recipientName},\n\n${message}\n\n---\nMuhammad Junaid\nCEO & Principal Strategist\nZavron Solutions\nEmail: zavronsolutions@gmail.com\nWebsite: https://www.zavronsolutions.com`,
+    text: `Dear ${recipientName},\n\n${message}\n\n---\nMuhammad Junaid\nCEO & Principal Strategist\nZavron Solutions\nEmail: info@zavronsolutions.com\nWebsite: https://www.zavronsolutions.com`,
     html: htmlBody,
     headers: {
       'X-Entity-Ref-ID': `admin-reply-${timestamp}`

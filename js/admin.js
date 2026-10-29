@@ -911,13 +911,13 @@ class ZavronAdminApp {
       this.closeReplyModal();
       this.renderLeadsTable();
     } else {
-      // Fail-safe direct Gmail fallback
-      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(to)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
+      // Fail-safe fallback: open the reply in Titan webmail / default mail app
+      const gmailUrl = `mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
       const useGmail = confirm(
-        `⚠️ Automated server dispatch note: ${errorDetail || 'Serverless SMTP route unreachable'}.\n\nWould you like to open your pre-filled reply in Gmail immediately and mark this lead as Replied?`
+        `⚠️ Automated server dispatch note: ${errorDetail || 'Serverless SMTP route unreachable'}.\n\nWould you like to open your pre-filled reply in your mail app immediately and mark this lead as Replied?`
       );
       if (useGmail) {
-        window.open(gmailUrl, '_blank');
+        window.location.href = gmailUrl;
         const lead = this.leads.find(l => l.id === leadId || l.email === to);
         if (lead) {
           lead.status = 'replied';
