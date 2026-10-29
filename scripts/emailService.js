@@ -42,7 +42,15 @@ if (!smtpConfig.auth.pass) {
   console.warn('⚠️ SMTP_PASS is not set — emails cannot be sent until it is added as an environment variable.');
 }
 
-export const transporter = nodemailer.createTransport(smtpConfig);
+// One pooled connection: both emails (admin + client) reuse a single
+// authenticated SMTP session. GoDaddy rejects parallel logins from one mailbox,
+// which was silently dropping the client confirmation.
+export const transporter = nodemailer.createTransport({
+  ...smtpConfig,
+  pool: true,
+  maxConnections: 1,
+  maxMessages: 50
+});
 
 /**
  * Generate Admin Notification Plain Text
@@ -443,8 +451,8 @@ export async function sendInquiryEmails(data) {
     };
 
     clientPromise = transporter.sendMail(clientMailOptions).catch((clientErr) => {
-      console.warn('Client confirmation email dispatch warning:', clientErr.message);
-      return null;
+      console.error('Client confirmation email failed:', clientErr.code, clientErr.message);
+      return { error: clientErr.code || clientErr.responseCode || 'ERROR' };
     });
   }
 
@@ -453,7 +461,8 @@ export async function sendInquiryEmails(data) {
   return {
     success: true,
     adminMessageId: adminResult.messageId,
-    clientMessageId: clientResult ? clientResult.messageId : null
+    clientMessageId: clientResult && clientResult.messageId ? clientResult.messageId : null,
+    clientError: clientResult && clientResult.error ? String(clientResult.error) : null
   };
 }
 

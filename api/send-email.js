@@ -77,7 +77,8 @@ export default async function handler(req, res) {
       message: 'Inquiry accepted and routed to Zavron Solutions executive desk.',
       delivery: {
         adminSent: !!result.adminMessageId,
-        clientSent: !!result.clientMessageId
+        clientSent: !!result.clientMessageId,
+        clientError: result.clientError || null
       }
     });
   } catch (error) {
