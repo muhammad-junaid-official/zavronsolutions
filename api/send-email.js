@@ -3,6 +3,8 @@
  * Robust Lead Capture Handler with Server-Side Validation & Abuse Protection
  */
 import { sendInquiryEmails, checkSmtp } from '../scripts/emailService.js';
+import { isPersistent, rateLimit, clientIp } from '../lib/db.js';
+import { createLead, updateLead, getChat, updateChat, addChatMessage } from '../lib/store.js';
 
 export default async function handler(req, res) {
   // CORS configuration
@@ -62,25 +64,58 @@ export default async function handler(req, res) {
       return res.status(400).json({ success: false, error: 'Message content exceeds maximum allowed length.' });
     }
 
-    // Dispatch emails via primary SMTP
-    const result = await sendInquiryEmails({
-      ...data,
-      name,
-      email,
-      service,
-      message
-    });
+    // Abuse protection: max 8 submissions per IP per 10 minutes
+    if (!(await rateLimit(`lead:${clientIp(req)}`, 8, 600))) {
+      return res.status(429).json({ success: false, error: 'Too many submissions. Please wait a few minutes and try again.' });
+    }
 
-    return res.status(200).json({
-      success: true,
-      accepted: true,
-      message: 'Inquiry accepted and routed to Zavron Solutions executive desk.',
-      delivery: {
-        adminSent: !!result.adminMessageId,
-        clientSent: !!result.clientMessageId,
-        clientError: result.clientError || null
+    // 1. Save the lead first so it is never lost, even if email delivery fails
+    let lead = null;
+    try {
+      lead = await createLead({ ...data, name, email, service, message });
+      if (data.sessionId) {
+        const chat = await getChat(String(data.sessionId));
+        if (chat) {
+          await updateChat(chat.id, { userInfo: { name, email, phone: data.phone || '' } });
+          await addChatMessage(chat.id, 'system', `Lead captured: ${name} <${email}>`);
+        }
       }
-    });
+    } catch (dbErr) {
+      console.error('Lead storage error:', dbErr.message);
+    }
+
+    // 2. Dispatch emails via SMTP (admin notification + client confirmation)
+    let result = null;
+    let smtpError = null;
+    try {
+      result = await sendInquiryEmails({ ...data, name, email, service, message });
+    } catch (mailErr) {
+      smtpError = mailErr;
+      console.error('API Email Dispatch Error:', mailErr);
+    }
+
+    const delivery = {
+      adminSent: !!(result && result.adminMessageId),
+      clientSent: !!(result && result.clientMessageId),
+      clientError: (result && result.clientError) || null,
+      error: smtpError ? String(smtpError.code || smtpError.responseCode || 'ERROR') : null,
+      at: new Date().toISOString()
+    };
+    if (lead) {
+      try { await updateLead(lead.id, { delivery }); } catch (e) { /* non-fatal */ }
+    }
+
+    // Accept the inquiry when it was emailed OR safely stored in the database
+    if (!smtpError || (lead && isPersistent)) {
+      return res.status(200).json({
+        success: true,
+        accepted: true,
+        leadId: lead ? lead.id : null,
+        message: 'Inquiry accepted and routed to Zavron Solutions executive desk.',
+        delivery
+      });
+    }
+    throw smtpError;
   } catch (error) {
     console.error('API Email Dispatch Error:', error);
     // Return sanitized error without exposing credentials or internal paths

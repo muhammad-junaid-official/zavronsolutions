@@ -5,12 +5,13 @@
   "description": "Official website for Zavron Solutions - Full-Service Digital Solutions Agency",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node scripts/postbuild-critical-css.mjs",
+    "build": "vite build && node scripts/postbuild-critical-css.mjs && node scripts/postbuild-data.mjs",
     "preview": "vite preview",
     "start": "node server.js"
   },
   "type": "module",
   "dependencies": {
+    "@upstash/redis": "^1.40.0",
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
     "imap-simple": "^5.1.0",

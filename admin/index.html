@@ -3,28 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://analytics.ahrefs.com/analytics.js" data-key="LNAo6O1sF73agWHmc5Yg4w" async></script>
-    <script type="text/javascript">
-    (function(){
-      function loadClarity(){
-        if(window.clarity_loaded) return;
-        window.clarity_loaded = true;
-        (function(c,l,a,r,i,t,y){
-            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        })(window, document, "clarity", "script", "ymn2w0fs9j");
-      }
-      if('requestIdleCallback' in window){
-        requestIdleCallback(function(){ setTimeout(loadClarity, 1200); });
-      } else {
-        window.addEventListener('load', function(){ setTimeout(loadClarity, 1500); });
-      }
-      ['scroll','touchstart','click','keydown'].forEach(function(e){
-        window.addEventListener(e, loadClarity, { once: true, passive: true });
-      });
-    })();
-  </script>
+  
 
   <title>Admin Dashboard | Zavron Solutions</title>
   <!-- zs:icons -->
@@ -103,6 +82,30 @@
     /* Indexed/Non-Indexed badges */
     .badge-indexed { background: rgba(16,185,129,0.15); color: #34D399; border: 1px solid rgba(16,185,129,0.35); padding: 2px 8px; border-radius: 4px; font-size: 0.72rem; font-weight: 700; }
     .badge-noindex { background: rgba(239,68,68,0.15); color: #F87171; border: 1px solid rgba(239,68,68,0.35); padding: 2px 8px; border-radius: 4px; font-size: 0.72rem; font-weight: 700; }
+    /* ====== Dynamic dashboard additions ====== */
+    .adm-toast-wrap { position: fixed; right: 20px; bottom: 20px; display: flex; flex-direction: column; gap: 10px; z-index: 10000; max-width: 380px; }
+    .adm-toast { background: #0B1E36; border: 1px solid var(--adm-border); border-left: 4px solid #00D2FF; color: #E2E8F0; padding: 12px 16px; border-radius: 10px; font-size: 0.85rem; box-shadow: 0 10px 30px rgba(0,0,0,0.45); animation: admToastIn .25s ease; cursor: pointer; }
+    .adm-toast.success { border-left-color: #10B981; } .adm-toast.error { border-left-color: #EF4444; } .adm-toast.warn { border-left-color: #F59E0B; }
+    @keyframes admToastIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+    .adm-banner { margin: 0 0 18px; padding: 12px 16px; border-radius: 10px; font-size: 0.85rem; background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.35); color: #FCD34D; }
+    .adm-banner code { background: rgba(0,0,0,0.3); padding: 1px 6px; border-radius: 4px; }
+    .delivery-pill { font-size: 0.7rem; font-weight: 700; padding: 2px 7px; border-radius: 4px; display: inline-block; margin: 1px 0; white-space: nowrap; }
+    .delivery-ok { background: rgba(16,185,129,0.15); color: #34D399; } .delivery-bad { background: rgba(239,68,68,0.15); color: #F87171; } .delivery-na { background: rgba(255,255,255,0.06); color: var(--adm-text-muted); }
+    .btn-action.danger { color: #F87171; border-color: rgba(239,68,68,0.35); }
+    .reply-lead-summary { background: rgba(15,35,61,0.45); border: 1px solid var(--adm-border); border-radius: 10px; padding: 12px 14px; margin: 14px 0; font-size: 0.82rem; color: #CBD5E1; max-height: 180px; overflow-y: auto; white-space: pre-wrap; }
+    .reply-lead-summary strong { color: #fff; }
+    .chat-msg.from-bot { align-self: flex-end; }
+    .from-bot .chat-bubble { background: rgba(0,210,255,0.08); color: #CBD5E1; border: 1px solid rgba(0,210,255,0.2); border-radius: 12px 12px 4px 12px; }
+    .from-bot .chat-msg-time { text-align: right; }
+    .chat-msg.from-system { align-self: center; max-width: 90%; }
+    .from-system .chat-bubble { background: transparent; color: var(--adm-text-muted); font-size: 0.75rem; font-style: italic; padding: 2px 8px; }
+    .session-unread { background: #FF7A00; color: #fff; border-radius: 10px; font-size: 0.65rem; padding: 1px 6px; margin-left: 6px; font-weight: 800; }
+    .post-source-badge { font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; margin-left: 6px; font-weight: 700; vertical-align: middle; }
+    .post-source-badge.dyn { background: rgba(0,210,255,0.15); color: #00D2FF; } .post-source-badge.static { background: rgba(255,255,255,0.07); color: var(--adm-text-muted); }
+    .score-bar-row { display: grid; grid-template-columns: 110px 1fr 50px; gap: 10px; align-items: center; margin-bottom: 10px; font-size: 0.82rem; }
+    .score-bar-track { height: 10px; background: rgba(255,255,255,0.06); border-radius: 6px; overflow: hidden; }
+    .score-bar-fill { height: 100%; border-radius: 6px; }
+    @media (max-width: 900px) { .livechat-layout { grid-template-columns: 1fr; height: auto; } .chat-window { min-height: 520px; } }
   </style>
 
   <script type="application/ld+json">
@@ -171,7 +174,8 @@
         </a>
         <a class="admin-nav-item" data-tab="leads">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-          Chatbot Leads
+          Leads &amp; Inquiries
+          <span id="leadsNavBadge" style="display:none; background:#00D2FF; color:#041120; font-size:0.65rem; padding:1px 6px; border-radius:10px; margin-left:auto; font-weight:800;">0</span>
         </a>
         <a class="admin-nav-item" data-tab="livechat" id="navLiveChat">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 9h8M8 13h6M18 3a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3h-5l-5 3v-3H6a3 3 0 0 1-3-3V6a3 3 0 0 1 3-3z"></path></svg>
@@ -186,9 +190,9 @@
 
       <div class="admin-sidebar-footer">
         <div class="admin-user-profile">
-          <div class="admin-avatar" style="background: linear-gradient(135deg, #FF7A00 0%, #E66E00 100%); color: #FFFFFF; font-weight: 800; border: 2px solid rgba(255, 122, 0, 0.4);">J</div>
+          <div class="admin-avatar" id="adminAvatar" style="background: linear-gradient(135deg, #FF7A00 0%, #E66E00 100%); color: #FFFFFF; font-weight: 800; border: 2px solid rgba(255, 122, 0, 0.4);">J</div>
           <div class="admin-user-info">
-            <div id="adminUserName" style="font-weight:700;">Muhammad Junaid</div>
+            <div id="adminUserName" style="font-weight:700;">Admin</div>
             <span>Super Administrator</span>
           </div>
         </div>
@@ -204,7 +208,7 @@
       <header class="admin-topbar">
         <div class="topbar-title-group">
           <h2 id="currentTabTitle">Dashboard Overview</h2>
-          <span class="live-dot-badge">● System Online &amp; Indexed</span>
+          <span class="live-dot-badge" id="systemStatusPill">● Connecting…</span>
         </div>
         <div class="topbar-actions">
           <a href="/" target="_blank" class="btn-adm btn-adm-secondary">
@@ -226,7 +230,7 @@
             <div class="metric-icon blue"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg></div>
           </div>
           <div class="metric-card">
-            <div class="metric-data"><span class="metric-label" style="display:block;font-size:0.75rem;font-weight:700;color:var(--adm-text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.25rem;">AVG SEO SCORE</span><p class="number" style="color: var(--adm-green);" id="metricAvgSEO">92%</p></div>
+            <div class="metric-data"><span class="metric-label" style="display:block;font-size:0.75rem;font-weight:700;color:var(--adm-text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.25rem;">AVG SEO SCORE</span><p class="number" style="color: var(--adm-green);" id="metricAvgSEO">--</p></div>
             <div class="metric-icon green"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div>
           </div>
           <div class="metric-card">
@@ -234,11 +238,11 @@
             <div class="metric-icon orange"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg></div>
           </div>
           <div class="metric-card">
-            <div class="metric-data"><span class="metric-label" style="display:block;font-size:0.75rem;font-weight:700;color:var(--adm-text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.25rem;">CHATBOT INQUIRIES</span><p class="number" style="color: var(--adm-cyan);" id="metricChatLeads">0</p></div>
+            <div class="metric-data"><span class="metric-label" style="display:block;font-size:0.75rem;font-weight:700;color:var(--adm-text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.25rem;">TOTAL LEADS</span><p class="number" style="color: var(--adm-cyan);" id="metricChatLeads">0</p></div>
             <div class="metric-icon yellow"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg></div>
           </div>
           <div class="metric-card">
-            <div class="metric-data"><span class="metric-label" style="display:block;font-size:0.75rem;font-weight:700;color:var(--adm-text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.25rem;">LIVE CHAT SESSIONS</span><p class="number" style="color: #10B981;" id="metricLiveSessions">0</p></div>
+            <div class="metric-data"><span class="metric-label" style="display:block;font-size:0.75rem;font-weight:700;color:var(--adm-text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.25rem;">ACTIVE CHATS</span><p class="number" style="color: #10B981;" id="metricLiveSessions">0</p></div>
             <div class="metric-icon green"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 9h8M8 13h6M18 3a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3h-5l-5 3v-3H6a3 3 0 0 1-3-3V6a3 3 0 0 1 3-3z"></path></svg></div>
           </div>
           <div class="metric-card">
@@ -573,13 +577,19 @@
         <div class="table-card">
           <div class="table-header-tools">
             <div>
-              <h3 style="margin: 0; font-size: 1.15rem; font-weight: 700;">Captured Chatbot &amp; Contact Leads</h3>
+              <h3 style="margin: 0; font-size: 1.15rem; font-weight: 700;">All Leads — Contact, Quote &amp; Chatbot <span id="leadsCountLabel" style="color:var(--adm-cyan);"></span></h3>
               <p style="margin: 2px 0 0; font-size: 0.8rem; color: var(--adm-text-muted);">Reply directly to clients with AI-powered draft assistance without leaving your dashboard.</p>
             </div>
-            <button class="btn-adm btn-adm-secondary" id="btnRefreshLeads">↻ Refresh Leads</button>
+            <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+              <div class="search-box"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg><input type="text" id="leadSearchInput" placeholder="Search name, email, service..." /></div>
+              <select id="leadStatusFilter" class="form-control" style="width:auto;padding:8px 12px;">
+                <option value="all">All Statuses</option><option value="new">New</option><option value="in_progress">In Progress</option><option value="replied">Replied</option><option value="converted">Converted</option><option value="lost">Lost</option>
+              </select>
+              <button class="btn-adm btn-adm-secondary" id="btnRefreshLeads">↻ Refresh</button>
+            </div>
           </div>
           <table class="data-table">
-            <thead><tr><th>Date / Time</th><th>Client Name</th><th>Contact Info</th><th>Service / Context</th><th>Inquiry Details</th><th>Status</th><th>Actions</th></tr></thead>
+            <thead><tr><th>Date / Time</th><th>Client</th><th>Contact Info</th><th>Service / Source</th><th>Inquiry Details</th><th>Email Delivery</th><th>Status</th><th>Actions</th></tr></thead>
             <tbody id="chatbotLeadsTableBody"></tbody>
           </table>
         </div>
@@ -591,7 +601,7 @@
           <!-- Sessions List -->
           <div class="chat-sessions-panel">
             <div class="chat-sessions-header">
-              <h4>Active Sessions</h4>
+              <h4>Chat Sessions <span id="chatSessionsCount" style="color:var(--adm-text-muted);font-weight:600;"></span></h4>
               <span class="online-dot"></span>
             </div>
             <div class="chat-sessions-list" id="chatSessionsList">
@@ -617,6 +627,7 @@
                 <div style="display:flex;gap:8px;">
                   <span id="chatAdminBadge" style="display:none;padding:4px 10px;background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.4);color:#10B981;border-radius:6px;font-size:0.75rem;font-weight:700;">✓ You Joined</span>
                   <button class="btn-adm btn-adm-primary" id="btnJoinChat" style="padding:6px 14px;font-size:0.8rem;">Join as Agent</button>
+                  <button class="btn-adm btn-adm-secondary" id="btnEndChat" style="padding:6px 14px;font-size:0.8rem;display:none;">End Chat</button>
                 </div>
               </div>
               <div class="chat-messages" id="chatMessagesArea"></div>
@@ -634,11 +645,11 @@
         <div class="table-card" style="padding:32px;max-width:700px;">
           <h3 style="margin:0 0 24px;font-size:1.25rem;font-weight:800;">Profile &amp; Account Settings</h3>
           <div class="profile-avatar-section">
-            <div class="profile-avatar-lg">J</div>
+            <div class="profile-avatar-lg" id="profileAvatarLg">J</div>
             <div>
-              <div style="font-size:1.1rem;font-weight:800;color:#fff;">Muhammad Junaid</div>
+              <div style="font-size:1.1rem;font-weight:800;color:#fff;" id="profileHeaderName">Muhammad Junaid</div>
               <div style="font-size:0.85rem;color:#FF7A00;font-weight:600;">Super Administrator</div>
-              <div style="font-size:0.8rem;color:var(--adm-text-muted);margin-top:4px;">our contact form</div>
+              <div style="font-size:0.8rem;color:var(--adm-text-muted);margin-top:4px;" id="profileHeaderEmail">info@zavronsolutions.com</div>
             </div>
           </div>
           <form id="profileForm">
@@ -649,7 +660,7 @@
               </div>
               <div class="form-group">
                 <label>Email Address</label>
-                <input type="email" class="form-control" id="profileEmail" value="our contact form" />
+                <input type="email" class="form-control" id="profileEmail" value="info@zavronsolutions.com" readonly title="Login email is set by the ADMIN_EMAIL environment variable" style="opacity:0.7;" />
               </div>
               <div class="form-group">
                 <label>Role / Title</label>
@@ -671,25 +682,33 @@
                 <input type="password" class="form-control" id="profileNewPw" placeholder="••••••••" />
               </div>
             </div>
-            <div style="margin-top:8px;">
-              <h4 style="margin:0 0 16px;font-size:0.95rem;font-weight:700;color:var(--adm-text-muted);text-transform:uppercase;letter-spacing:0.05em;">SMTP Email Settings</h4>
-              <div class="profile-grid">
-                <div class="form-group">
-                  <label>SMTP Email (Gmail)</label>
-                  <input type="email" class="form-control" id="profileSmtpUser" value="our contact form" />
-                </div>
-                <div class="form-group">
-                  <label>Gmail App Password</label>
-                  <input type="password" class="form-control" id="profileSmtpPass" placeholder="••••••••••••" value="chrr tbby kjpj dmlt" />
-                </div>
-              </div>
-              <p style="font-size:0.78rem;color:var(--adm-text-muted);margin:4px 0 16px;">Note: App Password is used for sending emails. Generate at myaccount.google.com → Security → 2FA → App Passwords</p>
+            <div class="form-group" style="margin-top:8px;">
+              <label for="profileSignature">Email Signature (used in replies)</label>
+              <textarea class="form-control" id="profileSignature" rows="3"></textarea>
             </div>
-            <button type="button" class="btn-adm btn-adm-primary" id="saveProfileBtn" style="padding:12px 28px;">Save Settings</button>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;margin:8px 0 28px;">
+              <button type="button" class="btn-adm btn-adm-primary" id="saveProfileBtn" style="padding:12px 28px;">Save Profile</button>
+              <button type="button" class="btn-adm btn-adm-secondary" id="changePasswordBtn" style="padding:12px 20px;">Update Password</button>
+            </div>
+            <div>
+              <h4 style="margin:0 0 16px;font-size:0.95rem;font-weight:700;color:var(--adm-text-muted);text-transform:uppercase;letter-spacing:0.05em;">Email (SMTP) &amp; System Status</h4>
+              <div class="profile-grid" id="systemStatusGrid">
+                <div class="form-group"><label>SMTP Server</label><input type="text" class="form-control" id="sysSmtpHost" readonly /></div>
+                <div class="form-group"><label>Sending Mailbox</label><input type="text" class="form-control" id="sysSmtpUser" readonly /></div>
+                <div class="form-group"><label>Lead Notifications Go To</label><input type="text" class="form-control" id="sysLeadInbox" readonly /></div>
+                <div class="form-group"><label>Database</label><input type="text" class="form-control" id="sysDatabase" readonly /></div>
+              </div>
+              <p style="font-size:0.78rem;color:var(--adm-text-muted);margin:4px 0 16px;">SMTP password is stored securely as the <code>SMTP_PASS</code> environment variable in Vercel — it is never shown or saved in the dashboard.</p>
+              <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                <button type="button" class="btn-adm btn-adm-secondary" id="btnSmtpCheck">Check SMTP Connection</button>
+                <button type="button" class="btn-adm btn-adm-secondary" id="btnSmtpTest">Send Test Email</button>
+              </div>
+              <div id="smtpStatusResult" style="margin-top:12px;font-size:0.85rem;"></div>
+            </div>
           </form>
         </div>
       </div>
-    </main>
+</main>
   </div>
 
   <!-- In-Dashboard Direct Email Reply Modal -->
@@ -718,14 +737,15 @@
             <button type="button" class="ai-preset-chip" data-type="info">❓ Request Project Details</button>
           </div>
         </div>
+        <div id="replyLeadSummary" class="reply-lead-summary"></div>
         <form id="directReplyForm">
           <div class="form-group"><label>Recipient Email</label><input type="email" id="replyRecipientEmail" class="form-control" readonly style="background: rgba(15,35,61,0.5);" /></div>
           <div class="form-group"><label>Subject Line</label><input type="text" id="replySubject" class="form-control" required /></div>
           <div class="form-group"><label>Email Body (Review and edit before sending)</label><textarea id="replyMessageBody" class="form-control" rows="8" required style="line-height: 1.6; font-size: 0.9rem;"></textarea></div>
           <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px; flex-wrap: wrap; gap: 10px;">
-            <a id="btnOpenGmailDirect" target="_blank" rel="noopener" class="btn-adm btn-adm-secondary" style="display: inline-flex; align-items: center; gap: 6px; text-decoration: none; font-size: 0.82rem; padding: 8px 12px;">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="#EA4335"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.272H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/></svg>
-              Open Pre-filled in Gmail
+            <a id="btnOpenGmailDirect" class="btn-adm btn-adm-secondary" style="display: inline-flex; align-items: center; gap: 6px; text-decoration: none; font-size: 0.82rem; padding: 8px 12px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+              Open in Mail App
             </a>
             <div style="display: flex; gap: 10px;">
               <button type="button" class="btn-adm btn-adm-secondary" id="cancelReplyBtn">Cancel</button>

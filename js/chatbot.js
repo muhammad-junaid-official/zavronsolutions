@@ -754,9 +754,13 @@ class ZavronLiveChat {
   constructor() {
     this.isOpen = false;
     this.messages = [];
-    this.sessionId = sessionStorage.getItem('zv_chat_session') || ('sess_' + Date.now());
+    const storedSid = sessionStorage.getItem('zv_chat_session') || '';
+    this.sessionId = /^sess_[A-Za-z0-9-]{16,64}$/.test(storedSid) ? storedSid : ZavronLiveChat.newSessionId();
     sessionStorage.setItem('zv_chat_session', this.sessionId);
-    this.adminJoined = false;
+    this.adminJoined = sessionStorage.getItem('zv_admin_joined') === '1';
+    this.lastServerTs = Number(sessionStorage.getItem('zv_last_ts')) || 0;
+    this.serverSession = sessionStorage.getItem('zv_server_session') === '1';
+    this.pollTimer = null;
 
     this.injectStyles();
     this.render();
@@ -767,6 +771,10 @@ class ZavronLiveChat {
       setTimeout(() => this.showGreeting(), 2000);
     }
 
+    if (this.adminJoined) this.setAgentHeader(sessionStorage.getItem('zv_agent_name') || 'Muhammad Junaid');
+    if (this.serverSession) this.schedulePoll(500);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden && this.serverSession) this.schedulePoll(200); });
+
     if (this.messages.length === 0) {
       setTimeout(() => {
         this.addBot(
@@ -775,6 +783,67 @@ class ZavronLiveChat {
         );
       }, 500);
     }
+  }
+
+  static newSessionId() {
+    const rand = (window.crypto && crypto.randomUUID) ? crypto.randomUUID()
+      : Array.from({ length: 4 }, () => Math.random().toString(36).slice(2, 10)).join('-');
+    return 'sess_' + rand;
+  }
+
+  /* ---------- real-time human takeover: poll for agent messages ---------- */
+  schedulePoll(delay) {
+    clearTimeout(this.pollTimer);
+    const d = delay !== undefined ? delay : (this.isOpen ? (this.adminJoined ? 2500 : 5000) : (this.adminJoined ? 8000 : 20000));
+    this.pollTimer = setTimeout(() => this.pollAgent(), d);
+  }
+
+  async pollAgent() {
+    if (document.hidden) { this.schedulePoll(15000); return; }
+    try {
+      const r = await fetch(`/api/chat?sessionId=${encodeURIComponent(this.sessionId)}&since=${this.lastServerTs}`, { cache: 'no-store' });
+      if (r.ok) {
+        const d = await r.json();
+        const wasJoined = this.adminJoined;
+        this.adminJoined = !!d.adminJoined;
+        sessionStorage.setItem('zv_admin_joined', this.adminJoined ? '1' : '0');
+        if (this.adminJoined && !wasJoined) this.setAgentHeader(d.agentName);
+        if (!this.adminJoined && wasJoined) this.setAgentHeader(null);
+        (d.messages || []).forEach((m) => {
+          if (m.ts > this.lastServerTs) this.lastServerTs = m.ts;
+          if (this.messages.some((x) => x.sid === m.id)) return;
+          if (m.from === 'admin') {
+            this.hideTyping();
+            this.addBot(m.text, [], false, 'admin', m.id);
+            if (!this.isOpen) {
+              const notif = document.getElementById('zv-notif-dot');
+              if (notif) notif.style.display = 'block';
+            }
+          } else if (m.from === 'system' && !/^Lead captured/.test(m.text)) {
+            this.addBot(m.text, [], false, 'system', m.id);
+          }
+        });
+        sessionStorage.setItem('zv_last_ts', String(this.lastServerTs));
+      }
+    } catch (e) { /* offline — retry later */ }
+    this.schedulePoll();
+  }
+
+  setAgentHeader(agentName) {
+    const title = document.querySelector('#zv-brand-info h4');
+    const status = document.querySelector('#zv-brand-info span');
+    if (agentName) sessionStorage.setItem('zv_agent_name', agentName);
+    if (title) title.textContent = agentName ? agentName : 'Zavron AI Strategist';
+    if (status) status.innerHTML = agentName ? '<b></b> Live human agent · Zavron Solutions' : '<b></b> Online · Instant Answers &amp; Audits';
+  }
+
+  logBotReply(text) {
+    if (!this.serverSession || !text) return;
+    fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sessionId: this.sessionId, action: 'bot', text: String(text).slice(0, 4000) })
+    }).catch(() => {});
   }
 
   injectStyles() {
@@ -887,6 +956,7 @@ class ZavronLiveChat {
     const notif = document.getElementById('zv-notif-dot');
     if (notif) notif.style.display = 'none';
     sessionStorage.setItem('zv_greeting_dismissed', '1');
+    if (this.serverSession) this.schedulePoll(300);
     setTimeout(() => {
       document.getElementById('zv-input').focus();
       this.scrollBottom();
@@ -912,10 +982,22 @@ class ZavronLiveChat {
       const resp = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: text, sessionId: this.sessionId, userLang })
+        body: JSON.stringify({ message: text, sessionId: this.sessionId, userLang, page: location.pathname })
       });
       if (resp.ok) {
         const data = await resp.json();
+        if (!this.serverSession) {
+          this.serverSession = true;
+          sessionStorage.setItem('zv_server_session', '1');
+        }
+        this.schedulePoll(1500);
+        if (data.adminJoined) {
+          // A human agent is handling this chat: wait for their reply
+          this.adminJoined = true;
+          sessionStorage.setItem('zv_admin_joined', '1');
+          this.hideTyping();
+          return;
+        }
         if (data.aiGenerated && data.reply) {
           this.hideTyping();
           this.addBot(data.reply, ["Get a Free Quote", "Talk to Muhammad Junaid"]);
@@ -927,8 +1009,10 @@ class ZavronLiveChat {
     // Multilingual native conversational intelligence
     setTimeout(() => {
       this.hideTyping();
+      if (this.adminJoined) return;
       const reply = this.generateConversationalReply(text, userLang);
       this.addBot(reply.text, reply.chips || [], reply.lead || false);
+      this.logBotReply(reply.text);
     }, 400 + Math.random() * 250);
   }
 
@@ -1152,8 +1236,8 @@ class ZavronLiveChat {
     this.save();
   }
 
-  addBot(text, chips = [], lead = false, roleOverride = 'bot') {
-    const msg = { role: roleOverride, text, chips, lead, ts: this.time() };
+  addBot(text, chips = [], lead = false, roleOverride = 'bot', serverId = null) {
+    const msg = { role: roleOverride, text, chips, lead, ts: this.time(), sid: serverId };
     this.messages.push(msg);
     this.renderMsg(msg);
     this.save();
@@ -1230,6 +1314,8 @@ class ZavronLiveChat {
         this.scrollBottom();
         return;
       }
+    } else if (msg.role === 'system') {
+      wrap.innerHTML = `<div style="text-align:center;font-size:11px;color:#64748B;margin:6px 0;font-style:italic;">${this.esc(msg.text)}</div>`;
     } else if (msg.role === 'admin') {
       const formattedHtml = this.format(msg.text);
       wrap.innerHTML = `
@@ -1239,7 +1325,7 @@ class ZavronLiveChat {
           </div>
           <div>
             <div class="zv-msg-bot-bubble" style="background: rgba(255,122,0,0.1); border: 1px solid rgba(255,122,0,0.2);">${formattedHtml}</div>
-            <div class="zv-ts">Support Agent • ${msg.ts}</div>
+            <div class="zv-ts">${this.esc(sessionStorage.getItem('zv_agent_name') || 'Muhammad Junaid')} • Live Agent • ${msg.ts}</div>
           </div>
         </div>
       `;
@@ -1274,22 +1360,6 @@ class ZavronLiveChat {
   }
 
   submitLead(lead) {
-    // Store in localStorage
-    try {
-      const stored = JSON.parse(localStorage.getItem('zavron_leads') || '[]');
-      stored.unshift({
-        id: 'lead_' + Date.now(),
-        date: new Date().toISOString(),
-        name: lead.name,
-        email: lead.email,
-        phone: lead.phone,
-        service: 'Live Chat Consultation',
-        details: lead.details,
-        status: 'new'
-      });
-      localStorage.setItem('zavron_leads', JSON.stringify(stored));
-    } catch(e) {}
-
     // Dispatch email via API
     fetch('/api/send-email', {
       method: 'POST',
@@ -1300,7 +1370,8 @@ class ZavronLiveChat {
         phone: lead.phone,
         service: 'Live Chatbot Inquiry',
         message: lead.details || 'Chatbot strategy brief',
-        source: 'AI Live Chat Widget'
+        source: 'AI Live Chat Widget',
+        sessionId: this.serverSession ? this.sessionId : undefined
       })
     }).catch(() => {});
   }

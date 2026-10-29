@@ -1,7 +1,7 @@
 # Zavron Solutions Website Documentation
 
 ## 1. Overview
-The Zavron Solutions website is a modern, high-performance, mobile-first agency platform built for capturing enterprise B2B leads in the US market. The architecture is primarily static HTML/CSS with modular, component-based vanilla JavaScript for interactive elements. It integrates a custom Node.js server to handle AI live chat, lead capture, and a unified Admin Dashboard.
+The Zavron Solutions website is a modern, high-performance, mobile-first agency platform built for capturing enterprise B2B leads in the US market. The architecture is primarily static HTML/CSS with modular, component-based vanilla JavaScript for interactive elements. Dynamic features (AI live chat, lead capture, blog publishing and the Admin Dashboard) run as Vercel serverless functions in `/api` backed by Upstash Redis — see `ADMIN_DASHBOARD.md`. (`server.js` is a legacy local-only server and is not deployed.)
 
 ## 2. Technology Stack
 - **Frontend Core**: Vanilla HTML5, CSS3, JavaScript (ES Modules).

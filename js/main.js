@@ -26,6 +26,14 @@ function loadChatbot() {
   window.addEventListener(evt, loadChatbot, { once: true, passive: true });
 });
 
+// A visitor already in a live conversation gets the widget immediately, so
+// replies from a human agent keep arriving as they move between pages.
+try {
+  if (sessionStorage.getItem('zv_server_session') === '1') {
+    (window.requestIdleCallback || ((cb) => setTimeout(cb, 300)))(loadChatbot);
+  }
+} catch (e) { /* storage unavailable */ }
+
 document.addEventListener('DOMContentLoaded', () => {
   initHeaderScroll();
   initMobileNav();

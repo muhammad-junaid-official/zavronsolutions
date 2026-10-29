@@ -5,6 +5,8 @@ User-agent: *
 Allow: /
 Disallow: /admin/
 Disallow: /api/
+Disallow: /_tpl/
+Disallow: /_data/
 
 # Search engine crawlers
 User-agent: Googlebot
@@ -14,6 +16,8 @@ User-agent: Applebot
 Allow: /
 Disallow: /admin/
 Disallow: /api/
+Disallow: /_tpl/
+Disallow: /_data/
 
 # AI search, grounding and assistant crawlers (GEO / AEO)
 User-agent: OAI-SearchBot
@@ -36,5 +40,8 @@ User-agent: MistralAI-User
 Allow: /
 Disallow: /admin/
 Disallow: /api/
+Disallow: /_tpl/
+Disallow: /_data/
 
 Sitemap: https://www.zavronsolutions.com/sitemap.xml
+Sitemap: https://www.zavronsolutions.com/blog-sitemap.xml
